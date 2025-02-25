@@ -2,11 +2,13 @@
 // Barra de navegación común
 ?>
 <nav style="text-align: center;">
-  <a href="index.php">Inicio</a>
-  <a href="detalles.php">Detalles</a>
-  <a href="bocetos.php">Bocetos</a>
-  <a href="miembros.php">Miembros</a>
-  <a href="planificacion.php">Planificación</a>
-  <a href="contacto.php">Contacto</a>
+  <a href="/aw/index.php">Inicio</a>
+  <a href="/aw/detalles.php">Detalles</a>
+  <a href="/aw/bocetos.php">Bocetos</a>
+  <a href="/aw/miembros.php">Miembros</a>
+  <a href="/aw/planificacion.php">Planificación</a>
+  <a href="/aw/contacto.php">Contacto</a>
+  <a href="/aw/views/gastos.php">Gastos</a>
+  <a href="/aw/views/historial_gastos.php">Historial gastos</a>
 </nav>
 <hr>
