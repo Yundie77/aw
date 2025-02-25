@@ -4,15 +4,6 @@
 <main>
   <h1>Miembros del Grupo</h1>
 
-  <p style="text-align: center;">
-    <a href="index.php">Inicio</a>
-    <a href="detalles.php">Detalles</a>
-    <a href="bocetos.php">Bocetos</a>
-    <a href="miembros.php">Miembros</a>
-    <a href="planificacion.php">Planificación</a>
-    <a href="contacto.php">Contacto</a>
-  </p>
-
   <ul>
     <li><a href="#miembro1">Vahram Saakian</a></li>
     <li><a href="#miembro2">Yundie Wang</a></li>

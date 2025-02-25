@@ -4,15 +4,6 @@
 <main>
   <h1 style="text-align: center;">Galería de Bocetos</h1>
 
-  <p style="text-align: center;">
-    <a href="index.php">Inicio</a>
-    <a href="detalles.php">Detalles</a>
-    <a href="bocetos.php">Bocetos</a>
-    <a href="miembros.php">Miembros</a>
-    <a href="planificacion.php">Planificación</a>
-    <a href="contacto.php">Contacto</a>
-  </p>
-
   <p>Bienvenido a mi página de bocetos. Aquí podrás ver algunos de mis dibujos más recientes.</p>
 
   <div>
