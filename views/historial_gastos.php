@@ -1,5 +1,5 @@
 <?php
-require '../includes/conexion.php';
+require '../conexion.php';
 require_once '../includes/header.php';
 require_once '../includes/nav.php';
 
