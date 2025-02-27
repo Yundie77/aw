@@ -28,3 +28,126 @@ body {
     width: 200px;
     text-align: center;
 }
+
+/* Barra de navegación */
+nav {
+    background-color: #f4f4f4;
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  nav a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #333;
+  }
+  
+  /* Contenedor principal */
+  .container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  /* Sección de resumen arriba (ocupa 2 columnas) */
+  .summary {
+    grid-column: 1 / 3; /* ocupa ambas columnas */
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+  }
+  
+  .summary .box {
+    background-color: #fafafa;
+    width: 160px;
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  .cantidad {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  /* Sección principal con gráfico y últimos movimientos */
+  .main-content {
+    grid-column: 1 / 3; /* ocupa ambas columnas en la fila 2 */
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .chart-section,
+  .last-movements {
+    background-color: #fafafa;
+    padding: 10px;
+    width: 45%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  /* Formulario y categorías en la parte de abajo */
+  .form-section {
+    grid-column: 1;
+    background-color: #fafafa;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  .form-section form > div {
+    margin-bottom: 10px;
+  }
+  
+  .form-section label {
+    display: inline-block;
+    width: 80px;
+    font-weight: bold;
+  }
+  
+  .categories {
+    grid-column: 2;
+    background-color: #fafafa;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  /* Botones */
+  button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    margin: 5px 0;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Tabla historial */
+  .tabla-gastos {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+  }
+  
+  .tabla-gastos th,
+  .tabla-gastos td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .tabla-gastos th {
+    background-color: #eee;
+  }

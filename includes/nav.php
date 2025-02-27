@@ -9,6 +9,5 @@
   <a href="/aw/planificacion.php">Planificación</a>
   <a href="/aw/contacto.php">Contacto</a>
   <a href="/aw/views/gastos.php">Gastos</a>
-  <a href="/aw/views/historial_gastos.php">Historial gastos</a>
 </nav>
 <hr>

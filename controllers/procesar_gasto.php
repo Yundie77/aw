@@ -4,6 +4,7 @@ require '../conexion.php';  // Archivo para conectar a la BD
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $usuario_id = 1; // Suponiendo que el usuario está autenticado
+    $tipo = $_POST['tipo'] ?? 'Gasto'; // Nuevo campo en el form
     $categoria = $_POST['categoria'];
     $monto = $_POST['monto'];
     $fecha = $_POST['fecha'];
