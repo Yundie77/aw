@@ -1,8 +1,8 @@
 <?php
 session_start();
-require_once '../includes/header.php'; 
-require_once '../includes/nav.php';     
-require_once '../conexion.php';         
+require '../includes/header.php';
+require '../includes/nav.php';
+require_once '../config.php';
 
 // Suponiendo que un usuario logueado con ID=1
 $user_id = 1; // Cambia por $_SESSION['usuario_id'] si tenemos login
@@ -95,124 +95,127 @@ $stmt->close();
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <title>Gestión de Gastos</title>
-  <link rel="stylesheet" href="../css/style.css?v=12345">
+  <link rel="stylesheet" href="../css/style.css">
 </head>
+
 <body>
 
-<div class="container-f1"><!-- Contenedor general para la funcionalidad F1 -->
+  <div class="container-f1"><!-- Contenedor general para la funcionalidad F1 -->
 
-  <!-- 1. Resumen de ingresos/gastos en la parte superior -->
-  <div class="summary">
-    <div class="box ingreso-total">
-      <p class="cantidad">+<?php echo number_format($ingresosTotales, 2, ',', '.'); ?> €</p>
-      <p class="etiqueta">Ingresos Totales</p>
-    </div>
-    <div class="box gasto-total">
-      <p class="cantidad">-<?php echo number_format($gastosTotales, 2, ',', '.'); ?> €</p>
-      <p class="etiqueta">Gastos Totales</p>
-    </div>
-    <div class="box ingreso-mes">
-      <p class="cantidad">+<?php echo number_format($ingresosMes, 2, ',', '.'); ?> €</p>
-      <p class="etiqueta">Ingresos este mes</p>
-    </div>
-    <div class="box gasto-mes">
-      <p class="cantidad">-<?php echo number_format($gastosMes, 2, ',', '.'); ?> €</p>
-      <p class="etiqueta">Gastos este mes</p>
-    </div>
-  </div>
-
-  <!-- 2. Zona principal: Gráfico (imagen) + Categorías + Últimos Movimientos -->
-  <div class="main-content">
-    <!-- a) Gráfico circular (simulado con imagen) y lista de categorías con totales -->
-    <div class="chart-section">
-      <h3>Gastos por Categoría</h3>
-      <div class="chart-placeholder">
-        <!-- Pon una imagen PNG que simule el donut -->
-        <img src="../img/donut-chart.png" alt="Donut Chart" width="200">
+    <!-- 1. Resumen de ingresos/gastos en la parte superior -->
+    <div class="summary">
+      <div class="box ingreso-total">
+        <p class="cantidad">+<?php echo number_format($ingresosTotales, 2, ',', '.'); ?> €</p>
+        <p class="etiqueta">Ingresos Totales</p>
       </div>
-      <!-- EJEMPLO: Podrías hacer un SELECT SUM(ABS(monto)) GROUP BY categoria
-           para listar lo que llevas gastado en cada categoría y mostrarlo aquí -->
-      <ul class="lista-categorias">
-        <li>Ropa: -78,00 €</li>
-        <li>Comida: -79,00 €</li>
-        <li>Ocio: -58,00 €</li>
-        <!-- ... -->
-      </ul>
+      <div class="box gasto-total">
+        <p class="cantidad">-<?php echo number_format($gastosTotales, 2, ',', '.'); ?> €</p>
+        <p class="etiqueta">Gastos Totales</p>
+      </div>
+      <div class="box ingreso-mes">
+        <p class="cantidad">+<?php echo number_format($ingresosMes, 2, ',', '.'); ?> €</p>
+        <p class="etiqueta">Ingresos este mes</p>
+      </div>
+      <div class="box gasto-mes">
+        <p class="cantidad">-<?php echo number_format($gastosMes, 2, ',', '.'); ?> €</p>
+        <p class="etiqueta">Gastos este mes</p>
+      </div>
     </div>
 
-    <!-- b) Últimos Movimientos -->
-    <div class="last-movements">
-      <h3>Últimos Movimientos</h3>
-      <ul>
-        <?php while($mov = $ultimos->fetch_assoc()): ?>
-          <li>
-            <?php
+    <!-- 2. Zona principal: Gráfico (imagen) + Categorías + Últimos Movimientos -->
+    <div class="main-content">
+      <!-- a) Gráfico circular (simulado con imagen) y lista de categorías con totales -->
+      <div class="chart-section">
+        <h3>Gastos por Categoría</h3>
+        <div class="chart-placeholder">
+          <!-- Pon una imagen PNG que simule el donut -->
+          <img src="../img/donut-chart.png" alt="Donut Chart" width="200">
+        </div>
+        <!-- EJEMPLO: Podrías hacer un SELECT SUM(ABS(monto)) GROUP BY categoria
+           para listar lo que llevas gastado en cada categoría y mostrarlo aquí -->
+        <ul class="lista-categorias">
+          <li>Ropa: -78,00 €</li>
+          <li>Comida: -79,00 €</li>
+          <li>Ocio: -58,00 €</li>
+          <!-- ... -->
+        </ul>
+      </div>
+
+      <!-- b) Últimos Movimientos -->
+      <div class="last-movements">
+        <h3>Últimos Movimientos</h3>
+        <ul>
+          <?php while ($mov = $ultimos->fetch_assoc()): ?>
+            <li>
+              <?php
               $simbolo = ($mov['monto'] < 0) ? '-' : '+';
               $montoAbs = abs($mov['monto']);
-            ?>
-            <strong><?php echo $mov['categoria']; ?>:</strong>
-            <?php echo $simbolo . number_format($montoAbs, 2, ',', '.'); ?>€
-            (<?php echo $mov['fecha']; ?>)
-          </li>
-        <?php endwhile; ?>
-      </ul>
-      <!-- Botón para ver todo el historial -->
-      <button onclick="location.href='../views/historial_gastos.php'">
-       Ver historial completo
-      </button>
+              ?>
+              <strong><?php echo $mov['categoria']; ?>:</strong>
+              <?php echo $simbolo . number_format($montoAbs, 2, ',', '.'); ?>€
+              (<?php echo $mov['fecha']; ?>)
+            </li>
+          <?php endwhile; ?>
+        </ul>
+        <!-- Botón para ver todo el historial -->
+        <button onclick="location.href='../views/historial_gastos.php'">
+          Ver historial completo
+        </button>
+      </div>
     </div>
-  </div>
 
-  <!-- 3. Formulario para registrar un nuevo gasto/ingreso -->
-  <div class="form-section">
-    <h3>Registrar Gasto/Ingreso</h3>
-    <form action="../controllers/procesar_gasto.php" method="POST">
+    <!-- 3. Formulario para registrar un nuevo gasto/ingreso -->
+    <div class="form-section">
+      <h3>Registrar Gasto/Ingreso</h3>
+      <form action="../controllers/procesar_gasto.php" method="POST">
 
-      <div>
-        <label for="fecha">Fecha:</label>
-        <input type="date" name="fecha" required>
-      </div>
+        <div>
+          <label for="fecha">Fecha:</label>
+          <input type="date" name="fecha" required>
+        </div>
 
-      <div>
-        <label for="tipo">Tipo:</label>
-        <select name="tipo" required>
-          <option value="Ingreso">Ingreso</option>
-          <option value="Gasto">Gasto</option>
-        </select>
-      </div>
+        <div>
+          <label for="tipo">Tipo:</label>
+          <select name="tipo" required>
+            <option value="Ingreso">Ingreso</option>
+            <option value="Gasto">Gasto</option>
+          </select>
+        </div>
 
-      <div>
-        <label for="categoria">Categoría:</label>
-        <select name="categoria" required>
-          <option value="Ropa">Ropa</option>
-          <option value="Comida">Comida</option>
-          <option value="Ocio">Ocio</option>
-          <option value="Salud">Salud</option>
-          <option value="Transporte">Transporte</option>
-          <!-- Añade las que necesites -->
-        </select>
-      </div>
+        <div>
+          <label for="categoria">Categoría:</label>
+          <select name="categoria" required>
+            <option value="Ropa">Ropa</option>
+            <option value="Comida">Comida</option>
+            <option value="Ocio">Ocio</option>
+            <option value="Salud">Salud</option>
+            <option value="Transporte">Transporte</option>
+            <!-- Añade las que necesites -->
+          </select>
+        </div>
 
-      <div>
-        <label for="monto">Monto (€):</label>
-        <input type="number" name="monto" step="0.01" required>
-      </div>
+        <div>
+          <label for="monto">Monto (€):</label>
+          <input type="number" name="monto" step="0.01" required>
+        </div>
 
-      <div>
-        <label for="comentario">Comentario:</label>
+        <div>
+          <label for="comentario">Comentario:</label>
 
-        <textarea name="comentario"></textarea>
-      </div>
-      <button type="submit">Registrar</button>
-    </form>
-  </div>
+          <textarea name="comentario"></textarea>
+        </div>
+        <button type="submit">Registrar</button>
+      </form>
+    </div>
 
-</div><!-- Fin container-f1 -->
+  </div><!-- Fin container-f1 -->
 
 </body>
+
 </html>
 <?php
 $conn->close(); // Cierra la conexión al final

@@ -1,8 +1,8 @@
 <?php
 session_start();
-require_once '../includes/header.php';
-require_once '../includes/nav.php';
-require '../conexion.php';
+require '../includes/header.php';
+require '../includes/nav.php';
+require_once '../config.php';
 
 $sql = "SELECT categoria, monto, fecha, comentario FROM gastos WHERE usuario_id = 1";
 $result = $conn->query($sql);
@@ -13,7 +13,7 @@ $result = $conn->query($sql);
 <head>
   <meta charset="UTF-8">
   <title>Historial de Gastos</title>
-  <link rel="stylesheet" href="../css/style.css?v=12345">
+  <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 <h2 style="text-align:center;">Historial de Gastos</h2>

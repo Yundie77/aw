@@ -1,153 +1,185 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 .main-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
 }
 
 .main-nav a {
-    text-decoration: none;
-    color: #333;
+  text-decoration: none;
+  color: #333;
 }
 
 .grupo-list {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
 }
 
 .grupo-item {
-    border: 1px solid #ccc;
-    padding: 1rem;
-    width: 200px;
-    text-align: center;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  width: 200px;
+  text-align: center;
 }
 
 /* Barra de navegación */
 nav {
-    background-color: #f4f4f4;
-    padding: 10px;
-    text-align: center;
-    border-bottom: 1px solid #ccc;
-  }
-  
-  nav a {
-    margin: 0 10px;
-    text-decoration: none;
-    color: #333;
-  }
-  
-  /* Contenedor principal */
-  .container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
-    gap: 20px;
-    padding: 20px;
-  }
-  
-  /* Sección de resumen arriba (ocupa 2 columnas) */
-  .summary {
-    grid-column: 1 / 3; /* ocupa ambas columnas */
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
-  }
-  
-  .summary .box {
-    background-color: #fafafa;
-    width: 160px;
-    padding: 10px;
-    text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-  }
-  
-  .cantidad {
-    font-size: 1.2em;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  /* Sección principal con gráfico y últimos movimientos */
-  .main-content {
-    grid-column: 1 / 3; /* ocupa ambas columnas en la fila 2 */
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  
-  .chart-section,
-  .last-movements {
-    background-color: #fafafa;
-    padding: 10px;
-    width: 45%;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-  }
-  
-  /* Formulario y categorías en la parte de abajo */
-  .form-section {
-    grid-column: 1;
-    background-color: #fafafa;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-  }
-  
-  .form-section form > div {
-    margin-bottom: 10px;
-  }
-  
-  .form-section label {
-    display: inline-block;
-    width: 80px;
-    font-weight: bold;
-  }
-  
-  .categories {
-    grid-column: 2;
-    background-color: #fafafa;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-  }
-  
-  /* Botones */
-  button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    margin: 5px 0;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
-  /* Tabla historial */
-  .tabla-gastos {
-    width: 80%;
-    margin: 20px auto;
-    border-collapse: collapse;
-  }
-  
-  .tabla-gastos th,
-  .tabla-gastos td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  .tabla-gastos th {
-    background-color: #eee;
-  }
+  background-color: #f4f4f4;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+}
+
+nav a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #333;
+}
+
+/* Contenedor principal */
+/* === Contenedor principal de la funcionalidad F1 === */
+.container-f1 {
+  /* Centra la página y le da un ancho máximo */
+  max-width: 1200px;
+  margin: 0 auto; /* Esto centra el contenedor en la página */
+
+  /* Usamos Grid con 1 columna y 3 filas principales */
+  display: grid;
+  grid-template-columns: 1fr;       /* 1 columna */
+  grid-template-rows: auto auto auto; /* Tantas filas como necesites */
+  row-gap: 20px; /* Espacio vertical entre filas */
+  padding: 20px; /* Un poco de espacio interior */
+  background-color: #fff; /* Fondo blanco */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+/* === summary (fila 1) - recuadros de totales === */
+.summary {
+  display: flex; /* 4 recuadros en fila */
+  justify-content: space-around; /* Espacio entre ellos */
+  margin-bottom: 10px; /* Separación con lo siguiente */
+}
+
+.summary .box {
+  background-color: #fafafa;
+  width: 160px;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.summary .cantidad {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* === Zona principal (fila 2) - gráfico + últimos movimientos === */
+.main-content {
+  display: flex; 
+  justify-content: space-between; /* Gráfico a la izquierda, últimos mov a la derecha */
+  gap: 20px; /* Espacio entre columnas */
+}
+
+/* Sección del gráfico */
+.chart-section {
+  flex: 1;
+  /* Ocupa el espacio disponible */
+  background-color: #fafafa;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+/* Sección últimos movimientos */
+.last-movements {
+  flex: 1;
+  /* Ocupa el espacio disponible */
+  background-color: #fafafa;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.last-movements ul {
+  list-style: none;
+  margin-top: 10px;
+}
+
+.last-movements li {
+  margin-bottom: 8px;
+}
+
+/* Formulario y categorías en la parte de abajo */
+.form-section {
+  /* Al estar en la tercera fila del grid, 
+       se coloca automáticamente debajo de .main-content */
+  background-color: #fafafa;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  /* Para centrar el formulario, podemos usar un ancho fijo y margin auto */
+  width: 600px;
+  /* Ajusta el ancho que quieras */
+  margin: 0 auto;
+  /* Esto lo centra horizontalmente */
+}
+
+.form-section form>div {
+  margin-bottom: 10px;
+}
+
+.form-section label {
+  display: inline-block;
+  width: 80px;
+  font-weight: bold;
+}
+
+.categories {
+  grid-column: 2;
+  background-color: #fafafa;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+/* Botones */
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  margin: 5px 0;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Tabla historial */
+.tabla-gastos {
+  width: 80%;
+  margin: 20px auto;
+  border-collapse: collapse;
+}
+
+.tabla-gastos th,
+.tabla-gastos td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.tabla-gastos th {
+  background-color: #eee;
+}
