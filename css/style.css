@@ -183,3 +183,29 @@ button:hover {
 .tabla-gastos th {
   background-color: #eee;
 }
+
+/* Contenedor de cada fila del formulario */
+.form-row {
+  display: flex;
+  align-items: center;  /* Alinea verticalmente label e input */
+  margin-bottom: 10px;  /* Espacio debajo de cada fila */
+}
+
+/* Label con ancho fijo y margen a la derecha */
+.form-row label {
+  width: 100px;         /* Ajusta a tu gusto */
+  margin-right: 10px;   /* Espacio entre label y campo */
+  font-weight: bold;
+}
+
+/* Ajustes para inputs y textarea */
+.form-row input[type="text"],
+.form-row input[type="date"],
+.form-row input[type="number"],
+.form-row select,
+.form-row textarea {
+  flex: 1;              /* Ocupar el espacio restante en la fila */
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}

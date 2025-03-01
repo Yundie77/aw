@@ -13,7 +13,7 @@ $user_id = 1; // Cambia por $_SESSION['usuario_id'] si tenemos login
 $sqlIngresosTotales = "
   SELECT IFNULL(SUM(monto), 0) AS total_ingresos
   FROM gastos
-  WHERE usuario_id = ? AND monto > 0
+  WHERE usuario_id = ? AND tipo = 'Ingreso'
 ";
 $stmt = $conn->prepare($sqlIngresosTotales);
 $stmt->bind_param("i", $user_id);
@@ -24,12 +24,12 @@ $ingresosTotales = $row['total_ingresos'];
 $stmt->close();
 
 /**********************************************
- * 2. Cálculo de gastos totales (monto < 0)
+ * 2. Cálculo de gastos totales
  **********************************************/
 $sqlGastosTotales = "
-  SELECT IFNULL(SUM(ABS(monto)), 0) AS total_gastos
+  SELECT IFNULL(SUM(monto), 0) AS total_gastos
   FROM gastos
-  WHERE usuario_id = ? AND monto < 0
+  WHERE usuario_id = ? AND tipo = 'Gasto'
 ";
 $stmt = $conn->prepare($sqlGastosTotales);
 $stmt->bind_param("i", $user_id);
@@ -46,7 +46,7 @@ $sqlIngresosMes = "
   SELECT IFNULL(SUM(monto), 0) AS ingresos_mes
   FROM gastos
   WHERE usuario_id = ?
-    AND monto > 0
+    AND tipo = 'Ingreso'
     AND MONTH(fecha) = MONTH(CURDATE())
     AND YEAR(fecha) = YEAR(CURDATE())
 ";
@@ -62,10 +62,10 @@ $stmt->close();
  * 4. Gastos este mes
  **********************************************/
 $sqlGastosMes = "
-  SELECT IFNULL(SUM(ABS(monto)), 0) AS gastos_mes
+  SELECT IFNULL(SUM(monto), 0) AS gastos_mes
   FROM gastos
   WHERE usuario_id = ?
-    AND monto < 0
+    AND tipo = 'Gasto'
     AND MONTH(fecha) = MONTH(CURDATE())
     AND YEAR(fecha) = YEAR(CURDATE())
 ";
@@ -81,7 +81,7 @@ $stmt->close();
  * 5. Últimos movimientos (limit 5)
  **********************************************/
 $sqlUltimosMov = "
-  SELECT categoria, monto, fecha, comentario
+  SELECT tipo, categoria, monto, fecha, comentario
   FROM gastos
   WHERE usuario_id = ?
   ORDER BY fecha DESC, id DESC
@@ -149,36 +149,43 @@ $stmt->close();
       <div class="last-movements">
         <h3>Últimos Movimientos</h3>
         <ul>
-          <?php while ($mov = $ultimos->fetch_assoc()): ?>
+        <?php while ($mov = $ultimos->fetch_assoc()): ?>
             <li>
               <?php
-              $simbolo = ($mov['monto'] < 0) ? '-' : '+';
-              $montoAbs = abs($mov['monto']);
+              // Determinar el símbolo según el tipo
+              $simbolo = ($mov['tipo'] === 'Gasto') ? '-' : '+';
+              // Formateamos el monto (siempre positivo en la BD)
+              $montoFormateado = number_format($mov['monto'], 2, ',', '.');
+              // Si no hay comentario, usamos la categoría por defecto
+              $comentarioMostrar = !empty(trim($mov['comentario'])) ? $mov['comentario'] : $mov['categoria'];
               ?>
               <strong><?php echo $mov['categoria']; ?>:</strong>
-              <?php echo $simbolo . number_format($montoAbs, 2, ',', '.'); ?>€
+              <?php echo $simbolo . $montoFormateado; ?>€
               (<?php echo $mov['fecha']; ?>)
+              - <em><?php echo $comentarioMostrar; ?></em>
             </li>
           <?php endwhile; ?>
+      
         </ul>
         <!-- Botón para ver todo el historial -->
         <button onclick="location.href='../views/historial_gastos.php'">
           Ver historial completo
         </button>
       </div>
-    </div>
+      </div>
 
     <!-- 3. Formulario para registrar un nuevo gasto/ingreso -->
     <div class="form-section">
       <h3>Registrar Gasto/Ingreso</h3>
       <form action="../controllers/procesar_gasto.php" method="POST">
 
-        <div>
+        <div class="form-row">
           <label for="fecha">Fecha:</label>
-          <input type="date" name="fecha" required>
+          <input type="date" name="fecha" required value="<?php echo date('Y-m-d'); ?>">
+
         </div>
 
-        <div>
+        <div class="form-row">
           <label for="tipo">Tipo:</label>
           <select name="tipo" required>
             <option value="Ingreso">Ingreso</option>
@@ -186,7 +193,7 @@ $stmt->close();
           </select>
         </div>
 
-        <div>
+        <div class="form-row">
           <label for="categoria">Categoría:</label>
           <select name="categoria" required>
             <option value="Ropa">Ropa</option>
@@ -198,12 +205,12 @@ $stmt->close();
           </select>
         </div>
 
-        <div>
+        <div class="form-row">
           <label for="monto">Monto (€):</label>
-          <input type="number" name="monto" step="0.01" required>
+          <input type="number" name="monto" step="0.5" required min="0">
         </div>
 
-        <div>
+        <div class="form-row">
           <label for="comentario">Comentario:</label>
 
           <textarea name="comentario"></textarea>
