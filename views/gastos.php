@@ -81,18 +81,31 @@ $stmt->close();
  * 5. Últimos movimientos (limit 5)
  **********************************************/
 $sqlUltimosMov = "
-  SELECT tipo, categoria, monto, fecha, comentario
-  FROM gastos
-  WHERE usuario_id = ?
-  ORDER BY fecha DESC, id DESC
+  SELECT g.tipo,
+         g.monto,
+         g.fecha,
+         g.comentario,
+         c.nombre AS categoria
+  FROM gastos g
+  JOIN categorias c ON g.categoria_id = c.id
+  WHERE g.usuario_id = ?
+  ORDER BY g.fecha DESC, g.id DESC
   LIMIT 5
 ";
+
 $stmt = $conn->prepare($sqlUltimosMov);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $ultimos = $stmt->get_result();
 $stmt->close();
 ?>
+
+<?php
+// Obtenemos todas las categorías de la tabla `categorias`
+$sqlCat = "SELECT id, nombre FROM categorias";
+$resCat = $conn->query($sqlCat);
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -149,7 +162,7 @@ $stmt->close();
       <div class="last-movements">
         <h3>Últimos Movimientos</h3>
         <ul>
-        <?php while ($mov = $ultimos->fetch_assoc()): ?>
+          <?php while ($mov = $ultimos->fetch_assoc()): ?>
             <li>
               <?php
               // Determinar el símbolo según el tipo
@@ -165,14 +178,14 @@ $stmt->close();
               - <em><?php echo $comentarioMostrar; ?></em>
             </li>
           <?php endwhile; ?>
-      
+
         </ul>
         <!-- Botón para ver todo el historial -->
         <button onclick="location.href='../views/historial_gastos.php'">
           Ver historial completo
         </button>
       </div>
-      </div>
+    </div>
 
     <!-- 3. Formulario para registrar un nuevo gasto/ingreso -->
     <div class="form-section">
@@ -194,20 +207,37 @@ $stmt->close();
         </div>
 
         <div class="form-row">
-          <label for="categoria">Categoría:</label>
-          <select name="categoria" required>
-            <option value="Ropa">Ropa</option>
-            <option value="Comida">Comida</option>
-            <option value="Ocio">Ocio</option>
-            <option value="Salud">Salud</option>
-            <option value="Transporte">Transporte</option>
-            <!-- Añade las que necesites -->
+          <label for="categoria_id">Categoría:</label>
+          <select name="categoria_id" id="categoriaSelect" required>
+            <option value="">-- Seleccione --</option>
+            <?php while ($cat = $resCat->fetch_assoc()): ?>
+              <option value="<?php echo $cat['id']; ?>">
+                <?php echo htmlspecialchars($cat['nombre']); ?>
+              </option>
+            <?php endwhile; ?>
+            <option value="otra">Otra categoría</option>
           </select>
+          <!-- Campo para nueva categoría, inicialmente oculto -->
+          <input type="text" name="categoria_nueva" id="categoriaNueva" placeholder="Escribe nueva categoría"
+            style="display:none;">
         </div>
+        <script>
+          document.getElementById('categoriaSelect').addEventListener('change', function () {
+            var inputNueva = document.getElementById('categoriaNueva');
+            if (this.value === 'otra') {
+              inputNueva.style.display = 'inline-block';
+              inputNueva.required = true;
+            } else {
+              inputNueva.style.display = 'none';
+              inputNueva.required = false;
+            }
+          });
+        </script>
+
 
         <div class="form-row">
           <label for="monto">Monto (€):</label>
-          <input type="number" name="monto" step="0.5" required min="0">
+          <input type="number" name="monto" step="0.01" required min="0">
         </div>
 
         <div class="form-row">
