@@ -209,3 +209,7 @@ button:hover {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+
+.chart-section {
+  width: 50%;
+}
