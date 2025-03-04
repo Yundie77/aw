@@ -120,8 +120,9 @@ while ($row = $resDonut->fetch_assoc()) {
 $stmt->close();
 
 // Obtenemos todas las categorías de la tabla `categorias`
-$sqlCat = "SELECT id, nombre FROM categorias";
+$sqlCat = "SELECT id, nombre FROM categorias ORDER BY nombre ASC";
 $resCat = $conn->query($sqlCat);
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -225,7 +226,7 @@ $resCat = $conn->query($sqlCat);
                 <?php echo htmlspecialchars($cat['nombre']); ?>
               </option>
             <?php endwhile; ?>
-            <option value="otra">Otra categoría</option>
+            <option value="otra">Crear nueva categoría</option>
           </select>
           <!-- Campo para nueva categoría, inicialmente oculto -->
           <input type="text" name="categoria_nueva" id="categoriaNueva" placeholder="Escribe nueva categoría" style="display:none;">

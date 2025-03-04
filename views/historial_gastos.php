@@ -4,36 +4,187 @@ require '../includes/header.php';
 require '../includes/nav.php';
 require_once '../config.php';
 
-$sql = "SELECT categoria, monto, fecha, comentario FROM gastos WHERE usuario_id = 1";
-$result = $conn->query($sql);
+$user_id = 1; // O $_SESSION['usuario_id']
+
+// --- Filtros ---
+// Recogemos filtros de la URL
+$tipoFilter = isset($_GET['tipo']) ? $_GET['tipo'] : '';
+$categoriaFilter = isset($_GET['categoria']) ? $_GET['categoria'] : '';
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+$orden = isset($_GET['orden']) ? $_GET['orden'] : 'fecha_desc';
+if ($orden === 'fecha_asc') {
+    $orderBy = "ORDER BY g.fecha ASC, g.id ASC";
+} else {
+    $orderBy = "ORDER BY g.fecha DESC, g.id DESC";
+}
+
+
+// Construimos condiciones dinámicamente
+$conditions = "g.usuario_id = ?";
+$params = [$user_id];
+$types = "i";
+
+if ($tipoFilter && in_array($tipoFilter, ['Ingreso', 'Gasto'])) {
+  $conditions .= " AND g.tipo = ?";
+  $params[] = $tipoFilter;
+  $types .= "s";
+}
+
+if ($categoriaFilter) {
+  // Filtramos por el nombre de la categoría (de la tabla categorias)
+  $conditions .= " AND c.nombre = ?";
+  $params[] = $categoriaFilter;
+  $types .= "s";
+}
+
+if ($search) {
+  // Buscamos en el comentario o en el nombre de la categoría
+  $conditions .= " AND (g.comentario LIKE ? OR c.nombre LIKE ?)";
+  $searchParam = "%" . $search . "%";
+  $params[] = $searchParam;
+  $params[] = $searchParam;
+  $types .= "ss";
+}
+
+// Consulta principal (por defecto ordenado por fecha descendente)
+$sqlUltimosMov = "
+  SELECT g.tipo,
+         g.monto,
+         g.fecha,
+         g.comentario,
+         c.nombre AS categoria
+  FROM gastos g
+  JOIN categorias c ON g.categoria_id = c.id
+  WHERE g.usuario_id = ?
+  $orderBy
+  LIMIT 50
+";
+
+
+// Preparamos la consulta y enlazamos parámetros dinámicamente
+$stmt = $conn->prepare($sqlUltimosMov);
+
+// Usamos una técnica para enlazar parámetros dinámicos
+$bind_names = [];
+$bind_names[] = $types;
+foreach ($params as $key => $value) {
+  $bind_name = 'bind' . $key;
+  $$bind_name = $value;
+  $bind_names[] = &$$bind_name;
+}
+call_user_func_array([$stmt, 'bind_param'], $bind_names);
+
+$stmt->execute();
+$result = $stmt->get_result();
+$stmt->close();
+
+// Para los filtros: obtenemos tipos y categorías disponibles
+$sqlTipos = "SELECT DISTINCT tipo FROM gastos WHERE usuario_id = ?";
+$stmtTipos = $conn->prepare($sqlTipos);
+$stmtTipos->bind_param("i", $user_id);
+$stmtTipos->execute();
+$resultTipos = $stmtTipos->get_result();
+$tiposArray = [];
+while ($rowTipo = $resultTipos->fetch_assoc()) {
+  $tiposArray[] = $rowTipo['tipo'];
+}
+$stmtTipos->close();
+
+$sqlCategorias = "SELECT DISTINCT nombre FROM categorias ORDER BY nombre ASC";
+$resCategorias = $conn->query($sqlCategorias);
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <title>Historial de Gastos</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
-<body>
-<h2 style="text-align:center;">Historial de Gastos</h2>
 
-<table class="tabla-gastos">
-  <tr>
-    <th>Categoría</th>
-    <th>Monto (€)</th>
-    <th>Fecha</th>
-    <th>Comentario</th>
-  </tr>
-  <?php while ($row = $result->fetch_assoc()) { ?>
+<body>
+  <h2 style="text-align:center;">Historial de Gastos</h2>
+
+  <form method="GET" id="filtrosForm" class="filtros">
+  <div>
+    <label for="tipo">Tipo:</label>
+    <select name="tipo" id="tipo" onchange="this.form.submit()">
+      <option value="">Todos</option>
+      <?php foreach ($tiposArray as $tipoOpt): ?>
+          <option value="<?php echo $tipoOpt; ?>" <?php if ($tipoOpt == $tipoFilter)
+               echo "selected"; ?>>
+            <?php echo $tipoOpt; ?>
+          </option>
+        <?php endforeach; ?>
+    </select>
+  </div>
+  <div>
+    <label for="categoria">Categoría:</label>
+    <select name="categoria" id="categoria" onchange="this.form.submit()">
+      <option value="">Todas</option>
+      <?php while ($rowCat = $resCategorias->fetch_assoc()): ?>
+          <option value="<?php echo htmlspecialchars($rowCat['nombre']); ?>" <?php if ($rowCat['nombre'] == $categoriaFilter)
+               echo "selected"; ?>>
+            <?php echo htmlspecialchars($rowCat['nombre']); ?>
+          </option>
+        <?php endwhile; ?>
+    </select>
+  </div>
+  <div>
+    <label for="search">Buscar:</label>
+    <input type="text" name="search" id="search" placeholder="Buscar por categoria o comentario" style="width:300px;
+           value="<?php echo htmlspecialchars($search); ?>" onkeyup="debounceSearch()"
+           >
+  </div>
+</form>
+
+<script>
+  let debounceTimer;
+  function debounceSearch() {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      document.getElementById('filtrosForm').submit();
+    }, 600); //Espera 600ms despues del ultimo teclado presionado para enviar el formulario
+  }
+</script>
+
+  <!-- Tabla de historial -->
+  <table class="tabla-gastos">
+    <tr>
+      <th>Categoría</th>
+      <th>Tipo</th>
+      <th>Monto (€)</th>
+      <th>Fecha</th>
+      <th>Comentario</th>
+    </tr>
+    <?php while ($row = $result->fetch_assoc()): ?>
+      <?php
+      // Calculamos el símbolo según el tipo
+      $simbolo = ($row['tipo'] === 'Gasto') ? '-' : '+';
+      $montoFormateado = number_format($row['monto'], 2, ',', '.');
+      ?>
       <tr>
-        <td><?php echo $row["categoria"]; ?></td>
-        <td><?php echo $row["monto"]; ?></td>
-        <td><?php echo $row["fecha"]; ?></td>
-        <td><?php echo $row["comentario"]; ?></td>
+        <td><?php echo htmlspecialchars($row['categoria']); ?></td>
+        <td><?php echo htmlspecialchars($row['tipo']); ?></td>
+        <td><?php echo $simbolo . $montoFormateado; ?> €</td>
+        <td><?php echo htmlspecialchars($row['fecha']); ?></td>
+        <td><?php echo htmlspecialchars($row['comentario']); ?></td>
       </tr>
-  <?php } ?>
-</table>
+    <?php endwhile; ?>
+  </table>
+
+  <!-- Enlaces o tabs para ordenar por fecha u otros criterios -->
+  <!-- Por defecto, se muestran ordenados por fecha (más recientes primero) -->
+  <div style="text-align:center; margin:20px;">
+    <a href="historial_gastos.php?orden=fecha_desc">Ordenar por Fecha (descendente)</a> |
+    <a href="historial_gastos.php?orden=fecha_asc">Ordenar por Fecha (ascendente)</a>
+  </div>
 
 </body>
+
 </html>
+
+<?php
+$conn->close();
+?>
