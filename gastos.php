@@ -115,17 +115,20 @@ $resDonut = $stmt->get_result();
 
 $donutData = [];
 while ($row = $resDonut->fetch_assoc()) {
-    $donutData[] = $row;
+  $donutData[] = $row;
 }
 $stmt->close();
 
 // Obtenemos todas las categorías de la tabla `categorias`
 $sqlCat = "SELECT id, nombre FROM categorias ORDER BY nombre ASC";
-$resCat = $conn->query($sqlCat);
+$stmt = $conn->prepare($sqlCat);
+$stmt->execute();
+$resCat = $stmt->get_result();
 
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <title>Gestión de Gastos</title>
@@ -133,6 +136,7 @@ $resCat = $conn->query($sqlCat);
   <!-- Incluimos Chart.js desde CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
   <div class="container-f1"><!-- Contenedor general para la funcionalidad F1 -->
     <!-- 1. Resumen de ingresos/gastos en la parte superior -->
@@ -166,11 +170,12 @@ $resCat = $conn->query($sqlCat);
         </div>
         <!-- Lista dinámica de categorías con sus totales y porcentaje -->
         <ul class="lista-categorias">
-          <?php foreach ($donutData as $item): 
+          <?php foreach ($donutData as $item):
             $porcentaje = ($gastosTotales > 0) ? ($item['total_categoria'] / $gastosTotales) * 100 : 0;
-          ?>
+            ?>
             <li>
-              <?php echo htmlspecialchars($item['categoria']); ?>: -<?php echo number_format($item['total_categoria'], 2, ',', '.'); ?> €
+              <?php echo htmlspecialchars($item['categoria']); ?>:
+              -<?php echo number_format($item['total_categoria'], 2, ',', '.'); ?> €
               (<?php echo number_format($porcentaje, 2, ',', '.'); ?>%)
             </li>
           <?php endforeach; ?>
@@ -229,20 +234,16 @@ $resCat = $conn->query($sqlCat);
             <option value="otra">Crear nueva categoría</option>
           </select>
           <!-- Campo para nueva categoría, inicialmente oculto -->
-          <input type="text" name="categoria_nueva" id="categoriaNueva" placeholder="Escribe nueva categoría" style="display:none;">
+          <input type="text" name="categoria_nueva" id="categoriaNueva" placeholder="Escribe nueva categoría"
+            style="display:none;">
         </div>
-        <script>
-          document.getElementById('categoriaSelect').addEventListener('change', function () {
-            var inputNueva = document.getElementById('categoriaNueva');
-            if (this.value === 'otra') {
-              inputNueva.style.display = 'inline-block';
-              inputNueva.required = true;
-            } else {
-              inputNueva.style.display = 'none';
-              inputNueva.required = false;
-            }
-          });
-        </script>
+        <script src="js/categorias.js" defer></script>
+        <script src="js/donutChart.js" defer></script>
+
+        <span id="donutData" style="display: none;"><?php echo json_encode($donutData); ?></span>
+        <span id="totalExpenses" style="display: none;"><?php echo $gastosTotales; ?></span>
+
+
         <div class="form-row">
           <label for="monto">Monto (€):</label>
           <input type="number" name="monto" step="0.01" required min="0">
@@ -255,66 +256,8 @@ $resCat = $conn->query($sqlCat);
       </form>
     </div>
   </div><!-- Fin container-f1 -->
-
-  <!-- Script para renderizar el donut chart -->
-  <script>
-    // Obtenemos los datos de PHP y preparamos los arreglos para el gráfico
-    var donutData = <?php echo json_encode($donutData); ?>;
-    var totalExpenses = <?php echo $gastosTotales; ?>;
-    var labels = donutData.map(item => item.categoria);
-    var dataValues = donutData.map(item => parseFloat(item.total_categoria));
-
-    // Definimos una paleta de colores para las categorías
-    var colors = [
-      "rgba(255, 99, 132, 0.6)",
-      "rgba(54, 162, 235, 0.6)",
-      "rgba(255, 206, 86, 0.6)",
-      "rgba(75, 192, 192, 0.6)",
-      "rgba(153, 102, 255, 0.6)",
-      "rgba(255, 159, 64, 0.6)",
-      "rgba(199, 199, 199, 0.6)",
-      "rgba(83, 102, 255, 0.6)"
-    ];
-
-    var ctx = document.getElementById('donutChart').getContext('2d');
-    var donutChart = new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-        labels: labels,
-        datasets: [{
-          data: dataValues,
-          // Asignamos un color distinto a cada categoría
-          backgroundColor: colors.slice(0, dataValues.length)
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            display: true,
-            position: 'right'
-          },
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                var label = context.label || '';
-                if (label) {
-                  label += ': ';
-                }
-                label += context.parsed + ' €';
-                if (totalExpenses > 0) {
-                  var percentage = ((context.parsed / totalExpenses) * 100).toFixed(2);
-                  label += ' (' + percentage + '%)';
-                }
-                return label;
-              }
-            }
-          }
-        }
-      }
-    });
-  </script>
 </body>
+
 </html>
 <?php
 $conn->close(); // Cierra la conexión al final

@@ -55,24 +55,23 @@ $sqlUltimosMov = "
          c.nombre AS categoria
   FROM gastos g
   JOIN categorias c ON g.categoria_id = c.id
-  WHERE g.usuario_id = ?
+  WHERE $conditions
   $orderBy
   LIMIT 50
 ";
+
 
 
 // Preparamos la consulta y enlazamos parámetros dinámicamente
 $stmt = $conn->prepare($sqlUltimosMov);
 
 // Usamos una técnica para enlazar parámetros dinámicos
-$bind_names = [];
-$bind_names[] = $types;
-foreach ($params as $key => $value) {
-  $bind_name = 'bind' . $key;
-  $$bind_name = $value;
-  $bind_names[] = &$$bind_name;
+$stmt = $conn->prepare($sqlUltimosMov);
+
+if (!empty($params)) {
+    $stmt->bind_param($types, ...$params);
 }
-call_user_func_array([$stmt, 'bind_param'], $bind_names);
+
 
 $stmt->execute();
 $result = $stmt->get_result();
