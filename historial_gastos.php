@@ -13,9 +13,9 @@ $categoriaFilter = isset($_GET['categoria']) ? $_GET['categoria'] : '';
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $orden = isset($_GET['orden']) ? $_GET['orden'] : 'fecha_desc';
 if ($orden === 'fecha_asc') {
-    $orderBy = "ORDER BY g.fecha ASC, g.id ASC";
+  $orderBy = "ORDER BY g.fecha ASC, g.id ASC";
 } else {
-    $orderBy = "ORDER BY g.fecha DESC, g.id DESC";
+  $orderBy = "ORDER BY g.fecha DESC, g.id DESC";
 }
 
 
@@ -69,7 +69,7 @@ $stmt = $conn->prepare($sqlUltimosMov);
 $stmt = $conn->prepare($sqlUltimosMov);
 
 if (!empty($params)) {
-    $stmt->bind_param($types, ...$params);
+  $stmt->bind_param($types, ...$params);
 }
 
 
@@ -106,47 +106,36 @@ $resCategorias = $conn->query($sqlCategorias);
   <h2 style="text-align:center;">Historial de Gastos</h2>
 
   <form method="GET" id="filtrosForm" class="filtros">
-  <div>
-    <label for="tipo">Tipo:</label>
-    <select name="tipo" id="tipo" onchange="this.form.submit()">
-      <option value="">Todos</option>
-      <?php foreach ($tiposArray as $tipoOpt): ?>
+    <div>
+      <label for="tipo">Tipo:</label>
+      <select name="tipo" id="tipo" onchange="this.form.submit()">
+        <option value="">Todos</option>
+        <?php foreach ($tiposArray as $tipoOpt): ?>
           <option value="<?php echo $tipoOpt; ?>" <?php if ($tipoOpt == $tipoFilter)
                echo "selected"; ?>>
             <?php echo $tipoOpt; ?>
           </option>
         <?php endforeach; ?>
-    </select>
-  </div>
-  <div>
-    <label for="categoria">Categoría:</label>
-    <select name="categoria" id="categoria" onchange="this.form.submit()">
-      <option value="">Todas</option>
-      <?php while ($rowCat = $resCategorias->fetch_assoc()): ?>
+      </select>
+    </div>
+    <div>
+      <label for="categoria">Categoría:</label>
+      <select name="categoria" id="categoria" onchange="this.form.submit()">
+        <option value="">Todas</option>
+        <?php while ($rowCat = $resCategorias->fetch_assoc()): ?>
           <option value="<?php echo htmlspecialchars($rowCat['nombre']); ?>" <?php if ($rowCat['nombre'] == $categoriaFilter)
                echo "selected"; ?>>
             <?php echo htmlspecialchars($rowCat['nombre']); ?>
           </option>
         <?php endwhile; ?>
-    </select>
-  </div>
-  <div>
-    <label for="search">Buscar:</label>
-    <input type="text" name="search" id="search" placeholder="Buscar por categoria o comentario" style="width:300px;
-           value="<?php echo htmlspecialchars($search); ?>" onkeyup="debounceSearch()"
-           >
-  </div>
-</form>
-
-<script>
-  let debounceTimer;
-  function debounceSearch() {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => {
-      document.getElementById('filtrosForm').submit();
-    }, 600); //Espera 600ms despues del ultimo teclado presionado para enviar el formulario
-  }
-</script>
+      </select>
+    </div>
+    <div>
+      <label for="search">Buscar:</label>
+      <input type="text" name="search" id="search" placeholder="Buscar por categoria o comentario" style="width:300px;
+           value=" <?php echo htmlspecialchars($search); ?>" onkeyup="debounceSearch()">
+    </div>
+  </form>
 
   <!-- Tabla de historial -->
   <table class="tabla-gastos">
@@ -179,6 +168,9 @@ $resCategorias = $conn->query($sqlCategorias);
     <a href="historial_gastos.php?orden=fecha_desc">Ordenar por Fecha (descendente)</a> |
     <a href="historial_gastos.php?orden=fecha_asc">Ordenar por Fecha (ascendente)</a>
   </div>
+
+  <script src="js/filtros.js" defer></script>
+  <script src="js/debounce.js" defer></script>
 
 </body>
 
