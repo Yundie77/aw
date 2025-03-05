@@ -1,8 +1,8 @@
 <?php
 session_start();
-require '../includes/header.php';
-require '../includes/nav.php';
-require_once '../config.php';
+require 'includes/vistas/comun/header.php';
+require 'includes/vistas/comun/nav.php';
+require_once 'config.php';
 
 $user_id = 1; // O $_SESSION['usuario_id']
 

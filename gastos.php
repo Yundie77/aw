@@ -1,8 +1,8 @@
 <?php
 session_start();
-require '../includes/header.php';
-require '../includes/nav.php';
-require_once '../config.php';
+require 'includes/vistas/comun/header.php';
+require 'includes/vistas/comun/nav.php';
+require_once 'config.php';
 
 // Suponiendo que un usuario logueado con ID=1
 $user_id = 1; // Cambia por $_SESSION['usuario_id'] si tenemos login
@@ -196,7 +196,7 @@ $resCat = $conn->query($sqlCat);
           <?php endwhile; ?>
         </ul>
         <!-- Botón para ver todo el historial -->
-        <button onclick="location.href='../views/historial_gastos.php'">
+        <button onclick="location.href='historial_gastos.php'">
           Ver historial completo
         </button>
       </div>
@@ -205,7 +205,7 @@ $resCat = $conn->query($sqlCat);
     <!-- 3. Formulario para registrar un nuevo gasto/ingreso -->
     <div class="form-section">
       <h3>Registrar Gasto/Ingreso</h3>
-      <form action="../controllers/procesar_gasto.php" method="POST">
+      <form action="procesar_gasto.php" method="POST">
         <div class="form-row">
           <label for="fecha">Fecha:</label>
           <input type="date" name="fecha" required value="<?php echo date('Y-m-d'); ?>">

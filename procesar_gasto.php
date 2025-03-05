@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../config.php';  // Archivo para conectar a la BD
+require_once 'config.php';  // Archivo para conectar a la BD
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $usuario_id = 1; // O $_SESSION['usuario_id']
@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($stmt->execute()) {
         echo "Gasto registrado correctamente.";
-        header("Location: ../views/gastos.php");  // Redirigir de vuelta al formulario
+        header("Location: gastos.php");  // Redirigir de vuelta al formulario
         exit;
     } else {
         echo "Error al registrar el gasto.";
