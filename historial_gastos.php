@@ -48,7 +48,8 @@ if ($search) {
 
 // Consulta principal (por defecto ordenado por fecha descendente)
 $sqlUltimosMov = "
-  SELECT g.tipo,
+  SELECT g.id,
+         g.tipo,
          g.monto,
          g.fecha,
          g.comentario,
@@ -59,6 +60,7 @@ $sqlUltimosMov = "
   $orderBy
   LIMIT 50
 ";
+
 
 
 
@@ -145,9 +147,9 @@ $resCategorias = $conn->query($sqlCategorias);
       <th>Monto (€)</th>
       <th>Fecha</th>
       <th>Comentario</th>
+      <th>Acciones</th>
     </tr>
-    <?php while ($row = $result->fetch_assoc()): ?>
-      <?php
+    <?php while ($row = $result->fetch_assoc()):
       // Calculamos el símbolo según el tipo
       $simbolo = ($row['tipo'] === 'Gasto') ? '-' : '+';
       $montoFormateado = number_format($row['monto'], 2, ',', '.');
@@ -158,9 +160,17 @@ $resCategorias = $conn->query($sqlCategorias);
         <td><?php echo $simbolo . $montoFormateado; ?> €</td>
         <td><?php echo htmlspecialchars($row['fecha']); ?></td>
         <td><?php echo htmlspecialchars($row['comentario']); ?></td>
+        <td>
+          <!-- Enlace para editar -->
+          <a href="editar_gasto.php?id=<?php echo $row['id']; ?>">Editar</a>
+          <!-- Enlace para eliminar con confirmación -->
+          <a href="eliminar_gasto.php?id=<?php echo $row['id']; ?>"
+            onclick="return confirm('¿Está seguro de eliminar este registro?');">Eliminar</a>
+        </td>
       </tr>
     <?php endwhile; ?>
   </table>
+
 
   <!-- Enlaces o tabs para ordenar por fecha u otros criterios -->
   <!-- Por defecto, se muestran ordenados por fecha (más recientes primero) -->
