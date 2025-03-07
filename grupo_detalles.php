@@ -1,5 +1,4 @@
 <?php
-// Si usas sesiones o configuraciones, inclúyelas aquí
 session_start();
 require 'includes/vistas/comun/header.php';
 require 'includes/vistas/comun/nav.php';
@@ -11,11 +10,10 @@ require_once 'config.php';
 <head>
   <meta charset="UTF-8">
   <title>Detalles del Grupo</title>
-  <link rel="stylesheet" href="css/style.css"> <!-- Ajusta la ruta a tu CSS -->
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- Barra de navegación (ya incluida con nav.php) -->
 
   <!-- Contenedor principal de detalles -->
   <div class="details-container">
@@ -35,10 +33,9 @@ require_once 'config.php';
       </ul>
     </div>
 
-    <!-- Sección central: Gráfico circular (puedes usar un <canvas> o una imagen) -->
+    <!-- Sección central: Gráfico circular -->
     <div class="chart-container">
-      <!-- Aquí un placeholder con una imagen de ejemplo -->
-      <!-- Reemplaza "img/piechart.png" por la ruta real de tu imagen o un <canvas> si usas librerías de gráficos -->
+      <!-- Una imagen de ejemplo -->
       <img src="img/piechart.png" alt="Gráfico circular" style="max-width: 100%; height: auto;">
     </div>
 

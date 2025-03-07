@@ -4,7 +4,7 @@
 
 <nav>
   <div class="navbar-left">
-    <a href="/aw/index.php"><img src="img/logo.png" alt="Logo" class="logo"></a>
+    <a href="/aw/index.php"><img src="/aw/img/logo.png" alt="Logo" class="logo"></a>
     <a href="/aw/index.php">Inicio</a>
     <a href="/aw/gastos.php">Gastos</a>
     <a href="/aw/grupos.php">Grupos</a>
@@ -12,11 +12,11 @@
     <div class="dropdown">
       <button class="dropdown-btn">Más</button>
       <div class="dropdown-content">
-        <a href="/aw/detalles.php">Detalles</a>
-        <a href="/aw/bocetos.php">Bocetos</a>
-        <a href="/aw/miembros.php">Miembros</a>
-        <a href="/aw/planificacion.php">Planificación</a>
-        <a href="/aw/contacto.php">Contacto</a>
+        <a href="/aw/includes/practica1/detalles.php">Detalles</a>
+        <a href="/aw/includes/practica1/bocetos.php">Bocetos</a>
+        <a href="/aw/includes/practica1/miembros.php">Miembros</a>
+        <a href="/aw/includes/practica1/planificacion.php">Planificación</a>
+        <a href="/aw/includes/practica1/contacto.php">Contacto</a>
       </div>
     </div>
   </div>
