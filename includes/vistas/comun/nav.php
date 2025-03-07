@@ -1,13 +1,16 @@
 <?php
 // Barra de navegación común
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 ?>
-
 <nav>
   <div class="navbar-left">
     <a href="/aw/index.php"><img src="/aw/img/logo.png" alt="Logo" class="logo"></a>
     <a href="/aw/index.php">Inicio</a>
     <a href="/aw/gastos.php">Gastos</a>
     <a href="/aw/grupos.php">Grupos</a>
+    
     <!-- Dropdown para enlaces legacy -->
     <div class="dropdown">
       <button class="dropdown-btn">Más</button>
@@ -31,6 +34,11 @@
         <a href="/aw/chat.php?room=chat3">Chat 3</a>
       </div>
     </div>
-    <a href="/aw/login.php">Usuario</a>
+    <?php if (isset($_SESSION['user_name'])): ?>
+      <span><?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
+      <a href="/aw/logout.php">Salir</a>
+    <?php else: ?>
+      <a href="/aw/login.php">Usuario</a>
+    <?php endif; ?>
   </div>
 </nav>
