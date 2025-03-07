@@ -78,27 +78,17 @@ nav a {
   font-weight: 600;
 }
 
-
 /* Contenedor principal */
 /* === Contenedor principal de la funcionalidad F1 === */
 .container-f1 {
-  /* Centra la página y le da un ancho máximo */
   max-width: 1200px;
   margin: 0 auto;
-  /* Esto centra el contenedor en la página */
-
-  /* Usamos Grid con 1 columna y 3 filas principales */
   display: grid;
   grid-template-columns: 1fr;
-  /* 1 columna */
   grid-template-rows: auto auto auto;
-  /* Tantas filas como necesites */
   row-gap: 20px;
-  /* Espacio vertical entre filas */
   padding: 20px;
-  /* Un poco de espacio interior */
   background-color: #fff;
-  /* Fondo blanco */
   border: 1px solid #ccc;
   border-radius: 8px;
 }
@@ -106,11 +96,8 @@ nav a {
 /* === summary (fila 1) - recuadros de totales === */
 .summary {
   display: flex;
-  /* 4 recuadros en fila */
   justify-content: space-around;
-  /* Espacio entre ellos */
   margin-bottom: 10px;
-  /* Separación con lo siguiente */
 }
 
 .summary .box {
@@ -132,25 +119,19 @@ nav a {
 .main-content {
   display: flex;
   justify-content: space-between;
-  /* Gráfico a la izquierda, últimos mov a la derecha */
   gap: 20px;
-  /* Espacio entre columnas */
 }
 
-/* Sección del gráfico */
 .chart-section {
   flex: 1;
-  /* Ocupa el espacio disponible */
   background-color: #fafafa;
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 10px;
 }
 
-/* Sección últimos movimientos */
 .last-movements {
   flex: 1;
-  /* Ocupa el espacio disponible */
   background-color: #fafafa;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -168,17 +149,12 @@ nav a {
 
 /* Formulario y categorías en la parte de abajo */
 .form-section {
-  /* Al estar en la tercera fila del grid, 
-       se coloca automáticamente debajo de .main-content */
   background-color: #fafafa;
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 20px;
-  /* Para centrar el formulario, podemos usar un ancho fijo y margin auto */
   width: 600px;
-  /* Ajusta el ancho que quieras */
   margin: 0 auto;
-  /* Esto lo centra horizontalmente */
 }
 
 .form-section form>div {
@@ -236,28 +212,21 @@ button:hover {
 .form-row {
   display: flex;
   align-items: center;
-  /* Alinea verticalmente label e input */
   margin-bottom: 10px;
-  /* Espacio debajo de cada fila */
 }
 
-/* Label con ancho fijo y margen a la derecha */
 .form-row label {
   width: 100px;
-  /* Ajusta a tu gusto */
   margin-right: 10px;
-  /* Espacio entre label y campo */
   font-weight: bold;
 }
 
-/* Ajustes para inputs y textarea */
 .form-row input[type="text"],
 .form-row input[type="date"],
 .form-row input[type="number"],
 .form-row select,
 .form-row textarea {
   flex: 1;
-  /* Ocupar el espacio restante en la fila */
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -374,4 +343,55 @@ button:hover {
 
 .buttons-sidebar button:hover {
   background-color: #45a049;
+}
+
+/* ==============================
+   ESTILOS PARA LOS DROPDOWNS
+   ============================== */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-btn {
+  background-color: transparent;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #333;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 8px 12px;
+  text-decoration: none;
+  color: #333;
+  font-weight: normal;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+/* Mostrar el dropdown al pasar el mouse */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Opcional: cambiar el fondo del botón al pasar el mouse */
+.dropdown:hover .dropdown-btn {
+  background-color: #eaeaea;
 }
