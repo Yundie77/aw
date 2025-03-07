@@ -3,10 +3,10 @@ session_start();
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/includes/vistas/comun/header.php';
 require_once __DIR__ . '/includes/vistas/comun/nav.php';
-
+ 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Recoger y sanitizar datos
-    $email = trim($_POST['email']);
+    $email = trim($_POST['email']); 
     $password = $_POST['password'];
     
     // Preparar la consulta para evitar inyección SQL

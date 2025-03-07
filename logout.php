@@ -25,4 +25,4 @@ session_destroy();
         <p>Gracias por visitar nuestra web. Hasta pronto.</p>
     </main>
 </body>
-</html>
+</html> 

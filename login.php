@@ -17,7 +17,7 @@ require_once __DIR__ . '/includes/vistas/comun/nav.php';
     if(isset($_SESSION['error'])) { 
         echo "<p style='color:red;'>".$_SESSION['error']."</p>"; 
         unset($_SESSION['error']);
-    } 
+    }
     ?>
    
     <form method="post" action="procesarLogin.php">
