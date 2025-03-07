@@ -1,6 +1,5 @@
-<?php require_once 'includes/header.php'; ?>
-<?php require_once 'includes/nav.php'; ?>
-
+<?php require_once '../vistas/comun/header.php'; ?>
+<?php require_once '../vistas/comun/nav.php'; ?>
 <main>
   <header>
     <h1>Planificación del Proyecto</h1>
@@ -85,4 +84,4 @@
   </section>
 </main>
 
-<?php require_once 'includes/footer.php'; ?>
+<?php require_once '../vistas/comun/footer.php'; ?>

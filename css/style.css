@@ -18,23 +18,27 @@ body {
 
 .grupo-list {
   display: flex;
-  gap: 1rem;
+  gap: 4rem;
   justify-content: center;
+  margin-top: 30px;
 }
 
 .grupo-item {
   border: 1px solid #ccc;
   padding: 1rem;
-  width: 200px;
+  width: 350px;
   text-align: center;
+  border-radius: 8px;
 }
 
 /* Barra de navegación */
 nav {
   background-color: #f4f4f4;
   padding: 10px;
-  text-align: center;
   border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 nav a {
@@ -43,28 +47,57 @@ nav a {
   color: #333;
 }
 
+.navbar-left .logo {
+  width: 50px;
+  height: auto;
+  margin-right: 15px;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-left a {
+  margin-right: 20px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.navbar-right a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+}
+
 /* Contenedor principal */
 /* === Contenedor principal de la funcionalidad F1 === */
 .container-f1 {
-  /* Centra la página y le da un ancho máximo */
   max-width: 1200px;
-  margin: 0 auto; /* Esto centra el contenedor en la página */
-
-  /* Usamos Grid con 1 columna y 3 filas principales */
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr;       /* 1 columna */
-  grid-template-rows: auto auto auto; /* Tantas filas como necesites */
-  row-gap: 20px; /* Espacio vertical entre filas */
-  padding: 20px; /* Un poco de espacio interior */
-  background-color: #fff; /* Fondo blanco */
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto;
+  row-gap: 20px;
+  padding: 20px;
+  background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 8px;
 }
+
 /* === summary (fila 1) - recuadros de totales === */
 .summary {
-  display: flex; /* 4 recuadros en fila */
-  justify-content: space-around; /* Espacio entre ellos */
-  margin-bottom: 10px; /* Separación con lo siguiente */
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
 }
 
 .summary .box {
@@ -84,25 +117,21 @@ nav a {
 
 /* === Zona principal (fila 2) - gráfico + últimos movimientos === */
 .main-content {
-  display: flex; 
-  justify-content: space-between; /* Gráfico a la izquierda, últimos mov a la derecha */
-  gap: 20px; /* Espacio entre columnas */
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
 }
 
-/* Sección del gráfico */
 .chart-section {
   flex: 1;
-  /* Ocupa el espacio disponible */
   background-color: #fafafa;
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 10px;
 }
 
-/* Sección últimos movimientos */
 .last-movements {
   flex: 1;
-  /* Ocupa el espacio disponible */
   background-color: #fafafa;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -120,17 +149,12 @@ nav a {
 
 /* Formulario y categorías en la parte de abajo */
 .form-section {
-  /* Al estar en la tercera fila del grid, 
-       se coloca automáticamente debajo de .main-content */
   background-color: #fafafa;
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 20px;
-  /* Para centrar el formulario, podemos usar un ancho fijo y margin auto */
   width: 600px;
-  /* Ajusta el ancho que quieras */
   margin: 0 auto;
-  /* Esto lo centra horizontalmente */
 }
 
 .form-section form>div {
@@ -187,25 +211,233 @@ button:hover {
 /* Contenedor de cada fila del formulario */
 .form-row {
   display: flex;
-  align-items: center;  /* Alinea verticalmente label e input */
-  margin-bottom: 10px;  /* Espacio debajo de cada fila */
+  align-items: center;
+  margin-bottom: 10px;
 }
 
-/* Label con ancho fijo y margen a la derecha */
 .form-row label {
-  width: 100px;         /* Ajusta a tu gusto */
-  margin-right: 10px;   /* Espacio entre label y campo */
+  width: 100px;
+  margin-right: 10px;
   font-weight: bold;
 }
 
-/* Ajustes para inputs y textarea */
 .form-row input[type="text"],
 .form-row input[type="date"],
 .form-row input[type="number"],
 .form-row select,
 .form-row textarea {
-  flex: 1;              /* Ocupar el espacio restante en la fila */
+  flex: 1;
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+
+.chart-section {
+  width: 50%;
+}
+
+/* Estilos básicos para el formulario de filtros y la tabla */
+.filtros {
+  margin: 20px auto;
+  max-width: 800px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.filtros label {
+  font-weight: bold;
+}
+
+.filtros input,
+.filtros select {
+  padding: 5px;
+  font-size: 14px;
+}
+
+.tabla-gastos {
+  width: 90%;
+  margin: 20px auto;
+  border-collapse: collapse;
+}
+
+.tabla-gastos th,
+.tabla-gastos td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.tabla-gastos th {
+  background-color: #eee;
+}
+
+/* Contenedor principal con 3 columnas (flex) */
+.details-container {
+  display: flex;
+  gap: 2rem;
+  margin: 2rem;
+}
+
+/* Columna izquierda: Detalles del grupo */
+.details-sidebar {
+  width: 20%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fafafa;
+  padding: 1rem;
+}
+
+.details-sidebar h2 {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.details-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.details-sidebar li {
+  margin-bottom: 0.5rem;
+}
+
+/* Columna central: Gráfico */
+.chart-container {
+  width: 50%;        
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fafafa;
+  padding: 1rem;
+}
+
+/* Columna derecha: Botones */
+.buttons-sidebar {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fafafa;
+  padding: 1rem;
+}
+
+.buttons-sidebar button {
+  width: 100px;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #4CAF50;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.buttons-sidebar button:hover {
+  background-color: #45a049;
+}
+
+/* ==============================
+   ESTILOS PARA LOS DROPDOWNS
+   ============================== */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-btn {
+  background-color: transparent;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #333;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 8px 12px;
+  text-decoration: none;
+  color: #333;
+  font-weight: normal;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropdown-btn {
+  background-color: #eaeaea;
+}
+
+/* Contenedor principal del panel de administración */
+.admin-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+
+.admin-container h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.search-box {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.search-box h3 {
+  margin-bottom: 0.5rem;
+}
+
+.search-box input {
+  padding: 0.5rem;
+  width: 50%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Tabla de usuarios */
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.user-table th, .user-table td {
+  border: 1px solid #ccc;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.user-table th {
+  background-color: #eee;
 }

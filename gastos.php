@@ -1,8 +1,8 @@
 <?php
 session_start();
-require '../includes/header.php';
-require '../includes/nav.php';
-require_once '../config.php';
+require 'includes/vistas/comun/header.php';
+require 'includes/vistas/comun/nav.php';
+require_once 'config.php';
 
 // Suponiendo que un usuario logueado con ID=1
 $user_id = 1; // Cambia por $_SESSION['usuario_id'] si tenemos login
@@ -92,20 +92,40 @@ $sqlUltimosMov = "
   ORDER BY g.fecha DESC, g.id DESC
   LIMIT 5
 ";
-
 $stmt = $conn->prepare($sqlUltimosMov);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $ultimos = $stmt->get_result();
 $stmt->close();
-?>
 
-<?php
+/**********************************************
+ * 6. Datos para el donut chart: Agrupar gastos por categoría
+ **********************************************/
+$sqlDonut = "
+  SELECT c.nombre AS categoria, SUM(g.monto) AS total_categoria
+  FROM gastos g
+  JOIN categorias c ON g.categoria_id = c.id
+  WHERE g.usuario_id = ? AND g.tipo = 'Gasto'
+  GROUP BY g.categoria_id
+";
+$stmt = $conn->prepare($sqlDonut);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$resDonut = $stmt->get_result();
+
+$donutData = [];
+while ($row = $resDonut->fetch_assoc()) {
+  $donutData[] = $row;
+}
+$stmt->close();
+
 // Obtenemos todas las categorías de la tabla `categorias`
-$sqlCat = "SELECT id, nombre FROM categorias";
-$resCat = $conn->query($sqlCat);
-?>
+$sqlCat = "SELECT id, nombre FROM categorias ORDER BY nombre ASC";
+$stmt = $conn->prepare($sqlCat);
+$stmt->execute();
+$resCat = $stmt->get_result();
 
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -113,12 +133,12 @@ $resCat = $conn->query($sqlCat);
   <meta charset="UTF-8">
   <title>Gestión de Gastos</title>
   <link rel="stylesheet" href="../css/style.css">
+  <!-- Incluimos Chart.js desde CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
-
   <div class="container-f1"><!-- Contenedor general para la funcionalidad F1 -->
-
     <!-- 1. Resumen de ingresos/gastos en la parte superior -->
     <div class="summary">
       <div class="box ingreso-total">
@@ -139,22 +159,26 @@ $resCat = $conn->query($sqlCat);
       </div>
     </div>
 
-    <!-- 2. Zona principal: Gráfico (imagen) + Categorías + Últimos Movimientos -->
+    <!-- 2. Zona principal: Donut Chart + Categorías con porcentajes + Últimos Movimientos -->
     <div class="main-content">
-      <!-- a) Gráfico circular (simulado con imagen) y lista de categorías con totales -->
+      <!-- a) Gráfico circular (Donut Chart) y lista de categorías -->
       <div class="chart-section">
         <h3>Gastos por Categoría</h3>
         <div class="chart-placeholder">
-          <!-- Pon una imagen PNG que simule el donut -->
-          <img src="../img/donut-chart.png" alt="Donut Chart" width="200">
+          <!-- Se reemplaza la imagen por un canvas con tamaño reducido (la mitad) -->
+          <canvas id="donutChart" width="100" height="100"></canvas>
         </div>
-        <!-- EJEMPLO: Podrías hacer un SELECT SUM(ABS(monto)) GROUP BY categoria
-           para listar lo que llevas gastado en cada categoría y mostrarlo aquí -->
+        <!-- Lista dinámica de categorías con sus totales y porcentaje -->
         <ul class="lista-categorias">
-          <li>Ropa: -78,00 €</li>
-          <li>Comida: -79,00 €</li>
-          <li>Ocio: -58,00 €</li>
-          <!-- ... -->
+          <?php foreach ($donutData as $item):
+            $porcentaje = ($gastosTotales > 0) ? ($item['total_categoria'] / $gastosTotales) * 100 : 0;
+            ?>
+            <li>
+              <?php echo htmlspecialchars($item['categoria']); ?>:
+              -<?php echo number_format($item['total_categoria'], 2, ',', '.'); ?> €
+              (<?php echo number_format($porcentaje, 2, ',', '.'); ?>%)
+            </li>
+          <?php endforeach; ?>
         </ul>
       </div>
 
@@ -165,11 +189,8 @@ $resCat = $conn->query($sqlCat);
           <?php while ($mov = $ultimos->fetch_assoc()): ?>
             <li>
               <?php
-              // Determinar el símbolo según el tipo
               $simbolo = ($mov['tipo'] === 'Gasto') ? '-' : '+';
-              // Formateamos el monto (siempre positivo en la BD)
               $montoFormateado = number_format($mov['monto'], 2, ',', '.');
-              // Si no hay comentario, usamos la categoría por defecto
               $comentarioMostrar = !empty(trim($mov['comentario'])) ? $mov['comentario'] : $mov['categoria'];
               ?>
               <strong><?php echo $mov['categoria']; ?>:</strong>
@@ -178,10 +199,9 @@ $resCat = $conn->query($sqlCat);
               - <em><?php echo $comentarioMostrar; ?></em>
             </li>
           <?php endwhile; ?>
-
         </ul>
         <!-- Botón para ver todo el historial -->
-        <button onclick="location.href='../views/historial_gastos.php'">
+        <button onclick="location.href='historial_gastos.php'">
           Ver historial completo
         </button>
       </div>
@@ -190,14 +210,11 @@ $resCat = $conn->query($sqlCat);
     <!-- 3. Formulario para registrar un nuevo gasto/ingreso -->
     <div class="form-section">
       <h3>Registrar Gasto/Ingreso</h3>
-      <form action="../controllers/procesar_gasto.php" method="POST">
-
+      <form action="procesar_gasto.php" method="POST">
         <div class="form-row">
           <label for="fecha">Fecha:</label>
           <input type="date" name="fecha" required value="<?php echo date('Y-m-d'); ?>">
-
         </div>
-
         <div class="form-row">
           <label for="tipo">Tipo:</label>
           <select name="tipo" required>
@@ -205,7 +222,6 @@ $resCat = $conn->query($sqlCat);
             <option value="Gasto">Gasto</option>
           </select>
         </div>
-
         <div class="form-row">
           <label for="categoria_id">Categoría:</label>
           <select name="categoria_id" id="categoriaSelect" required>
@@ -215,42 +231,31 @@ $resCat = $conn->query($sqlCat);
                 <?php echo htmlspecialchars($cat['nombre']); ?>
               </option>
             <?php endwhile; ?>
-            <option value="otra">Otra categoría</option>
+            <option value="otra">Crear nueva categoría</option>
           </select>
           <!-- Campo para nueva categoría, inicialmente oculto -->
           <input type="text" name="categoria_nueva" id="categoriaNueva" placeholder="Escribe nueva categoría"
             style="display:none;">
         </div>
-        <script>
-          document.getElementById('categoriaSelect').addEventListener('change', function () {
-            var inputNueva = document.getElementById('categoriaNueva');
-            if (this.value === 'otra') {
-              inputNueva.style.display = 'inline-block';
-              inputNueva.required = true;
-            } else {
-              inputNueva.style.display = 'none';
-              inputNueva.required = false;
-            }
-          });
-        </script>
+        <script src="js/categorias.js" defer></script>
+        <script src="js/donutChart.js" defer></script>
+
+        <span id="donutData" style="display: none;"><?php echo json_encode($donutData); ?></span>
+        <span id="totalExpenses" style="display: none;"><?php echo $gastosTotales; ?></span>
 
 
         <div class="form-row">
           <label for="monto">Monto (€):</label>
           <input type="number" name="monto" step="0.01" required min="0">
         </div>
-
         <div class="form-row">
           <label for="comentario">Comentario:</label>
-
           <textarea name="comentario"></textarea>
         </div>
         <button type="submit">Registrar</button>
       </form>
     </div>
-
   </div><!-- Fin container-f1 -->
-
 </body>
 
 </html>

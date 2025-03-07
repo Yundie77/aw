@@ -9,6 +9,6 @@ if (session_status() === PHP_SESSION_NONE) {
 <head>
   <meta charset="UTF-8">
   <title>CampusCash</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="/aw/css/style.css">
 </head>
 <body>

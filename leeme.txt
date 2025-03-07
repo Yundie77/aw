@@ -1,0 +1,26 @@
+Funcionalidades implementadas en esta entrega:
+
+Gestión de Gastos (F1)
+
+-Registro de ingresos y gastos individuales.
+-Cálculo y visualización de totales (ingresos y gastos generales y mensuales).
+-Historial de gastos con filtros (por tipo, categoría y búsqueda) y ordenamiento por fecha.
+-Funcionalidades de edición y eliminación de registros.
+-Grado de completitud: 100% funcional.
+-Filtros dinámicos para facilitar la búsqueda en el historial de gastos.
+-Permite agregar nuevas categorías dinámicamente mediante una opción “Otro/Otra categoría”.
+
+Generación de Gráficos e Informes (F2)
+
+-Visualización de un gráfico tipo donut que agrupa los gastos por categoría y muestra porcentajes.
+-Grado de completitud: Parcial (gráfico básico implementado).
+
+Funcionalidades pendientes:
+
+Gastos grupales (F3)
+Chat/Foro (F4)
+Panel de Administración (F5)
+
+
+
+

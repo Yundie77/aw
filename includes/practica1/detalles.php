@@ -1,5 +1,5 @@
-<?php require_once 'includes/header.php'; ?>
-<?php require_once 'includes/nav.php'; ?>
+<?php require_once '../vistas/comun/header.php'; ?>
+<?php require_once '../vistas/comun/nav.php'; ?>
 
 <main>
   <h1 style="text-align: center;">Detalles del Proyecto CampusCash</h1>
@@ -36,4 +36,4 @@
   </section>
 </main>
 
-<?php require_once 'includes/footer.php'; ?>
+<?php require_once '../vistas/comun/footer.php'; ?>
