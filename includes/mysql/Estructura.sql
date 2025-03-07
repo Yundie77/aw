@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-03-2025 a las 00:18:24
+-- Tiempo de generación: 07-03-2025 a las 12:58:25
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -32,20 +32,6 @@ CREATE TABLE `categorias` (
   `nombre` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `categorias`
---
-
-INSERT INTO `categorias` (`id`, `nombre`) VALUES
-(1, 'Compra'),
-(2, 'Comida'),
-(3, 'Ocio'),
-(4, 'Ropa'),
-(5, 'Salud'),
-(6, 'Transporte'),
-(7, 'Otros'),
-(8, 'Salario');
-
 -- --------------------------------------------------------
 
 --
@@ -61,15 +47,6 @@ CREATE TABLE `gastos` (
   `fecha` date NOT NULL,
   `comentario` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `gastos`
---
-
-INSERT INTO `gastos` (`id`, `usuario_id`, `tipo`, `categoria_id`, `monto`, `fecha`, `comentario`) VALUES
-(13, 1, 'Ingreso', 2, 1.00, '2025-03-03', ''),
-(14, 1, 'Gasto', 3, 65.00, '2025-03-03', 'Cine'),
-(15, 1, 'Ingreso', 8, 600.00, '2025-03-01', '');
 
 -- --------------------------------------------------------
 
@@ -143,13 +120,6 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `usuarios`
---
-
-INSERT INTO `usuarios` (`id`, `nombre`, `email`, `password`, `rol`) VALUES
-(1, 'Ejemplo', 'ejemplo@correo.com', 'claveEncriptada', 'usuario');
-
---
 -- Índices para tablas volcadas
 --
 
@@ -212,13 +182,13 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `gastos`
 --
 ALTER TABLE `gastos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `gastos_grupales`
@@ -242,7 +212,7 @@ ALTER TABLE `mensajes`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
