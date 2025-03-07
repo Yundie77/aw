@@ -22,10 +22,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Verificar si se encontró el usuario
     if ($stmt->num_rows > 0) {
-        $stmt->bind_result($id, $nombre, $hashed_password, $rol);
+        $stmt->bind_result($id, $nombre, $stored_password, $rol);
         $stmt->fetch();
-        // Verificar la contraseña
-        if (password_verify($password, $hashed_password)) {
+        // Comparación directa sin uso de hash
+        if ($password === $stored_password) {
             // Autenticación exitosa: almacenar datos en sesión
             $_SESSION['user_id'] = $id;
             $_SESSION['user_name'] = $nombre;
@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($rol == 'admin') {
                 header("Location: admin_dashboard.php");
             } else {
-                header("Location: user_dashboard.php");
+                header("Location: index.php");
             }
             exit();
         } else {
