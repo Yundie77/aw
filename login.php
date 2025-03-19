@@ -23,14 +23,10 @@ require_once __DIR__ . '/includes/vistas/comun/nav.php';
         ?>
 
         <form action="procesarLogin.php" method="POST">
-            <div class="form-group">
-                <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" name="nombre" required placeholder="Ingrese su nombre">
-            </div>
 
             <div class="form-group">
-                <label for="username">Usuario</label>
-                <input type="text" id="username" name="username" required placeholder="Ingrese su usuario">
+                <label for="username">Usuario o correo electrónico</label>
+                <input type="text" id="username" name="username" required placeholder="Ingrese su usuario o correo electrónico">
             </div>
 
             <div class="form-group">
