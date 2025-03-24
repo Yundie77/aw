@@ -4,17 +4,18 @@ require_once __DIR__ . '/config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Recoger y sanitizar datos
-    $email = trim($_POST['email']); 
+    $username = trim($_POST['username']); 
     $password = $_POST['password'];
     
     // Preparar la consulta para evitar inyección SQL
-    $stmt = $conn->prepare("SELECT id, nombre, password, rol FROM usuarios WHERE email = ?");
+    // Se busca por correo electrónico o por nombre (usuario)
+    $stmt = $conn->prepare("SELECT id, nombre, password, rol FROM usuarios WHERE email = ? OR nombre = ?");
     if (!$stmt) {
         $_SESSION['error'] = "Error en la consulta";
         header("Location: login.php");
         exit();
     }
-    $stmt->bind_param("s", $email);
+    $stmt->bind_param("ss", $username, $username);
     $stmt->execute();
     $stmt->store_result();
 
@@ -22,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt->num_rows > 0) {
         $stmt->bind_result($id, $nombre, $stored_password, $rol);
         $stmt->fetch();
-        // Comparación directa sin uso de hash
+        // Comparación directa sin uso de hash (se recomienda usar hash en producción)
         if ($password === $stored_password) {
             // Autenticación exitosa: almacenar datos en sesión
             $_SESSION['user_id'] = $id;
