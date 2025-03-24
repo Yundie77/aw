@@ -9,17 +9,26 @@ require_once 'config.php';
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Detalles del Grupo</title>
+  <title>Detalles del Grupo - Gastos</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
   <!-- Contenedor principal de detalles -->
-  <div class="details-container">
-    
-    <!-- Sidebar izquierdo: Nombre del grupo + participantes -->
-    <div class="details-sidebar">
-      <h2>Viaje Fin de grado</h2>
+  <div class="details-container-gastos">
+
+    <!-- Sección: Uso -->
+    <div class="seccion-container">
+      <h3>Uso</h3>
+      <ul>
+        <li>Vuelos: 800$</li>
+        <li>Hoteles: 200$</li>
+      </ul>
+    </div>
+
+    <!-- Sección: Balance -->
+    <div class="seccion-container">
+      <h3>Balance</h3>
       <ul>
         <li>Pedro: 150$</li>
         <li>Luis: 150$</li>
@@ -32,16 +41,10 @@ require_once 'config.php';
       </ul>
     </div>
 
-    <!-- Sección central: Gráfico circular -->
-    <div class="chart-container">
-      <!-- Una imagen de ejemplo -->
-      <img src="img/piechart.png" alt="Gráfico circular" style="max-width: 100%; height: auto;">
-    </div>
-
     <!-- Sidebar derecho: Botones de acción (Objetivo, Gastos) -->
     <div class="buttons-sidebar">
-      <a href="grupo_detalles.php"><button class="selected">Objetivo</button></a>
-      <a href="grupo_detalles_gastos.php"><button>Gastos</button></a>
+      <a href="grupo_detalles.php"><button>Objetivo</button></a>
+      <a href="grupo_detalles_gastos.php"><button class="selected">Gastos</button></a>
     </div>
 
   </div>
