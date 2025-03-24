@@ -1,12 +1,11 @@
 <?php
 session_start();
-if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] !== 'admin') {
+if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
     header("Location: login.php");
     exit();
 }
-require 'nav.php'; 
+require_once __DIR__ . '/includes/vistas/comun/nav.php';
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -15,11 +14,8 @@ require 'nav.php';
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
   <div class="admin-container">
-    
     <h2>Administrador</h2>
-    
     <div class="search-box">
       <h3>Buscar usuarios</h3>
       <input type="text" placeholder="Buscar por nombre, email..." />
@@ -56,6 +52,5 @@ require 'nav.php';
       </tbody>
     </table>
   </div>
-  
 </body>
 </html>

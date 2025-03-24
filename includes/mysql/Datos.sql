@@ -59,7 +59,8 @@ INSERT INTO `gastos` (`id`, `usuario_id`, `tipo`, `categoria_id`, `monto`, `fech
 
 INSERT INTO `usuarios` (`id`, `nombre`, `email`, `password`, `rol`) VALUES
 (1, 'Ejemplo', 'ejemplo@correo.com', 'claveEncriptada', 'usuario'),
-(2, 'Pepe', 'pepe@example.com', '1234', 'usuario');
+(2, 'Pepe', 'pepe@example.com', '1234', 'usuario'),
+(3, 'Admin', 'admin@example.com', 'admin', 'admin');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
