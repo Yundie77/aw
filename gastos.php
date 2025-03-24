@@ -119,7 +119,34 @@ while ($row = $resDonut->fetch_assoc()) {
 }
 $stmt->close();
 
-// Obtenemos todas las categorías de la tabla `categorias`
+/**********************************************
+ * 7. Datos para el bar chart: Ingresos y Gastos por mes
+ **********************************************/
+$sqlBar = "
+  SELECT 
+    YEAR(fecha) AS anio,
+    MONTH(fecha) AS mes,
+    SUM(CASE WHEN tipo = 'Ingreso' THEN monto ELSE 0 END) AS total_ingreso,
+    SUM(CASE WHEN tipo = 'Gasto' THEN monto ELSE 0 END) AS total_gasto
+  FROM gastos
+  WHERE usuario_id = ?
+  GROUP BY YEAR(fecha), MONTH(fecha)
+  ORDER BY YEAR(fecha), MONTH(fecha)
+";
+$stmt = $conn->prepare($sqlBar);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$resBar = $stmt->get_result();
+
+$barData = [];
+while($row = $resBar->fetch_assoc()){
+    $barData[] = $row;
+}
+$stmt->close();
+
+/**********************************************
+ * 8. Obtenemos todas las categorías de la tabla `categorias`
+ **********************************************/
 $sqlCat = "SELECT id, nombre FROM categorias ORDER BY nombre ASC";
 $stmt = $conn->prepare($sqlCat);
 $stmt->execute();
@@ -165,7 +192,6 @@ $resCat = $stmt->get_result();
       <div class="chart-section">
         <h3>Gastos por Categoría</h3>
         <div class="chart-placeholder">
-          <!-- Se reemplaza la imagen por un canvas con tamaño reducido (la mitad) -->
           <canvas id="donutChart" width="100" height="100"></canvas>
         </div>
         <!-- Lista dinámica de categorías con sus totales y porcentaje -->
@@ -182,7 +208,7 @@ $resCat = $stmt->get_result();
         </ul>
       </div>
 
-      <!-- b) Últimos Movimientos -->
+      <!-- b) Últimos Movimientos y gráfico de barras -->
       <div class="last-movements">
         <h3>Últimos Movimientos</h3>
         <ul>
@@ -204,6 +230,11 @@ $resCat = $stmt->get_result();
         <button onclick="location.href='historial_gastos.php'">
           Ver historial completo
         </button>
+        <!-- Agregamos el canvas para el gráfico de barras DEBAJO del botón -->
+        <div class="bar-chart-section">
+          <h3>Resumen Mensual</h3>
+          <canvas id="barChart"></canvas>
+        </div>
       </div>
     </div>
 
@@ -243,7 +274,6 @@ $resCat = $stmt->get_result();
         <span id="donutData" style="display: none;"><?php echo json_encode($donutData); ?></span>
         <span id="totalExpenses" style="display: none;"><?php echo $gastosTotales; ?></span>
 
-
         <div class="form-row">
           <label for="monto">Monto (€):</label>
           <input type="number" name="monto" step="0.01" required min="0">
@@ -256,6 +286,13 @@ $resCat = $stmt->get_result();
       </form>
     </div>
   </div><!-- Fin container-f1 -->
+
+  <!-- Pasamos los datos de barData a JavaScript -->
+  <script>
+    var barData = <?php echo json_encode($barData); ?>;
+  </script>
+  <!-- Incluimos el archivo externo de JavaScript para el gráfico de barras -->
+  <script src="js/barChart.js"></script>
 </body>
 
 </html>
