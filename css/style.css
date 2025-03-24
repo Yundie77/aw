@@ -147,6 +147,11 @@ nav a {
   margin-bottom: 8px;
 }
 
+.last-movements button{
+  display: block;       
+  margin: 10px auto; 
+}
+
 /* Formulario y categorías en la parte de abajo */
 .form-section {
   background-color: #fafafa;
@@ -381,6 +386,7 @@ button:hover {
   background-color: #a2a2a2;
   color: white;
 }
+
 
 .seccion-container {
   width: 240px;  
