@@ -285,9 +285,33 @@ button:hover {
   margin: 2rem;
 }
 
+.details-header {
+  width: 230px;         
+  height: 50px;      
+  background-color: #fafafa;
+  border: 1px solid #ccc; 
+  border-radius: 8px;  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;  
+}
+
+.details-header h2 {
+  margin: 0;  
+  font-size: 18px;           
+  text-align: center;
+}
+
+.sidebar-container {
+  display: flex;
+  flex-direction: column; 
+}
+
 /* Columna izquierda: Detalles del grupo */
 .details-sidebar {
-  width: 25%;
+  width: 200px;
+  height: 332px;
   border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #fafafa;
@@ -300,14 +324,14 @@ button:hover {
 }
 
 .details-sidebar ul {
-  list-style: square;
+  list-style-type: unset;
   text-align: left;
 }
 
 .details-sidebar li {
-  margin-bottom: 0.5rem;
+  margin: 10px 0; 
+  color: #333;
 }
-
 
 .details-container-gastos {
   display: flex;
@@ -341,7 +365,8 @@ button:hover {
 
 /* Columna central: Gráfico */
 .chart-container {
-  width: 55%;   
+  width: 830px;
+  height: 400px;   
   display: flex;
   justify-content: center;
   align-items: center;
@@ -353,17 +378,17 @@ button:hover {
 
 /* Columna derecha: Botones */
 .buttons-sidebar {
-  width: 12%;
-  height: 12%;
+  width: 160px;
+  height: 110px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 10px;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 18px;
   background-color: #fafafa;
-  margin-top: 8%;
+  margin-top: 11%;
 }
 
 .buttons-sidebar button {
@@ -378,7 +403,7 @@ button:hover {
 }
 
 .buttons-sidebar button:hover {
-  background-color: #45a049;
+  background-color: #45a049; 
 }
 
 /* Style for the selected button */
@@ -387,34 +412,96 @@ button:hover {
   color: white;
 }
 
+.buttons-sidebar button.selected:hover {
+  background-color: #989898;
+  color: white;
+}
+
+
+.buttons-sidebar-gastos {
+  width: 160px;
+  height: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid #ccc;
+  border-radius: 18px;
+  background-color: #fafafa;
+  margin-top: 129px;
+  margin-left: 48px;
+}
+
+.buttons-sidebar-gastos button {
+  width: 100px;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.buttons-sidebar-gastos button:hover {
+  background-color: #45a049; 
+}
+
+/* Style for the selected button */
+.buttons-sidebar-gastos button.selected {
+  background-color: #a2a2a2;
+  color: white;
+}
+
+.buttons-sidebar-gastos button.selected:hover {
+  background-color: #989898;
+  color: white;
+}
 
 .seccion-container {
-  width: 240px;  
+  width: 200px;  
   height: 500px; 
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-direction: column;
   align-items: center;
   border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #fafafa;
   padding: 1rem;
+  margin-left: 50px;
 }
 
 .seccion-container h3 {
+  margin-top: 5px;
   margin-bottom: 0.5rem;
   text-align: center;  
+}
+
+.seccion-container h3.highlight {
+  background-color: #e2e2e2;  
+  width: 175px;
+  height: 25px;
+  color: #000;          
+  padding: 10px;          
+  border-radius: 8px;      
+  display: inline-block; 
+  font-size: 18px;  
+  line-height: 25px;
 }
 
 .seccion-container li {
   font-size: 16px;
   color: #333;
-  margin: 5px 0;
+  margin: 10px 0; 
 }
 
 .seccion-container ul {
-  margin-top: 0;         
-  padding-left: 1.5rem; 
+  list-style-position: inside;  /* Маркер будет внутри отступа */
+  text-align: left;     
+  width: 100%;           
+  padding-left: 35px;
 }
 
 /* ==============================

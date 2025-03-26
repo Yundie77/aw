@@ -19,7 +19,7 @@ require_once 'config.php';
 
     <!-- Sección: Uso -->
     <div class="seccion-container">
-      <h3>Uso</h3>
+      <h3 class="highlight">Uso</h3>
       <ul>
         <li>Vuelos: 800$</li>
         <li>Hoteles: 200$</li>
@@ -28,7 +28,7 @@ require_once 'config.php';
 
     <!-- Sección: Balance -->
     <div class="seccion-container">
-      <h3>Balance</h3>
+      <h3 class="highlight">Balance</h3>
       <ul>
         <li>Pedro: 150$</li>
         <li>Luis: 150$</li>
@@ -42,7 +42,7 @@ require_once 'config.php';
     </div>
 
     <!-- Sidebar derecho: Botones de acción (Objetivo, Gastos) -->
-    <div class="buttons-sidebar">
+    <div class="buttons-sidebar-gastos">
       <a href="grupo_detalles.php"><button>Objetivo</button></a>
       <a href="grupo_detalles_gastos.php"><button class="selected">Gastos</button></a>
     </div>
