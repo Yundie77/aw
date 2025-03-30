@@ -6,12 +6,6 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-if (!isset($_SESSION['user_id'])) {
-    $_SESSION['error'] = "Error: No se encontró el identificador de usuario en la sesión.";
-    header("Location: login.php");
-    exit();
-}
-
 require_once 'config.php';
 
 $user_id = $_SESSION['user_id'];
