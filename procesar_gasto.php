@@ -3,7 +3,7 @@ session_start();
 require_once 'config.php';  // Archivo para conectar a la BD
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $usuario_id = 1; // O $_SESSION['usuario_id']
+    $user_id = $_SESSION['user_id'];
     $tipo = $_POST['tipo'] ?? 'Gasto'; // 'Ingreso' o 'Gasto'
     $monto = floatval($_POST['monto']);
     $fecha = $_POST['fecha'];
@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $sql = "INSERT INTO gastos (usuario_id, tipo, categoria_id, monto, fecha, comentario)
             VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("isidss", $usuario_id, $tipo, $categoria_id, $monto, $fecha, $comentario);
+    $stmt->bind_param("isidss", $user_id, $tipo, $categoria_id, $monto, $fecha, $comentario);
 
     if ($stmt->execute()) {
         echo "Gasto registrado correctamente.";

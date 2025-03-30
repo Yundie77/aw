@@ -2,7 +2,7 @@
 session_start();
 require_once 'config.php';
 
-$user_id = $_SESSION['usuario_id']; 
+$user_id = $_SESSION['user_id']; 
 
 // --- Filtros ---
 $tipoFilter = isset($_GET['tipo']) ? $_GET['tipo'] : '';

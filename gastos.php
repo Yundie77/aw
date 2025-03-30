@@ -5,10 +5,16 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
+
+if (!isset($_SESSION['user_id'])) {
+    $_SESSION['error'] = "Error: No se encontró el identificador de usuario en la sesión.";
+    header("Location: login.php");
+    exit();
+}
+
 require_once 'config.php';
 
-
-$user_id = $_SESSION['usuario_id'];
+$user_id = $_SESSION['user_id'];
 
 /**********************************************
  * 1. Cálculo de ingresos totales
@@ -195,7 +201,7 @@ ob_start(); // Inicia la captura de salida
           ?>
           <li>
             <?php echo htmlspecialchars($item['categoria']); ?>:
-            -<?php echo number_format($item['total_categoria'], 2, ',', '.'); ?> €
+            -<?php echo number_format($item['total_categoria'], 2, ',', '.'); ?> € 
             (<?php echo number_format($porcentaje, 2, ',', '.'); ?>%)
           </li>
         <?php endforeach; ?>
@@ -214,7 +220,7 @@ ob_start(); // Inicia la captura de salida
             $comentarioMostrar = !empty(trim($mov['comentario'])) ? $mov['comentario'] : $mov['categoria'];
             ?>
             <strong><?php echo $mov['categoria']; ?>:</strong>
-            <?php echo $simbolo . $montoFormateado; ?>€
+            <?php echo $simbolo . $montoFormateado; ?>€ 
             (<?php echo $mov['fecha']; ?>)
             - <em><?php echo $comentarioMostrar; ?></em>
           </li>
