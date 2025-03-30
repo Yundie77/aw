@@ -1,11 +1,9 @@
 <?php
 session_start();
-require 'includes/vistas/comun/header.php';
-require 'includes/vistas/comun/nav.php';
 require_once 'config.php';
 
-// Suponiendo que un usuario logueado con ID=1
-$user_id = 1; // Cambia por $_SESSION['usuario_id'] si tenemos login
+
+$user_id = 1; // Cambia por $_SESSION['usuario_id']
 
 /**********************************************
  * 1. Cálculo de ingresos totales
@@ -139,8 +137,8 @@ $stmt->execute();
 $resBar = $stmt->get_result();
 
 $barData = [];
-while($row = $resBar->fetch_assoc()){
-    $barData[] = $row;
+while ($row = $resBar->fetch_assoc()) {
+  $barData[] = $row;
 }
 $stmt->close();
 
@@ -152,150 +150,147 @@ $stmt = $conn->prepare($sqlCat);
 $stmt->execute();
 $resCat = $stmt->get_result();
 
+ob_start(); // Inicia la captura de salida
 ?>
-<!DOCTYPE html>
-<html lang="es">
 
-<head>
-  <meta charset="UTF-8">
-  <title>Gestión de Gastos</title>
-  <link rel="stylesheet" href="../css/style.css">
-  <!-- Incluimos Chart.js desde CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
 
-<body>
-  <div class="container-f1"><!-- Contenedor general para la funcionalidad F1 -->
-    <!-- 1. Resumen de ingresos/gastos en la parte superior -->
-    <div class="summary">
-      <div class="box ingreso-total">
-        <p class="cantidad">+<?php echo number_format($ingresosTotales, 2, ',', '.'); ?> €</p>
-        <p class="etiqueta">Ingresos Totales</p>
+<div class="container-f1"><!-- Contenedor general -->
+  <!-- 1. Resumen de ingresos/gastos en la parte superior -->
+  <div class="summary">
+    <div class="box ingreso-total">
+      <p class="cantidad">+<?php echo number_format($ingresosTotales, 2, ',', '.'); ?> €</p>
+      <p class="etiqueta">Ingresos Totales</p>
+    </div>
+    <div class="box gasto-total">
+      <p class="cantidad">-<?php echo number_format($gastosTotales, 2, ',', '.'); ?> €</p>
+      <p class="etiqueta">Gastos Totales</p>
+    </div>
+    <div class="box ingreso-mes">
+      <p class="cantidad">+<?php echo number_format($ingresosMes, 2, ',', '.'); ?> €</p>
+      <p class="etiqueta">Ingresos este mes</p>
+    </div>
+    <div class="box gasto-mes">
+      <p class="cantidad">-<?php echo number_format($gastosMes, 2, ',', '.'); ?> €</p>
+      <p class="etiqueta">Gastos este mes</p>
+    </div>
+  </div>
+
+  <!-- 2. Zona principal: Donut Chart + Categorías con porcentajes + Últimos Movimientos -->
+  <div class="main-content">
+    <!-- a) Gráfico circular (Donut Chart) y lista de categorías -->
+    <div class="chart-section">
+      <h3>Gastos por Categoría</h3>
+      <div class="chart-placeholder">
+        <canvas id="donutChart" width="100" height="100"></canvas>
       </div>
-      <div class="box gasto-total">
-        <p class="cantidad">-<?php echo number_format($gastosTotales, 2, ',', '.'); ?> €</p>
-        <p class="etiqueta">Gastos Totales</p>
-      </div>
-      <div class="box ingreso-mes">
-        <p class="cantidad">+<?php echo number_format($ingresosMes, 2, ',', '.'); ?> €</p>
-        <p class="etiqueta">Ingresos este mes</p>
-      </div>
-      <div class="box gasto-mes">
-        <p class="cantidad">-<?php echo number_format($gastosMes, 2, ',', '.'); ?> €</p>
-        <p class="etiqueta">Gastos este mes</p>
-      </div>
+      <!-- Lista dinámica de categorías con sus totales y porcentaje -->
+      <ul class="lista-categorias">
+        <?php foreach ($donutData as $item):
+          $porcentaje = ($gastosTotales > 0) ? ($item['total_categoria'] / $gastosTotales) * 100 : 0;
+          ?>
+          <li>
+            <?php echo htmlspecialchars($item['categoria']); ?>:
+            -<?php echo number_format($item['total_categoria'], 2, ',', '.'); ?> €
+            (<?php echo number_format($porcentaje, 2, ',', '.'); ?>%)
+          </li>
+        <?php endforeach; ?>
+      </ul>
     </div>
 
-    <!-- 2. Zona principal: Donut Chart + Categorías con porcentajes + Últimos Movimientos -->
-    <div class="main-content">
-      <!-- a) Gráfico circular (Donut Chart) y lista de categorías -->
-      <div class="chart-section">
-        <h3>Gastos por Categoría</h3>
-        <div class="chart-placeholder">
-          <canvas id="donutChart" width="100" height="100"></canvas>
-        </div>
-        <!-- Lista dinámica de categorías con sus totales y porcentaje -->
-        <ul class="lista-categorias">
-          <?php foreach ($donutData as $item):
-            $porcentaje = ($gastosTotales > 0) ? ($item['total_categoria'] / $gastosTotales) * 100 : 0;
+    <!-- b) Últimos Movimientos y gráfico de barras -->
+    <div class="last-movements">
+      <h3>Últimos Movimientos</h3>
+      <ul>
+        <?php while ($mov = $ultimos->fetch_assoc()): ?>
+          <li>
+            <?php
+            $simbolo = ($mov['tipo'] === 'Gasto') ? '-' : '+';
+            $montoFormateado = number_format($mov['monto'], 2, ',', '.');
+            $comentarioMostrar = !empty(trim($mov['comentario'])) ? $mov['comentario'] : $mov['categoria'];
             ?>
-            <li>
-              <?php echo htmlspecialchars($item['categoria']); ?>:
-              -<?php echo number_format($item['total_categoria'], 2, ',', '.'); ?> €
-              (<?php echo number_format($porcentaje, 2, ',', '.'); ?>%)
-            </li>
-          <?php endforeach; ?>
-        </ul>
+            <strong><?php echo $mov['categoria']; ?>:</strong>
+            <?php echo $simbolo . $montoFormateado; ?>€
+            (<?php echo $mov['fecha']; ?>)
+            - <em><?php echo $comentarioMostrar; ?></em>
+          </li>
+        <?php endwhile; ?>
+      </ul>
+      <!-- Botón para ver todo el historial -->
+      <button onclick="location.href='historial_gastos.php'">
+        Ver historial completo
+      </button>
+      <!-- Agregamos el canvas para el gráfico de barras DEBAJO del botón -->
+      <div class="bar-chart-section">
+        <h3>Resumen Mensual</h3>
+        <canvas id="barChart"></canvas>
       </div>
+    </div>
+  </div>
 
-      <!-- b) Últimos Movimientos y gráfico de barras -->
-      <div class="last-movements">
-        <h3>Últimos Movimientos</h3>
-        <ul>
-          <?php while ($mov = $ultimos->fetch_assoc()): ?>
-            <li>
-              <?php
-              $simbolo = ($mov['tipo'] === 'Gasto') ? '-' : '+';
-              $montoFormateado = number_format($mov['monto'], 2, ',', '.');
-              $comentarioMostrar = !empty(trim($mov['comentario'])) ? $mov['comentario'] : $mov['categoria'];
-              ?>
-              <strong><?php echo $mov['categoria']; ?>:</strong>
-              <?php echo $simbolo . $montoFormateado; ?>€
-              (<?php echo $mov['fecha']; ?>)
-              - <em><?php echo $comentarioMostrar; ?></em>
-            </li>
+  <!-- 3. Formulario para registrar un nuevo gasto/ingreso -->
+  <div class="form-section">
+    <h3>Registrar Gasto/Ingreso</h3>
+    <form action="procesar_gasto.php" method="POST">
+      <div class="form-row">
+        <label for="fecha">Fecha:</label>
+        <input type="date" name="fecha" required value="<?php echo date('Y-m-d'); ?>">
+      </div>
+      <div class="form-row">
+        <label for="tipo">Tipo:</label>
+        <select name="tipo" required>
+          <option value="Ingreso">Ingreso</option>
+          <option value="Gasto">Gasto</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="categoria_id">Categoría:</label>
+        <select name="categoria_id" id="categoriaSelect" required>
+          <option value="">-- Seleccione --</option>
+          <?php while ($cat = $resCat->fetch_assoc()): ?>
+            <option value="<?php echo $cat['id']; ?>">
+              <?php echo htmlspecialchars($cat['nombre']); ?>
+            </option>
           <?php endwhile; ?>
-        </ul>
-        <!-- Botón para ver todo el historial -->
-        <button onclick="location.href='historial_gastos.php'">
-          Ver historial completo
-        </button>
-        <!-- Agregamos el canvas para el gráfico de barras DEBAJO del botón -->
-        <div class="bar-chart-section">
-          <h3>Resumen Mensual</h3>
-          <canvas id="barChart"></canvas>
-        </div>
+          <option value="otra">Crear nueva categoría</option>
+        </select>
+        <input type="text" name="categoria_nueva" id="categoriaNueva" placeholder="Escribe nueva categoría"
+          style="display:none;">
       </div>
-    </div>
+      <script src="js/categorias.js" defer></script>
+      <script src="js/donutChart.js" defer></script>
 
-    <!-- 3. Formulario para registrar un nuevo gasto/ingreso -->
-    <div class="form-section">
-      <h3>Registrar Gasto/Ingreso</h3>
-      <form action="procesar_gasto.php" method="POST">
-        <div class="form-row">
-          <label for="fecha">Fecha:</label>
-          <input type="date" name="fecha" required value="<?php echo date('Y-m-d'); ?>">
-        </div>
-        <div class="form-row">
-          <label for="tipo">Tipo:</label>
-          <select name="tipo" required>
-            <option value="Ingreso">Ingreso</option>
-            <option value="Gasto">Gasto</option>
-          </select>
-        </div>
-        <div class="form-row">
-          <label for="categoria_id">Categoría:</label>
-          <select name="categoria_id" id="categoriaSelect" required>
-            <option value="">-- Seleccione --</option>
-            <?php while ($cat = $resCat->fetch_assoc()): ?>
-              <option value="<?php echo $cat['id']; ?>">
-                <?php echo htmlspecialchars($cat['nombre']); ?>
-              </option>
-            <?php endwhile; ?>
-            <option value="otra">Crear nueva categoría</option>
-          </select>
-          <!-- Campo para nueva categoría, inicialmente oculto -->
-          <input type="text" name="categoria_nueva" id="categoriaNueva" placeholder="Escribe nueva categoría"
-            style="display:none;">
-        </div>
-        <script src="js/categorias.js" defer></script>
-        <script src="js/donutChart.js" defer></script>
+      <span id="donutData" style="display: none;"><?php echo json_encode($donutData); ?></span>
+      <span id="totalExpenses" style="display: none;"><?php echo $gastosTotales; ?></span>
 
-        <span id="donutData" style="display: none;"><?php echo json_encode($donutData); ?></span>
-        <span id="totalExpenses" style="display: none;"><?php echo $gastosTotales; ?></span>
+      <div class="form-row">
+        <label for="monto">Monto (€):</label>
+        <input type="number" name="monto" step="0.01" required min="0">
+      </div>
+      <div class="form-row">
+        <label for="comentario">Comentario:</label>
+        <textarea name="comentario"></textarea>
+      </div>
+      <button type="submit">Registrar</button>
+    </form>
+  </div>
+</div><!-- Fin container-f1 -->
 
-        <div class="form-row">
-          <label for="monto">Monto (€):</label>
-          <input type="number" name="monto" step="0.01" required min="0">
-        </div>
-        <div class="form-row">
-          <label for="comentario">Comentario:</label>
-          <textarea name="comentario"></textarea>
-        </div>
-        <button type="submit">Registrar</button>
-      </form>
-    </div>
-  </div><!-- Fin container-f1 -->
+<!-- Incluimos Chart.js justo antes de cerrar el body -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Pasamos los datos de barData a JavaScript -->
+<script>
+  var barData = <?php echo json_encode($barData); ?>;
+</script>
+<!-- Incluimos el archivo externo de JavaScript para el gráfico de barras -->
+<script src="js/barChart.js"></script>
 
-  <!-- Pasamos los datos de barData a JavaScript -->
-  <script>
-    var barData = <?php echo json_encode($barData); ?>;
-  </script>
-  <!-- Incluimos el archivo externo de JavaScript para el gráfico de barras -->
-  <script src="js/barChart.js"></script>
-</body>
-
-</html>
 <?php
-$conn->close(); // Cierra la conexión al final
+// Finalizamos la captura del contenido
+$contenidoPrincipal = ob_get_clean();
+
+$tituloPagina = "Gestión de Gastos";
+
+$conn->close();
+
+require_once RAIZ_APP . '/includes/vistas/plantilla/plantilla.php';
 ?>

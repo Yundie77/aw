@@ -679,3 +679,148 @@ button:hover {
 form {
   width: 100%;
 }
+
+/* Estilo para la página de inicio */
+main h1 {
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+main section h2 {
+  font-size: 1.8em;
+  margin-bottom: 10px;
+}
+
+main section p {
+  color: #555;
+}
+
+main a {
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+main a:hover {
+  background-color: #45a049;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.welcome-title {
+  text-align: center;
+  font-size: 2.5em;
+  color: #4CAF50;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.logo-container {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.logo-image {
+  width: 150px;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.project-description {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.2em;
+  line-height: 1.6;
+}
+
+.project-description h2 {
+  color: #333;
+  font-size: 1.8em;
+  margin-bottom: 10px;
+}
+
+.project-description p {
+  color: #555;
+}
+
+.explore-button-container {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.explore-button {
+  text-decoration: none;
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1.2em;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.explore-button:hover {
+  background-color: #45a049;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilo para la página de inicio */
+.index-main {
+  text-align: center;
+  padding: 20px;
+}
+
+.welcome-title {
+  font-size: 2.5em;
+  color: #4CAF50;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.logo-container {
+  margin: 20px 0;
+}
+
+.logo-image {
+  width: 150px;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.project-description {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.2em;
+  line-height: 1.6;
+}
+
+.project-description h2 {
+  color: #333;
+  font-size: 1.8em;
+  margin-bottom: 10px;
+}
+
+.project-description p {
+  color: #555;
+}
+
+.explore-button-container {
+  margin-top: 30px;
+}
+
+.explore-button {
+  text-decoration: none;
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1.2em;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.explore-button:hover {
+  background-color: #45a049;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
