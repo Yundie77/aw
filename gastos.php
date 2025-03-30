@@ -1,5 +1,10 @@
 <?php
 session_start();
+if (!isset($_SESSION['user_id'])) {
+    $_SESSION['error'] = "Debes iniciar sesión para acceder a esta funcionalidad.";
+    header("Location: login.php");
+    exit();
+}
 require_once 'config.php';
 
 

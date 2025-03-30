@@ -2,6 +2,9 @@
 session_start();
 require_once __DIR__ . '/config.php';
 
+$app = Aplicacion::getInstance();
+$conn = $app->getConexionBd();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Recoger y sanitizar datos
     $username = trim($_POST['username']); 
@@ -23,8 +26,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt->num_rows > 0) {
         $stmt->bind_result($id, $nombre, $stored_password, $rol);
         $stmt->fetch();
-        // Comparación directa sin uso de hash (se recomienda usar hash en producción)
-        if ($password === $stored_password) {
+        // Cambiar comparación directa por password_verify
+        if (password_verify($password, $stored_password)) {
             // Autenticación exitosa: almacenar datos en sesión
             $_SESSION['user_id'] = $id;
             $_SESSION['user_name'] = $nombre;

@@ -824,3 +824,18 @@ main a:hover {
   background-color: #45a049;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
+
+/* Estilo para el botón verde */
+.btn-green {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-green:hover {
+    background-color: #45a049;
+}
