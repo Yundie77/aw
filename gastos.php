@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
 require_once 'config.php';
 
 
-$user_id = 1; // Cambia por $_SESSION['usuario_id']
+$user_id = $_SESSION['usuario_id'];
 
 /**********************************************
  * 1. Cálculo de ingresos totales

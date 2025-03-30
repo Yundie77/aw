@@ -14,6 +14,7 @@ class Usuario {
     }
 
     public static function buscaUsuario($conn, $email) {
+        $id = $nombre = $rol = null;
         $stmt = $conn->prepare("SELECT id, nombre, email, rol FROM usuarios WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();

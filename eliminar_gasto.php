@@ -7,7 +7,7 @@ if ($id <= 0) {
     die("ID inválido");
 }
 
-$user_id = 1; // O $_SESSION['usuario_id']
+$user_id = $_SESSION['usuario_id'];
 $sql = "DELETE FROM gastos WHERE id = ? AND usuario_id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("ii", $id, $user_id);
