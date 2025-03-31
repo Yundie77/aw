@@ -34,8 +34,9 @@ require_once __DIR__ . '/includes/vistas/comun/nav.php';
                 <input type="password" id="password" name="password" required placeholder="Ingrese su contraseña">
             </div>
 
-            <button type="submit" class="btn">Iniciar Sesión</button>
+            <button type="submit" class="btn btn-green">Iniciar Sesión</button>
         </form>
+        <p>¿No tienes cuenta? <a href="registro.php">Regístrate aquí</a></p>
     </div>
 </body>
 </html>

@@ -1,5 +1,5 @@
-<?php require_once '../vistas/comun/header.php'; ?>
-<?php require_once '../vistas/comun/nav.php'; ?>
+<?php require_once '../includes/vistas/comun/header.php'; ?>
+<?php require_once '../includes/vistas/comun/nav.php'; ?>
 
 
 <main>
@@ -45,4 +45,4 @@
     </div>
   </div>
 </main>
-<?php require_once '../vistas/comun/footer.php'; ?>
+<?php require_once '../includes/vistas/comun/footer.php'; ?>

@@ -15,11 +15,11 @@ if (session_status() == PHP_SESSION_NONE) {
     <div class="dropdown">
       <button class="dropdown-btn">Más</button>
       <div class="dropdown-content">
-        <a href="/aw/includes/practica1/detalles.php">Detalles</a>
-        <a href="/aw/includes/practica1/bocetos.php">Bocetos</a>
-        <a href="/aw/includes/practica1/miembros.php">Miembros</a>
-        <a href="/aw/includes/practica1/planificacion.php">Planificación</a>
-        <a href="/aw/includes/practica1/contacto.php">Contacto</a>
+        <a href="/aw/practica1/detalles.php">Detalles</a>
+        <a href="/aw/practica1/bocetos.php">Bocetos</a>
+        <a href="/aw/practica1/miembros.php">Miembros</a>
+        <a href="/aw/practica1/planificacion.php">Planificación</a>
+        <a href="/aw/practica1/contacto.php">Contacto</a>
       </div>
     </div>
   </div>

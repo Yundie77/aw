@@ -24,14 +24,16 @@ ini_set('default_charset', 'UTF-8');
 setLocale(LC_ALL, 'es_ES.UTF-8');
 date_default_timezone_set('Europe/Madrid');
 
-/**
- * Conexión a la base de datos
- */
-$conn = new mysqli(BD_HOST, BD_USER, BD_PASS, BD_NAME);
+require_once __DIR__ . '/includes/clases/Aplicacion.php';
 
-// Comprobar si hay errores en la conexión
-if ($conn->connect_error) {
-    die("Error de conexión: " . $conn->connect_error);
-}
+$app = Aplicacion::getInstance();
+$app->init([
+    'host' => BD_HOST,
+    'bd' => BD_NAME,
+    'user' => BD_USER,
+    'pass' => BD_PASS
+]);
+
+$conn = $app->getConexionBd();
 
 ?>

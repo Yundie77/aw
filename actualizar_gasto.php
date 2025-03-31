@@ -4,7 +4,7 @@ require_once 'config.php';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $id = intval($_POST['id']);
-    $usuario_id = 1; // O $_SESSION['usuario_id']
+    $usuario_id = $_SESSION['user_id'];
     $tipo = $_POST['tipo'] ?? 'Gasto';
     $monto = floatval($_POST['monto']);
     $fecha = $_POST['fecha'];

@@ -16,11 +16,22 @@ body {
   color: #333;
 }
 
+.no-grupos {
+  grid-column: 1 / -1;
+  text-align: center; 
+  width: 100%;
+}
+
 .grupo-list {
-  display: flex;
-  gap: 4rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 1rem;
+  row-gap: 3.5rem;
+  margin-left: 55px;
   justify-content: center;
-  margin-top: 30px;
+  margin-top: 35px;
+  margin-bottom: 50px;
+
 }
 
 .grupo-item {
@@ -145,6 +156,11 @@ nav a {
 
 .last-movements li {
   margin-bottom: 8px;
+}
+
+.last-movements button{
+  display: block;       
+  margin: 10px auto; 
 }
 
 /* Formulario y categorías en la parte de abajo */
@@ -278,15 +294,40 @@ button:hover {
   display: flex;
   gap: 2rem;
   margin: 2rem;
+  margin-bottom: 60px;
+}
+
+.details-header {
+  width: 252px;         
+  height: 50px;      
+  background-color: #fafafa;
+  border: 1px solid #ccc; 
+  border-radius: 8px;  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;  
+}
+
+.details-header h2 {
+  margin: 0;  
+  font-size: 18px;           
+  text-align: center;
+}
+
+.sidebar-container {
+  display: flex;
+  flex-direction: column; 
 }
 
 /* Columna izquierda: Detalles del grupo */
 .details-sidebar {
-  width: 25%;
+  width: 220px;
+  height: 435px;
   border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #fafafa;
-  padding: 1rem;
+  padding: 0.8rem 1rem 1rem;
 }
 
 .details-sidebar h2 {
@@ -295,20 +336,23 @@ button:hover {
 }
 
 .details-sidebar ul {
-  list-style: square;
+  list-style-type: unset;
+  padding-left: 20px;
   text-align: left;
 }
 
 .details-sidebar li {
-  margin-bottom: 0.5rem;
+  margin: 10px 0; 
+  color: #333;
+  padding-left: 10px;
 }
-
 
 .details-container-gastos {
   display: flex;
   gap: 11rem;
-  margin-left: 14rem;
+  margin-left: 17rem;
   margin-top: 3rem;
+  margin-bottom: 50px; 
 }
 
 /* Columna izquierda: Detalles del grupo */
@@ -336,7 +380,8 @@ button:hover {
 
 /* Columna central: Gráfico */
 .chart-container {
-  width: 55%;   
+  width: 810px;
+  height: 500px;   
   display: flex;
   justify-content: center;
   align-items: center;
@@ -346,19 +391,24 @@ button:hover {
   padding: 1rem;
 }
 
+.chart-container canvas {
+  transform: scale(0.90);
+  transform-origin: center center;
+}
+
 /* Columna derecha: Botones */
 .buttons-sidebar {
-  width: 12%;
-  height: 12%;
+  width: 160px;
+  height: 110px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 10px;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 18px;
   background-color: #fafafa;
-  margin-top: 8%;
+  margin-top: 15%;
 }
 
 .buttons-sidebar button {
@@ -373,7 +423,7 @@ button:hover {
 }
 
 .buttons-sidebar button:hover {
-  background-color: #45a049;
+  background-color: #45a049; 
 }
 
 /* Style for the selected button */
@@ -382,33 +432,96 @@ button:hover {
   color: white;
 }
 
+.buttons-sidebar button.selected:hover {
+  background-color: #989898;
+  color: white;
+}
+
+
+.buttons-sidebar-gastos {
+  width: 160px;
+  height: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid #ccc;
+  border-radius: 18px;
+  background-color: #fafafa;
+  margin-top: 183px;
+  margin-left: 20px;
+}
+
+.buttons-sidebar-gastos button {
+  width: 100px;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.buttons-sidebar-gastos button:hover {
+  background-color: #45a049; 
+}
+
+/* Style for the selected button */
+.buttons-sidebar-gastos button.selected {
+  background-color: #a2a2a2;
+  color: white;
+}
+
+.buttons-sidebar-gastos button.selected:hover {
+  background-color: #989898;
+  color: white;
+}
+
 .seccion-container {
   width: 240px;  
   height: 500px; 
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-direction: column;
   align-items: center;
   border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #fafafa;
   padding: 1rem;
+  margin-left: 0px;
 }
 
 .seccion-container h3 {
-  margin-bottom: 0.5rem;
+  margin-top: 5px;
+  margin-bottom: 0;
   text-align: center;  
+}
+
+.seccion-container h3.highlight {
+  background-color: #e2e2e2;  
+  width: 225px;
+  height: 25px;
+  color: #000;          
+  padding: 10px;          
+  border-radius: 8px;      
+  display: inline-block; 
+  font-size: 18px;  
+  line-height: 25px;
 }
 
 .seccion-container li {
   font-size: 16px;
   color: #333;
-  margin: 5px 0;
+  margin: 10px 0;
 }
 
 .seccion-container ul {
-  margin-top: 0;         
-  padding-left: 1.5rem; 
+  list-style-position: inside;
+  text-align: left;     
+  width: 100%;           
+  padding-left: 20px;
 }
 
 /* ==============================
@@ -585,4 +698,164 @@ button:hover {
 
 form {
   width: 100%;
+}
+
+/* Estilo para la página de inicio */
+main h1 {
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+main section h2 {
+  font-size: 1.8em;
+  margin-bottom: 10px;
+}
+
+main section p {
+  color: #555;
+}
+
+main a {
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+main a:hover {
+  background-color: #45a049;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.welcome-title {
+  text-align: center;
+  font-size: 2.5em;
+  color: #4CAF50;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.logo-container {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.logo-image {
+  width: 150px;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.project-description {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.2em;
+  line-height: 1.6;
+}
+
+.project-description h2 {
+  color: #333;
+  font-size: 1.8em;
+  margin-bottom: 10px;
+}
+
+.project-description p {
+  color: #555;
+}
+
+.explore-button-container {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.explore-button {
+  text-decoration: none;
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1.2em;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.explore-button:hover {
+  background-color: #45a049;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilo para la página de inicio */
+.index-main {
+  text-align: center;
+  padding: 20px;
+}
+
+.welcome-title {
+  font-size: 2.5em;
+  color: #4CAF50;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.logo-container {
+  margin: 20px 0;
+}
+
+.logo-image {
+  width: 150px;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.project-description {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.2em;
+  line-height: 1.6;
+}
+
+.project-description h2 {
+  color: #333;
+  font-size: 1.8em;
+  margin-bottom: 10px;
+}
+
+.project-description p {
+  color: #555;
+}
+
+.explore-button-container {
+  margin-top: 30px;
+}
+
+.explore-button {
+  text-decoration: none;
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1.2em;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.explore-button:hover {
+  background-color: #45a049;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilo para el botón verde */
+.btn-green {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-green:hover {
+    background-color: #45a049;
 }

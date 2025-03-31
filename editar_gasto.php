@@ -10,7 +10,7 @@ if ($id <= 0) {
 // Consulta el registro
 $sql = "SELECT * FROM gastos WHERE id = ? AND usuario_id = ?";
 $stmt = $conn->prepare($sql);
-$user_id = 1; // O $_SESSION['usuario_id']
+$user_id = $_SESSION['user_id'];
 $stmt->bind_param("ii", $id, $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
