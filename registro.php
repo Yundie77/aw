@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/includes/clases/Usuario.php';
+require_once __DIR__ . '/includes/FormularioRegistro.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombre = trim($_POST['nombre']);
@@ -28,8 +29,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 $tituloPagina = "Registro - CampusCash";
+// Funcion proporcioanada por chatGPT: explicada en gastos.php
 ob_start();
 ?>
+
+
 <div class="login-container">
     <h2>Registro</h2>
     <?php
@@ -58,6 +62,12 @@ ob_start();
         <button type="submit" class="btn btn-green">Registrarse</button>
     </form>
 </div>
+
+
 <?php
+// Funcion proporcioanada por chatGPT: explicada en gastos.php
 $contenidoPrincipal = ob_get_clean();
 require __DIR__ . '/includes/vistas/plantilla/plantilla.php';
+
+$formulario = new FormularioRegistro();
+$formulario->gestiona();

@@ -7,6 +7,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 require_once 'config.php';
+require_once __DIR__ . '/includes/FormularioGasto.php';
 
 $user_id = $_SESSION['user_id'];
 
@@ -155,7 +156,12 @@ $stmt = $conn->prepare($sqlCat);
 $stmt->execute();
 $resCat = $stmt->get_result();
 
-ob_start(); // Inicia la captura de salida
+// Funcion proporcioanada por chatGPT: 
+// Inicia un búfer de salida. A partir de este punto, 
+// cualquier contenido que normalmente se enviaría al navegador
+//  se almacena en un búfer temporal en la memoria.
+ob_start();
+
 ?>
 
 
@@ -289,8 +295,12 @@ ob_start(); // Inicia la captura de salida
 <!-- Incluimos el archivo externo de JavaScript para el gráfico de barras -->
 <script src="js/barChart.js"></script>
 
+
 <?php
-// Finalizamos la captura del contenido
+// Funcion proporcioanada por chatGPT: 
+// Obtiene el contenido del búfer de salida y lo limpia. 
+// Esto significa que el contenido capturado no se envía al navegador, 
+// sino que se devuelve como una cadena para que pueda usarlo en el código.
 $contenidoPrincipal = ob_get_clean();
 
 $tituloPagina = "Gestión de Gastos";

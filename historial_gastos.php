@@ -66,8 +66,11 @@ $stmtTipos->close();
 $sqlCategorias = "SELECT DISTINCT nombre FROM categorias ORDER BY nombre ASC";
 $resCategorias = $conn->query($sqlCategorias);
 
+// Funcion proporcioanada por chatGPT: explicada en gastos.php
 ob_start();
 ?>
+
+
 <h2 style="text-align:center;">Historial de Gastos</h2>
 
 <form method="GET" id="filtrosForm" class="filtros">
@@ -138,7 +141,10 @@ ob_start();
 
 <script src="js/filtros.js" defer></script>
 <script src="js/debounce.js" defer></script>
+
+
 <?php
+// Funcion proporcioanada por chatGPT: explicada en gastos.php
 $contenidoPrincipal = ob_get_clean();
 $tituloPagina = "Historial de Gastos";
 

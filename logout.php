@@ -10,20 +10,7 @@ if (isset($_SESSION["esAdmin"])) {
     unset($_SESSION["esAdmin"]);
 }
 session_destroy();
+
+header("Location: login.php");
+exit();
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Cerrar Sesión</title>
-    <link rel="stylesheet" type="text/css" href="<?php echo RUTA_CSS; ?>estilo.css">
-</head>
-<body>
-    <?php include __DIR__ . '/includes/vistas/comun/header.php'; ?>
-    <?php include __DIR__ . '/includes/vistas/comun/nav.php'; ?>
-    <main>
-        <h2>Sesión Cerrada</h2>
-        <p>Gracias por visitar nuestra web. Hasta pronto.</p>
-    </main>
-</body>
-</html>

@@ -1,6 +1,7 @@
 <?php
 require_once 'config.php';
 
+// Funcion proporcioanada por chatGPT: explicada en gastos.php
 ob_start();
 ?>
 <main class="index-main">
@@ -25,6 +26,8 @@ ob_start();
   </div>
 </main>
 <?php
+
+// Funcion proporcioanada por chatGPT: explicada en gastos.php
 $contenidoPrincipal = ob_get_clean();
 $tituloPagina = "Inicio - CampusCash";
 
