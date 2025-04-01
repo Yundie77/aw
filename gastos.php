@@ -267,6 +267,8 @@ ob_start();
         <input type="text" name="categoria_nueva" id="categoriaNueva" placeholder="Escribe nueva categoría"
           style="display:none;">
       </div>
+
+      <!-- defer asegura que los scripts se ejecuten después de que el DOM esté completamente cargado. -->
       <script src="js/categorias.js" defer></script>
       <script src="js/donutChart.js" defer></script>
 
@@ -286,7 +288,7 @@ ob_start();
   </div>
 </div><!-- Fin container-f1 -->
 
-<!-- Incluimos Chart.js justo antes de cerrar el body -->
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!-- Pasamos los datos de barData a JavaScript -->
 <script>

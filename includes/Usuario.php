@@ -23,7 +23,7 @@ class Usuario {
     public static function buscaUsuario($nombreUsuario) {
         // Se asume la existencia de una clase Aplicacion que gestiona la conexión a la BD.
         $app = Aplicacion::getInstance();
-        $conn = $app->conexionBd();
+        $conn = $app->getConexionBd();
 
         $stmt = $conn->prepare("SELECT * FROM usuarios WHERE nombre = ?");
         if (!$stmt) {
@@ -71,7 +71,7 @@ class Usuario {
      */
     public static function crea($nombreUsuario, $nombre, $password, $rol) {
         $app = Aplicacion::getInstance();
-        $conn = $app->conexionBd();
+        $conn = $app->getConexionBd();
 
         // Crear el hash de la contraseña
         $hash = password_hash($password, PASSWORD_DEFAULT);
