@@ -86,6 +86,7 @@ $chartData   = json_encode(array_column($participants, 'total'));
   
   <!-- Incluimos el archivo externo con el código para construir el gráfico -->
   <script src="js/detallesChart.js"></script>
+  
   <?php require 'includes/vistas/comun/footer.php'; ?>
 </body>
 </html>

@@ -28,15 +28,21 @@ document.addEventListener("DOMContentLoaded", function() {
                         display: true,
                         text: 'Distribución de gastos del grupo',
                         font: {
-                            size: 50  // Tamaño aumentado del título
+                            size: 29
                         },
                         padding: {
-                            bottom: 20  // Espaciado entre el título y el gráfico
+                            bottom: 25
                         }
                     },
                     legend: {
                         display: true,
-                        position: 'bottom'
+                        position: 'bottom',
+                        labels: {
+                            font: {
+                                size: 15 
+                            },
+                            padding: 30
+                        }
                     },
                     tooltip: {
                         callbacks: {
