@@ -8,163 +8,25 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 require_once __DIR__ . '/includes/clases/FormularioGasto.php';
+require_once 'includes/clases/Gastos.php';
 
 $user_id = $_SESSION['user_id'];
+$gastosObj = new Gastos($conn);
 
-/**********************************************
- * 1. Cálculo de ingresos totales
- **********************************************/
-$sqlIngresosTotales = "
-  SELECT IFNULL(SUM(monto), 0) AS total_ingresos
-  FROM gastos
-  WHERE usuario_id = ? AND tipo = 'Ingreso'
-";
-$stmt = $conn->prepare($sqlIngresosTotales);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$res = $stmt->get_result();
-$row = $res->fetch_assoc();
-$ingresosTotales = $row['total_ingresos'];
-$stmt->close();
-
-/**********************************************
- * 2. Cálculo de gastos totales
- **********************************************/
-$sqlGastosTotales = "
-  SELECT IFNULL(SUM(monto), 0) AS total_gastos
-  FROM gastos
-  WHERE usuario_id = ? AND tipo = 'Gasto'
-";
-$stmt = $conn->prepare($sqlGastosTotales);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$res = $stmt->get_result();
-$row = $res->fetch_assoc();
-$gastosTotales = $row['total_gastos'];
-$stmt->close();
-
-/**********************************************
- * 3. Ingresos este mes
- **********************************************/
-$sqlIngresosMes = "
-  SELECT IFNULL(SUM(monto), 0) AS ingresos_mes
-  FROM gastos
-  WHERE usuario_id = ?
-    AND tipo = 'Ingreso'
-    AND MONTH(fecha) = MONTH(CURDATE())
-    AND YEAR(fecha) = YEAR(CURDATE())
-";
-$stmt = $conn->prepare($sqlIngresosMes);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$res = $stmt->get_result();
-$row = $res->fetch_assoc();
-$ingresosMes = $row['ingresos_mes'];
-$stmt->close();
-
-/**********************************************
- * 4. Gastos este mes
- **********************************************/
-$sqlGastosMes = "
-  SELECT IFNULL(SUM(monto), 0) AS gastos_mes
-  FROM gastos
-  WHERE usuario_id = ?
-    AND tipo = 'Gasto'
-    AND MONTH(fecha) = MONTH(CURDATE())
-    AND YEAR(fecha) = YEAR(CURDATE())
-";
-$stmt = $conn->prepare($sqlGastosMes);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$res = $stmt->get_result();
-$row = $res->fetch_assoc();
-$gastosMes = $row['gastos_mes'];
-$stmt->close();
-
-/**********************************************
- * 5. Últimos movimientos (limit 5)
- **********************************************/
-$sqlUltimosMov = "
-  SELECT g.tipo,
-         g.monto,
-         g.fecha,
-         g.comentario,
-         c.nombre AS categoria
-  FROM gastos g
-  JOIN categorias c ON g.categoria_id = c.id
-  WHERE g.usuario_id = ?
-  ORDER BY g.fecha DESC, g.id DESC
-  LIMIT 5
-";
-$stmt = $conn->prepare($sqlUltimosMov);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$ultimos = $stmt->get_result();
-$stmt->close();
-
-/**********************************************
- * 6. Datos para el donut chart: Agrupar gastos por categoría
- **********************************************/
-$sqlDonut = "
-  SELECT c.nombre AS categoria, SUM(g.monto) AS total_categoria
-  FROM gastos g
-  JOIN categorias c ON g.categoria_id = c.id
-  WHERE g.usuario_id = ? AND g.tipo = 'Gasto'
-  GROUP BY g.categoria_id
-";
-$stmt = $conn->prepare($sqlDonut);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$resDonut = $stmt->get_result();
-
-$donutData = [];
-while ($row = $resDonut->fetch_assoc()) {
-  $donutData[] = $row;
-}
-$stmt->close();
-
-/**********************************************
- * 7. Datos para el bar chart: Ingresos y Gastos por mes
- **********************************************/
-$sqlBar = "
-  SELECT 
-    YEAR(fecha) AS anio,
-    MONTH(fecha) AS mes,
-    SUM(CASE WHEN tipo = 'Ingreso' THEN monto ELSE 0 END) AS total_ingreso,
-    SUM(CASE WHEN tipo = 'Gasto' THEN monto ELSE 0 END) AS total_gasto
-  FROM gastos
-  WHERE usuario_id = ?
-  GROUP BY YEAR(fecha), MONTH(fecha)
-  ORDER BY YEAR(fecha), MONTH(fecha)
-";
-$stmt = $conn->prepare($sqlBar);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$resBar = $stmt->get_result();
-
-$barData = [];
-while ($row = $resBar->fetch_assoc()) {
-  $barData[] = $row;
-}
-$stmt->close();
-
-/**********************************************
- * 8. Obtenemos todas las categorías de la tabla `categorias`
- **********************************************/
-$sqlCat = "SELECT id, nombre FROM categorias ORDER BY nombre ASC";
-$stmt = $conn->prepare($sqlCat);
-$stmt->execute();
-$resCat = $stmt->get_result();
+$ingresosTotales = $gastosObj->getTotalIngresos($user_id);
+$gastosTotales   = $gastosObj->getTotalGastos($user_id);
+$ingresosMes     = $gastosObj->getIngresosMes($user_id);
+$gastosMes       = $gastosObj->getGastosMes($user_id);
+$ultimosMovimientos = $gastosObj->getUltimosMovimientos($user_id, 5);
+$donutData       = $gastosObj->getDonutData($user_id);
+$barData         = $gastosObj->getBarData($user_id);
 
 // Funcion proporcioanada por chatGPT: 
 // Inicia un búfer de salida. A partir de este punto, 
 // cualquier contenido que normalmente se enviaría al navegador
 //  se almacena en un búfer temporal en la memoria.
 ob_start();
-
 ?>
-
-
 <div class="container-f1"><!-- Contenedor general -->
   <!-- 1. Resumen de ingresos/gastos en la parte superior -->
   <div class="summary">
@@ -194,6 +56,13 @@ ob_start();
       <div class="chart-placeholder">
         <canvas id="donutChart" width="100" height="100"></canvas>
       </div>
+      <script type="application/json" id="donutData">
+        <?php echo json_encode($donutData); ?>
+      </script>
+      <span id="totalExpenses" style="display:none;">
+        <?php echo $gastosTotales; ?>
+      </span>
+      <script src="js/donutChart.js"></script>
       <!-- Lista dinámica de categorías con sus totales y porcentaje -->
       <ul class="lista-categorias">
         <?php foreach ($donutData as $item):
@@ -212,7 +81,7 @@ ob_start();
     <div class="last-movements">
       <h3>Últimos Movimientos</h3>
       <ul>
-        <?php while ($mov = $ultimos->fetch_assoc()): ?>
+        <?php foreach ($ultimosMovimientos as $mov): ?>
           <li>
             <?php
             $simbolo = ($mov['tipo'] === 'Gasto') ? '-' : '+';
@@ -224,7 +93,7 @@ ob_start();
             (<?php echo $mov['fecha']; ?>)
             - <em><?php echo $comentarioMostrar; ?></em>
           </li>
-        <?php endwhile; ?>
+        <?php endforeach; ?>
       </ul>
       <!-- Botón para ver todo el historial -->
       <button onclick="location.href='historial_gastos.php'">
@@ -252,7 +121,6 @@ ob_start();
     var barData = <?php echo json_encode($barData); ?>;
   </script>
   <script src="js/barChart.js"></script>
-  <script src="js/donutChart.js"></script>
 
 </div><!-- Fin container-f1 -->
 

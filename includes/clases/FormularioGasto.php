@@ -4,6 +4,7 @@ require_once __DIR__ . '/Formulario.php';
 class FormularioGasto extends Formulario {
     public function __construct() {
         parent::__construct('formGasto', [
+            'action' => 'gastos.php',
             'urlRedireccion' => 'gastos.php',
             'class' => 'formulario-gasto'
         ]);
@@ -18,7 +19,7 @@ class FormularioGasto extends Formulario {
         ?>
         <div class="form-group form-row">
             <label for="fecha">Fecha:</label>
-            <input type="date" name="fecha" required value="<?php echo date('Y-m-d'); ?>">
+            <input type="date" name="fecha" required max="9999-12-31" value="<?php echo date('Y-m-d'); ?>">
         </div>
         <div class="form-group form-row">
             <label for="tipo">Tipo:</label>
@@ -43,6 +44,7 @@ class FormularioGasto extends Formulario {
                 <option value="otra">Crear nueva categoría</option>
             </select>
             <input type="text" name="categoria_nueva" id="categoriaNueva" placeholder="Escribe nueva categoría" style="display:none;">
+            <script src="js/categorias.js"></script>
         </div>
         <div class="form-group form-row">
             <label for="monto">Monto (€):</label>
@@ -52,7 +54,9 @@ class FormularioGasto extends Formulario {
             <label for="comentario">Comentario:</label>
             <textarea name="comentario"></textarea>
         </div>
-        
+        <div class="form-group form-row submit-group">
+            <button type="submit" class="btn btn-green">Registrar</button>
+        </div>
         <?php
         return ob_get_clean();
     }
@@ -69,15 +73,33 @@ class FormularioGasto extends Formulario {
         $fecha = $datos['fecha'];
         $comentario = $datos['comentario'] ?? '';
 
-        // Validación: evitar años > 9999 o montos negativos
-        if ($monto < 0 || intval(date('Y', strtotime($fecha))) > 9999) {
-            $this->errores['monto'] = "Datos inválidos en fecha o monto.";
-            return;
+        // Revisamos la categoría elegida
+        $categoria_id = $datos['categoria_id'] ?? '';
+
+        if ($categoria_id === 'otra') {
+            $categoriaNueva = trim($datos['categoria_nueva'] ?? '');
+            if ($categoriaNueva !== '') {
+                $sqlInsertCat = "INSERT INTO categorias (nombre) VALUES (?)";
+                $stmtCat = $conn->prepare($sqlInsertCat);
+                $stmtCat->bind_param("s", $categoriaNueva);
+                if ($stmtCat->execute()) {
+                    $categoria_id = $conn->insert_id;
+                } else {
+                    $this->errores['general'] = "Error al crear la nueva categoría.";
+                    return;
+                }
+                $stmtCat->close();
+            } else {
+                $this->errores['categoria_nueva'] = "No se ha especificado una nueva categoría.";
+                return;
+            }
+        } else {
+            $categoria_id = intval($categoria_id);
         }
 
-        $sql = "INSERT INTO gastos (usuario_id, tipo, monto, fecha, comentario) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO gastos (usuario_id, tipo, categoria_id, monto, fecha, comentario) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("isdss", $user_id, $tipo, $monto, $fecha, $comentario);
+        $stmt->bind_param("isidss", $user_id, $tipo, $categoria_id, $monto, $fecha, $comentario);
 
         if (!$stmt->execute()) {
             $this->errores['general'] = "Error al registrar el gasto.";

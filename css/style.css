@@ -905,3 +905,9 @@ main a:hover {
 .modal .close:hover {
   color: #000;
 }
+
+.formulario-gasto .submit-group {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
