@@ -2,6 +2,9 @@
 session_start();
 require_once 'includes/config.php';
 
+$app = \es\ucm\fdi\aw\Aplicacion::getInstance();
+$conn = $app->getConexionBd();
+
 $user_id = $_SESSION['user_id']; 
 
 // --- Filtros ---

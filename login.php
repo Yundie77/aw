@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/includes/config.php';
-require_once __DIR__ . '/includes/clases/FormularioLogin.php';
+use es\ucm\fdi\aw\FormularioLogin;
 
 $form = new FormularioLogin();
 ob_start();

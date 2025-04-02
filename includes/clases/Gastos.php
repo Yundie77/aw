@@ -1,4 +1,6 @@
 <?php
+namespace es\ucm\fdi\aw;
+
 class Gastos {
     private $conn;
     public function __construct($conn) {
@@ -12,6 +14,7 @@ class Gastos {
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
+        $result->free();
         $stmt->close();
         return $row['total_ingresos'];
     }
@@ -23,6 +26,7 @@ class Gastos {
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
+        $result->free();
         $stmt->close();
         return $row['total_gastos'];
     }
@@ -34,6 +38,7 @@ class Gastos {
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
+        $result->free();
         $stmt->close();
         return $row['ingresos_mes'];
     }
@@ -45,6 +50,7 @@ class Gastos {
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
+        $result->free();
         $stmt->close();
         return $row['gastos_mes'];
     }
@@ -60,6 +66,7 @@ class Gastos {
         $stmt->execute();
         $result = $stmt->get_result();
         $movimientos = $result->fetch_all(MYSQLI_ASSOC);
+        $result->free();
         $stmt->close();
         return $movimientos;
     }
@@ -74,6 +81,7 @@ class Gastos {
         $stmt->execute();
         $result = $stmt->get_result();
         $donutData = $result->fetch_all(MYSQLI_ASSOC);
+        $result->free();
         $stmt->close();
         return $donutData;
     }
@@ -91,6 +99,7 @@ class Gastos {
         $stmt->execute();
         $result = $stmt->get_result();
         $barData = $result->fetch_all(MYSQLI_ASSOC);
+        $result->free();
         $stmt->close();
         return $barData;
     }

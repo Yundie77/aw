@@ -1,5 +1,7 @@
 <?php
-require_once __DIR__ . '/Formulario.php';
+namespace es\ucm\fdi\aw;
+use es\ucm\fdi\aw\Formulario;
+use es\ucm\fdi\aw\Aplicacion;
 
 class FormularioGasto extends Formulario {
     public function __construct() {

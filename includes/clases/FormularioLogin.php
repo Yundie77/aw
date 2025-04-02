@@ -1,6 +1,8 @@
 <?php
+namespace es\ucm\fdi\aw;
 
-require_once __DIR__ . '/Formulario.php';
+use es\ucm\fdi\aw\Aplicacion;
+use es\ucm\fdi\aw\Formulario;
 
 class FormularioLogin extends Formulario {
     public function __construct() {
@@ -31,7 +33,10 @@ class FormularioLogin extends Formulario {
     }
 
     protected function procesaFormulario(&$datos) {
-        global $conn;
+        $this->errores = [];
+        $app = Aplicacion::getInstance();
+        $conn = $app->getConexionBd();
+
         $username = trim($datos['username'] ?? '');
         $password = $datos['password'] ?? '';
 
@@ -41,7 +46,7 @@ class FormularioLogin extends Formulario {
         }
 
         $stmt = $conn->prepare("SELECT id, nombre, password, rol FROM usuarios WHERE email = ? OR nombre = ?");
-        if(!$stmt) {
+        if (!$stmt) {
             $this->errores['global'] = "Error en la consulta";
             return;
         }

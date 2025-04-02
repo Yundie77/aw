@@ -1,14 +1,15 @@
 <?php
 session_start();
 require_once 'includes/config.php';
+$app = \es\ucm\fdi\aw\Aplicacion::getInstance();
+$conn = $app->getConexionBd();
+use es\ucm\fdi\aw\Gastos;
+use es\ucm\fdi\aw\FormularioGasto;
 if (!isset($_SESSION['user_id'])) {
     $_SESSION['error'] = "Debes iniciar sesión para acceder a esta funcionalidad.";
     header("Location: login.php");
     exit();
 }
-
-require_once __DIR__ . '/includes/clases/FormularioGasto.php';
-require_once 'includes/clases/Gastos.php';
 
 $user_id = $_SESSION['user_id'];
 $gastosObj = new Gastos($conn);

@@ -11,7 +11,8 @@ if (!isset($_SESSION['user_id'])) {
 require 'includes/vistas/comun/header.php';
 require 'includes/vistas/comun/nav.php';
 require_once 'includes/config.php';
-
+$app = \es\ucm\fdi\aw\Aplicacion::getInstance();
+$conn = $app->getConexionBd();
 // Actualizamos la query para calcular el número real de participantes para cada grupo
 $result = $conn->query("SELECT g.*, (SELECT COUNT(*) FROM grupo_usuarios WHERE grupo_id = g.id) AS participantes FROM grupos g");
 if (!$result) {

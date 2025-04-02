@@ -1,10 +1,14 @@
 <?php
 session_start();
 require_once __DIR__ . '/includes/config.php';
-require_once __DIR__ . '/includes/clases/Usuario.php';
-require_once __DIR__ . '/includes/clases/FormularioRegistro.php';
+use es\ucm\fdi\aw\Usuario;
+use es\ucm\fdi\aw\FormularioRegistro;
+use es\ucm\fdi\aw\Aplicacion;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $app = Aplicacion::getInstance();
+    $conn = $app->getConexionBd();
+
     $nombre = trim($_POST['nombre']);
     $email = trim($_POST['email']);
     $password = $_POST['password'];

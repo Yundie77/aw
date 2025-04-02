@@ -1,7 +1,9 @@
 <?php
 
-require_once __DIR__ . '/Formulario.php';
-require_once __DIR__ . '/Usuario.php';
+namespace es\ucm\fdi\aw;
+
+use es\ucm\fdi\aw\Formulario; 
+use es\ucm\fdi\aw\Usuario;
 
 class FormularioRegistro extends Formulario {
     public function __construct() {

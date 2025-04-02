@@ -1,4 +1,5 @@
 <?php
+namespace es\ucm\fdi\aw;
 
 class Usuario {
     private $id;
