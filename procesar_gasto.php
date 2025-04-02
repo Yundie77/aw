@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'config.php';  // Archivo para conectar a la BD
+require_once 'includes/config.php';  // Archivo para conectar a la BD
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $user_id = $_SESSION['user_id'];

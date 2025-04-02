@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'config.php';
+require_once 'includes/config.php';
 
 $user_id = $_SESSION['user_id']; 
 
@@ -150,4 +150,4 @@ $tituloPagina = "Historial de Gastos";
 
 $conn->close();
 
-require_once RAIZ_APP . '/includes/vistas/plantilla/plantilla.php';
+require_once RAIZ_APP . '/vistas/plantilla/plantilla.php';

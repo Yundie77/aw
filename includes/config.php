@@ -24,7 +24,7 @@ ini_set('default_charset', 'UTF-8');
 setLocale(LC_ALL, 'es_ES.UTF-8');
 date_default_timezone_set('Europe/Madrid');
 
-require_once __DIR__ . '/includes/clases/Aplicacion.php';
+require_once __DIR__ . '/clases/Aplicacion.php';
 
 $app = Aplicacion::getInstance();
 $app->init([

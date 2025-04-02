@@ -1,8 +1,8 @@
 <?php
 session_start();
-require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/clases/Usuario.php';
-require_once __DIR__ . '/includes/FormularioRegistro.php';
+require_once __DIR__ . '/includes/clases/FormularioRegistro.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombre = trim($_POST['nombre']);

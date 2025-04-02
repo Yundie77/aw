@@ -2,7 +2,7 @@
 session_start();
 require 'includes/vistas/comun/header.php';
 require 'includes/vistas/comun/nav.php';
-require_once 'config.php';
+require_once 'includes/config.php';
 
 // Obtenemos el ID del grupo desde la URL
 $group_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;

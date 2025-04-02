@@ -1,13 +1,13 @@
 <?php
 session_start();
+require_once 'includes/config.php';
 if (!isset($_SESSION['user_id'])) {
     $_SESSION['error'] = "Debes iniciar sesión para acceder a esta funcionalidad.";
     header("Location: login.php");
     exit();
 }
 
-require_once 'config.php';
-require_once __DIR__ . '/includes/FormularioGasto.php';
+require_once __DIR__ . '/includes/clases/FormularioGasto.php';
 
 $user_id = $_SESSION['user_id'];
 
@@ -241,61 +241,20 @@ ob_start();
   <!-- 3. Formulario para registrar un nuevo gasto/ingreso -->
   <div class="form-section">
     <h3>Registrar Gasto/Ingreso</h3>
-    <form action="procesar_gasto.php" method="POST">
-      <div class="form-row">
-        <label for="fecha">Fecha:</label>
-        <input type="date" name="fecha" required value="<?php echo date('Y-m-d'); ?>">
-      </div>
-      <div class="form-row">
-        <label for="tipo">Tipo:</label>
-        <select name="tipo" required>
-          <option value="Ingreso">Ingreso</option>
-          <option value="Gasto">Gasto</option>
-        </select>
-      </div>
-      <div class="form-row">
-        <label for="categoria_id">Categoría:</label>
-        <select name="categoria_id" id="categoriaSelect" required>
-          <option value="">-- Seleccione --</option>
-          <?php while ($cat = $resCat->fetch_assoc()): ?>
-            <option value="<?php echo $cat['id']; ?>">
-              <?php echo htmlspecialchars($cat['nombre']); ?>
-            </option>
-          <?php endwhile; ?>
-          <option value="otra">Crear nueva categoría</option>
-        </select>
-        <input type="text" name="categoria_nueva" id="categoriaNueva" placeholder="Escribe nueva categoría"
-          style="display:none;">
-      </div>
-
-      <!-- defer asegura que los scripts se ejecuten después de que el DOM esté completamente cargado. -->
-      <script src="js/categorias.js" defer></script>
-      <script src="js/donutChart.js" defer></script>
-
-      <span id="donutData" style="display: none;"><?php echo json_encode($donutData); ?></span>
-      <span id="totalExpenses" style="display: none;"><?php echo $gastosTotales; ?></span>
-
-      <div class="form-row">
-        <label for="monto">Monto (€):</label>
-        <input type="number" name="monto" step="0.01" required min="0">
-      </div>
-      <div class="form-row">
-        <label for="comentario">Comentario:</label>
-        <textarea name="comentario"></textarea>
-      </div>
-      <button type="submit">Registrar</button>
-    </form>
+    <?php
+      $form = new FormularioGasto();
+      echo $form->gestiona();
+    ?>
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    var barData = <?php echo json_encode($barData); ?>;
+  </script>
+  <script src="js/barChart.js"></script>
+  <script src="js/donutChart.js"></script>
+
 </div><!-- Fin container-f1 -->
-
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<!-- Pasamos los datos de barData a JavaScript -->
-<script>
-  var barData = <?php echo json_encode($barData); ?>;
-</script>
-<!-- Incluimos el archivo externo de JavaScript para el gráfico de barras -->
-<script src="js/barChart.js"></script>
 
 
 <?php
@@ -309,5 +268,5 @@ $tituloPagina = "Gestión de Gastos";
 
 $conn->close();
 
-require_once RAIZ_APP . '/includes/vistas/plantilla/plantilla.php';
+require_once RAIZ_APP . '/vistas/plantilla/plantilla.php';
 ?>
