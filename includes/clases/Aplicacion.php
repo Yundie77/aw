@@ -9,6 +9,7 @@ class Aplicacion
     private $conn;
     private $rutaRaizApp;
     private $dirInstalacion;
+    public $atributosPeticion = []; 
 
     private const ATRIBUTOS_PETICION = 'attsPeticion';
 

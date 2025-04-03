@@ -30,8 +30,7 @@ body {
   margin-left: 55px;
   justify-content: center;
   margin-top: 35px;
-  margin-bottom: 50px;
-
+  margin-bottom: 35px;
 }
 
 .grupo-item {
@@ -402,7 +401,7 @@ button:hover {
   display: flex;
   justify-content: right;
   gap: 10px;
-  margin-right: 20px;
+  margin-right: 25px;
   margin-bottom: 10px;
   height: 43px;
 }
@@ -886,11 +885,11 @@ main a:hover {
 
 .modal-content {
   background-color: #fff;
-  margin: 14% auto;
-  padding: 20px;
+  margin: 15% auto;
+  padding: 30px;
   border: 1px solid #888;
   width: 450px;
-  height: 190px;
+  height: 200px;
   border-radius: 8px;
 }
 
@@ -904,6 +903,19 @@ main a:hover {
 
 .modal .close:hover {
   color: #000;
+}
+
+.modal-content form input,
+.modal-content form select {
+  margin-bottom: 10px;
+}
+
+.modal-content form textarea {
+  margin-top: 5px;
+}
+
+.modal-content form button {
+  margin-top: 10px;
 }
 
 .formulario-gasto .submit-group {
