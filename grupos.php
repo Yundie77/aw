@@ -56,109 +56,121 @@ $grupos = $result->fetch_all(MYSQLI_ASSOC);
     
     <!-- Modal: Agregar nuevo grupo -->
     <div id="modal-agregar-grupo" class="modal">
-        <div class="modal-content">
+        <div class="modal-content-grupo">
             <span class="close" onclick="closeModal('modal-agregar-grupo')">&times;</span>
             <h2>Agregar Nuevo Grupo</h2>
             <form action="formulario_modal.php?accion=agregar_grupo" method="post">
-                <label for="nombre">Nombre del Grupo:</label>
-                <input type="text" id="nombre" name="nombre" required>
-                <br>
-                <label for="objetivo">Objetivo (€):</label>
-                <input type="number" step="1" id="objetivo" name="objetivo" required>
-                <br>
-                <label for="descripcion">Descripción:</label>
-                <textarea id="descripcion" name="descripcion" required></textarea>
-                <br>
+                <div class="form-row">
+                  <label for="nombre">Nombre del Grupo:</label>
+                  <input type="text" id="nombre" name="nombre" required>
+                </div>
+                <div class="form-row">
+                  <label for="objetivo">Objetivo (€):</label>
+                  <input type="number" step="1" id="objetivo" name="objetivo" required>
+                </div>
+                <div class="form-row">
+                  <label for="descripcion">Descripción:</label>
+                  <textarea id="descripcion" name="descripcion" required></textarea>
+                </div>
                 <button type="submit">Agregar Grupo</button>
             </form>
         </div>
     </div>
     
-   <!-- Modal: Agregar nuevo miembro al grupo -->
+    <!-- Modal: Agregar nuevo miembro al grupo -->
     <div id="modal-agregar-miembro" class="modal">
-        <div class="modal-content">
+        <div class="modal-content-grupo">
             <span class="close" onclick="closeModal('modal-agregar-miembro')">&times;</span>
             <h2>Agregar Nuevo Miembro al Grupo</h2>
             <form action="formulario_modal.php?accion=agregar_miembro" method="post">
-            <label for="grupo_id">Seleccione el Grupo:</label>
-            <select name="grupo_id" id="grupo_id" required>
-                <?php
-                $gruposResult = $conn->query("SELECT id, nombre FROM grupos");
-                while($grupo = $gruposResult->fetch_assoc()):
-                ?>
-                <option value="<?php echo $grupo['id']; ?>"><?php echo htmlspecialchars($grupo['nombre']); ?></option>
-                <?php endwhile; ?>
-            </select>
-            <br>
-            <label for="usuario_id">Seleccione el Miembro:</label>
-            <select name="usuario_id" id="usuario_id" required>
-                <?php
-                $usuariosResult = $conn->query("SELECT id, nombre FROM usuarios");
-                while($usuario = $usuariosResult->fetch_assoc()):
-                ?>
-                <option value="<?php echo $usuario['id']; ?>"><?php echo htmlspecialchars($usuario['nombre']); ?></option>
-                <?php endwhile; ?>
-            </select>
-            <br>
-            <label for="monto">Monto Invertido (€):</label>
-            <input type="number" step="1" id="monto" name="monto" required>
-            <br>
-            <button type="submit">Agregar Miembro</button>
+                <div class="form-row">
+                  <label for="grupo_id">Seleccione el Grupo:</label>
+                  <select name="grupo_id" id="grupo_id" required>
+                      <?php
+                      $gruposResult = $conn->query("SELECT id, nombre FROM grupos");
+                      while($grupo = $gruposResult->fetch_assoc()):
+                      ?>
+                      <option value="<?php echo $grupo['id']; ?>"><?php echo htmlspecialchars($grupo['nombre']); ?></option>
+                      <?php endwhile; ?>
+                  </select>
+                </div>
+                <div class="form-row">
+                  <label for="usuario_id">Seleccione el Miembro:</label>
+                  <select name="usuario_id" id="usuario_id" required>
+                      <?php
+                      $usuariosResult = $conn->query("SELECT id, nombre FROM usuarios");
+                      while($usuario = $usuariosResult->fetch_assoc()):
+                      ?>
+                      <option value="<?php echo $usuario['id']; ?>"><?php echo htmlspecialchars($usuario['nombre']); ?></option>
+                      <?php endwhile; ?>
+                  </select>
+                </div>
+                <div class="form-row">
+                  <label for="monto">Monto Invertido (€):</label>
+                  <input type="number" step="1" id="monto" name="monto" required>
+                </div>
+                <button type="submit">Agregar Miembro</button>
             </form>
         </div>
     </div>
     
     <!-- Modal: Modificar grupo -->
     <div id="modal-modificar-grupo" class="modal">
-        <div class="modal-content">
+        <div class="modal-content-grupo">
             <span class="close" onclick="closeModal('modal-modificar-grupo')">&times;</span>
             <h2>Modificar Grupo</h2>
             <form action="formulario_modal.php?accion=modificar_grupo" method="post">
-            <label for="grupo_id_mod">Seleccione el Grupo a Modificar:</label>
-            <select name="grupo_id" id="grupo_id_mod" required>
-                <?php
-                $gruposResult = $conn->query("SELECT id, nombre FROM grupos");
-                while($grupo = $gruposResult->fetch_assoc()):
-                ?>
-                <option value="<?php echo $grupo['id']; ?>"><?php echo htmlspecialchars($grupo['nombre']); ?></option>
-                <?php endwhile; ?>
-            </select>
-            <br>
-            <label for="nombre_mod">Nuevo Nombre:</label>
-            <input type="text" id="nombre_mod" name="nombre" required>
-            <br>
-            <label for="objetivo_mod">Nuevo Objetivo (€):</label>
-            <input type="number" step="1" id="objetivo_mod" name="objetivo" required>
-            <br>
-            <label for="descripcion_mod">Nueva Descripción:</label>
-            <textarea id="descripcion_mod" name="descripcion" required></textarea>
-            <br>
-            <button type="submit">Modificar Grupo</button>
+                <div class="form-row">
+                  <label for="grupo_id_mod">Seleccione el Grupo a Modificar:</label>
+                  <select name="grupo_id" id="grupo_id_mod" required>
+                      <?php
+                      $gruposResult = $conn->query("SELECT id, nombre FROM grupos");
+                      while($grupo = $gruposResult->fetch_assoc()):
+                      ?>
+                      <option value="<?php echo $grupo['id']; ?>"><?php echo htmlspecialchars($grupo['nombre']); ?></option>
+                      <?php endwhile; ?>
+                  </select>
+                </div>
+                <div class="form-row">
+                  <label for="nombre_mod">Nuevo Nombre:</label>
+                  <input type="text" id="nombre_mod" name="nombre" required>
+                </div>
+                <div class="form-row">
+                  <label for="objetivo_mod">Nuevo Objetivo (€):</label>
+                  <input type="number" step="1" id="objetivo_mod" name="objetivo" required>
+                </div>
+                <div class="form-row">
+                  <label for="descripcion_mod">Nueva Descripción:</label>
+                  <textarea id="descripcion_mod" name="descripcion" required></textarea>
+                </div>
+                <button type="submit">Modificar Grupo</button>
             </form>
         </div>
     </div>
     
     <!-- Modal: Eliminar grupo -->
     <div id="modal-eliminar-grupo" class="modal">
-        <div class="modal-content">
+        <div class="modal-content-grupo">
             <span class="close" onclick="closeModal('modal-eliminar-grupo')">&times;</span>
             <h2>Eliminar Grupo</h2>
-            <form action="formulario_modal.php?accion=eliminar_grupo" method="post" onsubmit="return confirm('¿Está seguro de que desea eliminar el grupo seleccionado?');">
-            <label for="grupo_id_del">Seleccione el Grupo a Eliminar:</label>
-            <select name="grupo_id" id="grupo_id_del" required>
-                <?php
-                $gruposResult = $conn->query("SELECT id, nombre FROM grupos");
-                while($grupo = $gruposResult->fetch_assoc()):
-                ?>
-                <option value="<?php echo $grupo['id']; ?>"><?php echo htmlspecialchars($grupo['nombre']); ?></option>
-                <?php endwhile; ?>
-            </select>
-            <br>
-            <button type="submit">Eliminar Grupo</button>
+            <form action="formulario_modal.php?accion=eliminar_grupo" method="post"
+                  onsubmit="return confirm('¿Está seguro de que desea eliminar el grupo seleccionado?');">
+                <div class="form-row">
+                  <label for="grupo_id_del">Seleccione el Grupo a Eliminar:</label>
+                  <select name="grupo_id" id="grupo_id_del" required>
+                      <?php
+                      $gruposResult = $conn->query("SELECT id, nombre FROM grupos");
+                      while($grupo = $gruposResult->fetch_assoc()):
+                      ?>
+                      <option value="<?php echo $grupo['id']; ?>"><?php echo htmlspecialchars($grupo['nombre']); ?></option>
+                      <?php endwhile; ?>
+                  </select>
+                </div>
+                <button type="submit">Eliminar Grupo</button>
             </form>
         </div>
     </div>
-
+    
     <script src="js/modal.js"></script>
     <?php require 'includes/vistas/comun/footer.php'; ?>
 </body>

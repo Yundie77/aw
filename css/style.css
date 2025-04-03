@@ -924,3 +924,70 @@ main a:hover {
   display: flex;
   justify-content: center;
 }
+
+.modal-content-grupo {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 25px 30px 17px 30px; 
+  border: 1px solid #888;
+  width: 500px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content-grupo form input,
+.modal-content-grupo form select {
+  margin-bottom: 5px;
+}
+
+.modal-content-grupo form textarea {
+  margin-top: 5px;
+}
+
+.modal-content-grupo form button {
+  margin-top: 15px;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.form-row label {
+  box-sizing: border-box;
+  font-weight: bold;
+}
+
+.form-row input,
+.form-row select,
+.form-row textarea {
+  flex: 1;
+  box-sizing: border-box;
+  margin-left: 20px;
+}
+
+.modal-content-grupo h2 {
+  margin-bottom: 25px;
+}
+
+.modal-content-grupo .form-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.modal-content-grupo .form-row label {
+  flex: 0 0 38%;
+  box-sizing: border-box;
+  font-weight: bold;
+}
+
+.modal-content-grupo .form-row input,
+.modal-content-grupo .form-row select,
+.modal-content-grupo .form-row textarea {
+  flex: 0 0 60%;
+  box-sizing: border-box;
+  margin-left: 5px;
+}
