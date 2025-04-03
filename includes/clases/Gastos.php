@@ -103,6 +103,95 @@ class Gastos {
         $stmt->close();
         return $barData;
     }
-    // ...otros métodos para gastos si es necesario...
+
+    public function insertarGasto($user_id, $tipo, $categoria_id, $monto, $fecha, $comentario) {
+        $sql = "INSERT INTO gastos (usuario_id, tipo, categoria_id, monto, fecha, comentario) VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("isidss", $user_id, $tipo, $categoria_id, $monto, $fecha, $comentario);
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
+    }
+
+    public function getGastoById($id, $user_id) {
+        $sql = "SELECT * FROM gastos WHERE id = ? AND usuario_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ii", $id, $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $gasto = $result->fetch_assoc();
+        $stmt->close();
+        return $gasto;
+    }
+
+    public function actualizarGasto($id, $user_id, $tipo, $monto, $fecha, $comentario) {
+        $sql = "UPDATE gastos SET tipo = ?, monto = ?, fecha = ?, comentario = ? WHERE id = ? AND usuario_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("sissii", $tipo, $monto, $fecha, $comentario, $id, $user_id);
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
+    }
+
+    public function getFilteredMovimientos($user_id, $tipoFilter, $categoriaFilter, $search, $orderBy, $limit) {
+        $conditions = "g.usuario_id = ?";
+        $params = [$user_id];
+        $types = "i";
+
+        if ($tipoFilter && in_array($tipoFilter, ['Ingreso', 'Gasto'])) {
+            $conditions .= " AND g.tipo = ?";
+            $params[] = $tipoFilter;
+            $types .= "s";
+        }
+
+        if ($categoriaFilter) {
+            $conditions .= " AND c.nombre = ?";
+            $params[] = $categoriaFilter;
+            $types .= "s";
+        }
+
+        if ($search) {
+            $conditions .= " AND (g.comentario LIKE ? OR c.nombre LIKE ?)";
+            $searchParam = "%" . $search . "%";
+            $params[] = $searchParam;
+            $params[] = $searchParam;
+            $types .= "ss";
+        }
+
+        $sql = "
+            SELECT g.id, g.tipo, g.monto, g.fecha, g.comentario, c.nombre AS categoria
+            FROM gastos g
+            JOIN categorias c ON g.categoria_id = c.id
+            WHERE $conditions
+            ORDER BY g.fecha $orderBy, g.id $orderBy
+            LIMIT ?
+        ";
+        $params[] = $limit;
+        $types .= "i";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param($types, ...$params);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $movimientos = $result->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+
+        return $movimientos;
+    }
+
+    public function getTipos($user_id) {
+        $sql = "SELECT DISTINCT tipo FROM gastos WHERE usuario_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $tiposArray = [];
+        while ($row = $result->fetch_assoc()) {
+            $tiposArray[] = $row['tipo'];
+        }
+        $stmt->close();
+        return $tiposArray;
+    }
+
 }
 ?>

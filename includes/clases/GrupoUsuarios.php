@@ -19,6 +19,5 @@ class GrupoUsuarios {
         return $members;
     }
     
-    // Otros métodos para GrupoUsuarios...
 }
 ?>

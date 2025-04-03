@@ -5,6 +5,5 @@ class Grupos {
         $this->conn = $conn;
     }
 
-    // ...otros métodos para grupos...
 }
 ?>

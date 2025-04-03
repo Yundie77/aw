@@ -1,21 +1,37 @@
 <?php
+namespace es\ucm\fdi\aw;
+
+use es\ucm\fdi\aw\Aplicacion;
+
 class Categorias {
     private $conn;
     public function __construct($conn) {
         $this->conn = $conn;
     }
-    
-    // Devuelve todas las categorías
+
     public function getAll() {
-        $sql = "SELECT * FROM categorias";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $categorias = $result->fetch_all(MYSQLI_ASSOC);
-        $stmt->close();
+        $sql = "SELECT DISTINCT nombre FROM categorias ORDER BY nombre ASC";
+        $result = $this->conn->query($sql);
+        $categorias = [];
+        while ($row = $result->fetch_assoc()) {
+            $categorias[] = $row;
+        }
+        $result->free();
         return $categorias;
     }
-    
-    // Otros métodos para Categorias...
+
+    public static function create($nombre) {
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $sql = "INSERT INTO categorias (nombre) VALUES (?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $nombre);
+        if ($stmt->execute()) {
+            $id = $conn->insert_id;
+            $stmt->close();
+            return $id;
+        }
+        $stmt->close();
+        return false;
+    }
 }
 ?>

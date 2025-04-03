@@ -19,6 +19,5 @@ class Mensajes {
         return $messages;
     }
     
-    // Otros métodos para Mensajes...
 }
 ?>

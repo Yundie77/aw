@@ -7,67 +7,31 @@ $conn = $app->getConexionBd();
 
 $user_id = $_SESSION['user_id']; 
 
+use es\ucm\fdi\aw\Gastos;
+use es\ucm\fdi\aw\Categorias;
+
+$gastos = new Gastos($conn);
+$categorias = new Categorias($conn);
+
 // --- Filtros ---
 $tipoFilter = isset($_GET['tipo']) ? $_GET['tipo'] : '';
 $categoriaFilter = isset($_GET['categoria']) ? $_GET['categoria'] : '';
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $orden = isset($_GET['orden']) ? $_GET['orden'] : 'fecha_desc';
-$orderBy = ($orden === 'fecha_asc') ? "ORDER BY g.fecha ASC, g.id ASC" : "ORDER BY g.fecha DESC, g.id DESC";
 
-$conditions = "g.usuario_id = ?";
-$params = [$user_id];
-$types = "i";
+$orderBy = ($orden === 'fecha_asc') ? "ASC" : "DESC";
+$limit = 50;
 
-if ($tipoFilter && in_array($tipoFilter, ['Ingreso', 'Gasto'])) {
-  $conditions .= " AND g.tipo = ?";
-  $params[] = $tipoFilter;
-  $types .= "s";
+$result = $gastos->getFilteredMovimientos($user_id, $tipoFilter, $categoriaFilter, $search, $orderBy, $limit);
+
+if (!is_array($result)) {
+    echo "<p>Error: No se pudieron obtener los datos del historial de gastos.</p>";
+    exit;
 }
 
-if ($categoriaFilter) {
-  $conditions .= " AND c.nombre = ?";
-  $params[] = $categoriaFilter;
-  $types .= "s";
-}
+$tiposArray = $gastos->getTipos($user_id);
 
-if ($search) {
-  $conditions .= " AND (g.comentario LIKE ? OR c.nombre LIKE ?)";
-  $searchParam = "%" . $search . "%";
-  $params[] = $searchParam;
-  $params[] = $searchParam;
-  $types .= "ss";
-}
-
-$sqlUltimosMov = "
-  SELECT g.id, g.tipo, g.monto, g.fecha, g.comentario, c.nombre AS categoria
-  FROM gastos g
-  JOIN categorias c ON g.categoria_id = c.id
-  WHERE $conditions
-  $orderBy
-  LIMIT 50
-";
-
-$stmt = $conn->prepare($sqlUltimosMov);
-if (!empty($params)) {
-  $stmt->bind_param($types, ...$params);
-}
-$stmt->execute();
-$result = $stmt->get_result();
-$stmt->close();
-
-$sqlTipos = "SELECT DISTINCT tipo FROM gastos WHERE usuario_id = ?";
-$stmtTipos = $conn->prepare($sqlTipos);
-$stmtTipos->bind_param("i", $user_id);
-$stmtTipos->execute();
-$resultTipos = $stmtTipos->get_result();
-$tiposArray = [];
-while ($rowTipo = $resultTipos->fetch_assoc()) {
-  $tiposArray[] = $rowTipo['tipo'];
-}
-$stmtTipos->close();
-
-$sqlCategorias = "SELECT DISTINCT nombre FROM categorias ORDER BY nombre ASC";
-$resCategorias = $conn->query($sqlCategorias);
+$resCategorias = $categorias->getAll();
 
 // Funcion proporcioanada por chatGPT: explicada en gastos.php
 ob_start();
@@ -93,12 +57,12 @@ ob_start();
     <label for="categoria">Categoría:</label>
     <select name="categoria" id="categoria" onchange="this.form.submit()">
       <option value="">Todas</option>
-      <?php while ($rowCat = $resCategorias->fetch_assoc()): ?>
+      <?php foreach ($resCategorias as $rowCat): ?>
         <option value="<?php echo htmlspecialchars($rowCat['nombre']); ?>" <?php if ($rowCat['nombre'] == $categoriaFilter)
              echo "selected"; ?>>
           <?php echo htmlspecialchars($rowCat['nombre']); ?>
         </option>
-      <?php endwhile; ?>
+      <?php endforeach; ?>
     </select>
   </div>
   <div>
@@ -117,7 +81,7 @@ ob_start();
     <th>Comentario</th>
     <th>Acciones</th>
   </tr>
-  <?php while ($row = $result->fetch_assoc()): ?>
+  <?php foreach ($result as $row): ?>
     <?php
     $simbolo = ($row['tipo'] === 'Gasto') ? '-' : '+';
     $montoFormateado = number_format($row['monto'], 2, ',', '.');
@@ -129,13 +93,53 @@ ob_start();
       <td><?php echo htmlspecialchars($row['fecha']); ?></td>
       <td><?php echo htmlspecialchars($row['comentario']); ?></td>
       <td>
-        <a href="editar_gasto.php?id=<?php echo $row['id']; ?>">Editar</a>
+        <button class="btn-edit" data-id="<?php echo $row['id']; ?>" 
+                data-tipo="<?php echo htmlspecialchars($row['tipo']); ?>" 
+                data-monto="<?php echo $row['monto']; ?>" 
+                data-fecha="<?php echo $row['fecha']; ?>" 
+                data-comentario="<?php echo htmlspecialchars($row['comentario']); ?>"
+                onclick="openEditModal(this)">
+          Editar
+        </button>
         <a href="eliminar_gasto.php?id=<?php echo $row['id']; ?>"
           onclick="return confirm('¿Está seguro de eliminar este registro?');">Eliminar</a>
       </td>
     </tr>
-  <?php endwhile; ?>
+  <?php endforeach; ?>
 </table>
+
+<!-- Modal editar gasto -->
+<div class="modal" id="editGastoModal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('editGastoModal')">&times;</span>
+    <h2>Editar Gasto</h2>
+    <form method="POST" action="actualizar_gasto.php">
+      <input type="hidden" name="id" id="edit-id">
+      <div class="form-group">
+        <label for="edit-tipo">Tipo:</label>
+        <select name="tipo" id="edit-tipo" required>
+          <option value="Ingreso">Ingreso</option>
+          <option value="Gasto">Gasto</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="edit-monto">Monto (€):</label>
+        <input type="number" name="monto" id="edit-monto" step="0.01" required min="0">
+      </div>
+      <div class="form-group">
+        <label for="edit-fecha">Fecha:</label>
+        <input type="date" name="fecha" id="edit-fecha" required max="9999-12-31">
+      </div>
+      <div class="form-group">
+        <label for="edit-comentario">Comentario:</label>
+        <textarea name="comentario" id="edit-comentario"></textarea>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-green">Actualizar</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 <div style="text-align:center; margin:20px;">
   <a href="historial_gastos.php?orden=fecha_desc">Ordenar por Fecha (descendente)</a> |
@@ -144,7 +148,7 @@ ob_start();
 
 <script src="js/filtros.js" defer></script>
 <script src="js/debounce.js" defer></script>
-
+<script src="js/editarGastos.js" defer></script>
 
 <?php
 // Funcion proporcioanada por chatGPT: explicada en gastos.php

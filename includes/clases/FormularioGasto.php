@@ -1,13 +1,16 @@
 <?php
 namespace es\ucm\fdi\aw;
+
 use es\ucm\fdi\aw\Formulario;
 use es\ucm\fdi\aw\Aplicacion;
+use es\ucm\fdi\aw\Categorias;
+use es\ucm\fdi\aw\Gastos;
 
 class FormularioGasto extends Formulario {
     public function __construct() {
         parent::__construct('formGasto', [
-            'action' => 'gastos.php',
-            'urlRedireccion' => 'gastos.php',
+            'action' => Aplicacion::getInstance()->resuelve('/aw/gastos.php'),
+            'urlRedireccion' => Aplicacion::getInstance()->resuelve('/aw/gastos.php'),
             'class' => 'formulario-gasto'
         ]);
     }
@@ -15,9 +18,11 @@ class FormularioGasto extends Formulario {
     protected $errores = [];
     
     protected function generaCamposFormulario(&$datos) {
+        // Funcion proporcioanada por chatGPT: explicada en gastos.php
         ob_start();
-        $app = Aplicacion::getInstance();
-        $conn = $app->getConexionBd();
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $categoriasObj = new Categorias($conn);
+        $categorias = $categoriasObj->getAll();
         ?>
         <div class="form-group form-row">
             <label for="fecha">Fecha:</label>
@@ -34,15 +39,11 @@ class FormularioGasto extends Formulario {
             <label for="categoria_id">Categoría:</label>
             <select name="categoria_id" id="categoriaSelect" required>
                 <option value="">-- Seleccione --</option>
-                <?php 
-                  $sqlCat = "SELECT id, nombre FROM categorias ORDER BY nombre ASC";
-                  $resCat = $conn->query($sqlCat);
-                  while($cat = $resCat->fetch_assoc()):
-                ?>
+                <?php foreach ($categorias as $cat): ?>
                   <option value="<?php echo $cat['id']; ?>">
                     <?php echo htmlspecialchars($cat['nombre']); ?>
                   </option>
-                <?php endwhile; ?>
+                <?php endforeach; ?>
                 <option value="otra">Crear nueva categoría</option>
             </select>
             <input type="text" name="categoria_nueva" id="categoriaNueva" placeholder="Escribe nueva categoría" style="display:none;">
@@ -60,14 +61,13 @@ class FormularioGasto extends Formulario {
             <button type="submit" class="btn btn-green">Registrar</button>
         </div>
         <?php
+        // Funcion proporcioanada por chatGPT: explicada en gastos.php
         return ob_get_clean();
     }
     
     protected function procesaFormulario(&$datos) {
         $this->errores = [];
-        session_start();
-        $app = Aplicacion::getInstance();
-        $conn = $app->getConexionBd();
+        $conn = Aplicacion::getInstance()->getConexionBd();
 
         $user_id = $_SESSION['user_id'];
         $tipo = $datos['tipo'];
@@ -81,16 +81,11 @@ class FormularioGasto extends Formulario {
         if ($categoria_id === 'otra') {
             $categoriaNueva = trim($datos['categoria_nueva'] ?? '');
             if ($categoriaNueva !== '') {
-                $sqlInsertCat = "INSERT INTO categorias (nombre) VALUES (?)";
-                $stmtCat = $conn->prepare($sqlInsertCat);
-                $stmtCat->bind_param("s", $categoriaNueva);
-                if ($stmtCat->execute()) {
-                    $categoria_id = $conn->insert_id;
-                } else {
+                $categoria_id = Categorias::create($categoriaNueva);
+                if (!$categoria_id) {
                     $this->errores['general'] = "Error al crear la nueva categoría.";
                     return;
                 }
-                $stmtCat->close();
             } else {
                 $this->errores['categoria_nueva'] = "No se ha especificado una nueva categoría.";
                 return;
@@ -99,14 +94,12 @@ class FormularioGasto extends Formulario {
             $categoria_id = intval($categoria_id);
         }
 
-        $sql = "INSERT INTO gastos (usuario_id, tipo, categoria_id, monto, fecha, comentario) VALUES (?, ?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("isidss", $user_id, $tipo, $categoria_id, $monto, $fecha, $comentario);
+        $gastosObj = new Gastos($conn);
+        $result = $gastosObj->insertarGasto($user_id, $tipo, $categoria_id, $monto, $fecha, $comentario);
 
-        if (!$stmt->execute()) {
+        if (!$result) {
             $this->errores['general'] = "Error al registrar el gasto.";
         }
-        $stmt->close();
     }
 }
 ?>

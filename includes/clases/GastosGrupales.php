@@ -5,6 +5,5 @@ class GastosGrupales {
         $this->conn = $conn;
     }
 
-    // ...otros métodos para gastos grupales...
 }
 ?>

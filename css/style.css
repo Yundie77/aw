@@ -881,17 +881,17 @@ main a:hover {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0, 0, 0, 0.55); /* Fondo semi-transparente */
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal-content {
   background-color: #fff;
-  margin: 14% auto;
+  margin: 10% auto;
   padding: 20px;
-  border: 1px solid #888;
-  width: 450px;
-  height: 190px;
+  border: 1px solid #ccc;
+  width: 400px;
   border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .modal .close {
@@ -904,6 +904,41 @@ main a:hover {
 
 .modal .close:hover {
   color: #000;
+}
+
+.modal h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.modal .form-group {
+  margin-bottom: 15px;
+}
+
+.modal .form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.modal .form-group input,
+.modal .form-group select,
+.modal .form-group textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.modal .form-group textarea {
+  resize: none;
+}
+
+.modal .btn-green {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .formulario-gasto .submit-group {
