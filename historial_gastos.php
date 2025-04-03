@@ -24,11 +24,6 @@ $limit = 50;
 
 $result = $gastos->getFilteredMovimientos($user_id, $tipoFilter, $categoriaFilter, $search, $orderBy, $limit);
 
-if (!is_array($result)) {
-    echo "<p>Error: No se pudieron obtener los datos del historial de gastos.</p>";
-    exit;
-}
-
 $tiposArray = $gastos->getTipos($user_id);
 
 $resCategorias = $categorias->getAll();
@@ -56,10 +51,9 @@ ob_start();
   <div>
     <label for="categoria">Categoría:</label>
     <select name="categoria" id="categoria" onchange="this.form.submit()">
-      <option value="">Todas</option>
+      <option value="">-- Seleccione --</option>
       <?php foreach ($resCategorias as $rowCat): ?>
-        <option value="<?php echo htmlspecialchars($rowCat['nombre']); ?>" <?php if ($rowCat['nombre'] == $categoriaFilter)
-             echo "selected"; ?>>
+        <option value="<?php echo htmlspecialchars($rowCat['nombre']); ?>" <?php if ($rowCat['nombre'] == $categoriaFilter) echo "selected"; ?>>
           <?php echo htmlspecialchars($rowCat['nombre']); ?>
         </option>
       <?php endforeach; ?>
@@ -113,31 +107,11 @@ ob_start();
   <div class="modal-content">
     <span class="close" onclick="closeModal('editGastoModal')">&times;</span>
     <h2>Editar Gasto</h2>
-    <form method="POST" action="actualizar_gasto.php">
-      <input type="hidden" name="id" id="edit-id">
-      <div class="form-group">
-        <label for="edit-tipo">Tipo:</label>
-        <select name="tipo" id="edit-tipo" required>
-          <option value="Ingreso">Ingreso</option>
-          <option value="Gasto">Gasto</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="edit-monto">Monto (€):</label>
-        <input type="number" name="monto" id="edit-monto" step="0.01" required min="0">
-      </div>
-      <div class="form-group">
-        <label for="edit-fecha">Fecha:</label>
-        <input type="date" name="fecha" id="edit-fecha" required max="9999-12-31">
-      </div>
-      <div class="form-group">
-        <label for="edit-comentario">Comentario:</label>
-        <textarea name="comentario" id="edit-comentario"></textarea>
-      </div>
-      <div class="form-group">
-        <button type="submit" class="btn btn-green">Actualizar</button>
-      </div>
-    </form>
+    <?php
+    use es\ucm\fdi\aw\FormularioEditarGasto;
+    $form = new FormularioEditarGasto();
+    echo $form->gestiona();
+    ?>
   </div>
 </div>
 

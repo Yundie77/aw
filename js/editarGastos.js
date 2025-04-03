@@ -26,11 +26,11 @@ function openEditModal(button) {
         return;
     }
 
-    const editId = document.getElementById('edit-id');
-    const editTipo = document.getElementById('edit-tipo');
-    const editMonto = document.getElementById('edit-monto');
-    const editFecha = document.getElementById('edit-fecha');
-    const editComentario = document.getElementById('edit-comentario');
+    const editId = modal.querySelector('input[name="id"]');
+    const editTipo = modal.querySelector('select[name="tipo"]');
+    const editMonto = modal.querySelector('input[name="monto"]');
+    const editFecha = modal.querySelector('input[name="fecha"]');
+    const editComentario = modal.querySelector('textarea[name="comentario"]');
 
     if (!editId || !editTipo || !editMonto || !editFecha || !editComentario) {
         console.error('One or more modal fields are missing');
