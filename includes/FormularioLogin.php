@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/Formulario.php';
+require_once __DIR__ . '/clases/Usuario.php';
 
 class FormularioLogin extends Formulario {
     public function __construct() {
@@ -31,7 +32,6 @@ class FormularioLogin extends Formulario {
     }
 
     protected function procesaFormulario(&$datos) {
-        global $conn;
         $username = trim($datos['username'] ?? '');
         $password = $datos['password'] ?? '';
 
@@ -40,31 +40,18 @@ class FormularioLogin extends Formulario {
             return;
         }
 
-        $stmt = $conn->prepare("SELECT id, nombre, password, rol FROM usuarios WHERE email = ? OR nombre = ?");
-        if(!$stmt) {
-            $this->errores['global'] = "Error en la consulta";
-            return;
-        }
-        $stmt->bind_param("ss", $username, $username);
-        $stmt->execute();
-        $stmt->store_result();
-
-        if ($stmt->num_rows > 0) {
-            $stmt->bind_result($id, $nombre, $stored_password, $rol);
-            $stmt->fetch();
-            if (password_verify($password, $stored_password)) {
-                $_SESSION['user_id'] = $id;
-                $_SESSION['user_name'] = $nombre;
-                $_SESSION['user_role'] = $rol;
-                header("Location: " . ($rol === 'admin' ? 'admin.php' : 'index.php'));
-                exit();
-            } else {
-                $this->errores['password'] = "Contraseña incorrecta";
-            }
+        // Utiliza el método login de la clase Usuario
+        $usuario = Usuario::login($username, $password);
+        if ($usuario) {
+            // Inicia sesión y redirige según el rol del usuario
+            $_SESSION['user_id'] = $usuario->id;
+            $_SESSION['user_name'] = $usuario->nombre;
+            $_SESSION['user_role'] = $usuario->rol;
+            header("Location: " . ($usuario->rol === 'admin' ? 'admin.php' : 'index.php'));
+            exit();
         } else {
-            $this->errores['username'] = "Usuario no encontrado";
+            $this->errores['global'] = "Usuario o contraseña incorrectos.";
         }
-        $stmt->close();
     }
 }
 ?>
