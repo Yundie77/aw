@@ -1,7 +1,7 @@
 <?php
 session_start();
-require 'includes/vistas/comun/header.php';
-require 'includes/vistas/comun/nav.php';
+
+// Conectamos la configuración
 require_once 'includes/config.php';
 
 // Obtenemos el ID del grupo desde la URL
@@ -10,7 +10,11 @@ if (!$group_id) {
     die("El grupo no está especificado.");
 }
 
-// Obtenemos los detalles del grupo
+// Obtenemos la conexión a la base de datos
+$app = \es\ucm\fdi\aw\Aplicacion::getInstance();
+$conn = $app->getConexionBd();
+
+// Obtenemos los datos del grupo
 $stmtGroup = $conn->prepare("SELECT * FROM grupos WHERE id = ?");
 $stmtGroup->bind_param("i", $group_id);
 $stmtGroup->execute();
@@ -20,7 +24,7 @@ if (!$group) {
     die("Grupo no encontrado.");
 }
 
-// Obtenemos los participantes y sus sumas totales (de la tabla gastos_grupales)
+// Obtenemos los participantes y sus totales de la tabla gastos_grupales
 $stmtParticipants = $conn->prepare("
   SELECT u.nombre, COALESCE(SUM(gm.monto), 0) AS total 
   FROM grupo_usuarios gu 
@@ -34,7 +38,7 @@ $stmtParticipants->execute();
 $resultParticipants = $stmtParticipants->get_result();
 $participants = $resultParticipants->fetch_all(MYSQLI_ASSOC);
 
-// Preparamos los datos para el gráfico: arreglos de etiquetas y valores
+// Preparamos los datos para el gráfico: arrays de etiquetas y valores
 $chartLabels = json_encode(array_column($participants, 'nombre'));
 $chartData   = json_encode(array_column($participants, 'total'));
 ?>
@@ -42,19 +46,21 @@ $chartData   = json_encode(array_column($participants, 'total'));
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Detalles del Grupo</title>
+  <title>Detalles del Grupo: <?php echo htmlspecialchars($group['nombre']); ?></title>
   <link rel="stylesheet" href="css/style.css">
-  <!-- Incluimos Chart.js desde CDN (manteniendo la versión actual) -->
+  <!-- Conectamos Chart.js desde CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <!-- Contenedor principal de detalles -->
+  <?php require 'includes/vistas/comun/header.php'; ?>
+  <?php require 'includes/vistas/comun/nav.php'; ?>
+
+  <!-- Contenedor principal de detalles del grupo -->
   <div class="details-container">
-    
-    <!-- Sidebar izquierdo: nombre del grupo y lista de participantes -->
+    <!-- Barra lateral izquierda: nombre del grupo y lista de participantes -->
     <div class="sidebar-container">
       <div class="details-header">
-          <h2><?php echo htmlspecialchars($group['nombre']); ?></h2>
+        <h2><?php echo htmlspecialchars($group['nombre']); ?></h2>
       </div>
       <div class="details-sidebar">
         <ul>
@@ -65,28 +71,28 @@ $chartData   = json_encode(array_column($participants, 'total'));
       </div>
     </div>
 
-    <!-- Contenedor central: gráfico -->
+    <!-- Bloque central: gráfico -->
     <div class="chart-container">
       <canvas id="detallesChart"></canvas>
     </div>
 
-    <!-- Sidebar derecho: botones para cambiar entre "Objetivo" y "Gastos" -->
+    <!-- Barra lateral derecha: botones para cambiar entre "Objetivo" y "Gastos" -->
     <div class="buttons-sidebar">
       <a href="grupo_detalles.php?id=<?php echo $group_id; ?>"><button class="selected">Objetivo</button></a>
       <a href="grupo_detalles_gastos.php?id=<?php echo $group_id; ?>"><button>Gastos</button></a>
     </div>
   </div>
-  
-  <!-- Transferimos los datos para el gráfico a variables globales en JavaScript -->
+
+  <!-- Enviamos los datos para construir el gráfico a JavaScript -->
   <script>
     const chartLabels = <?php echo $chartLabels; ?>;
     const chartData = <?php echo $chartData; ?>;
     console.log("chartLabels:", chartLabels, "chartData:", chartData);
   </script>
-  
-  <!-- Incluimos el archivo externo con el código para construir el gráfico -->
+
+  <!-- Conectamos el script externo para dibujar el gráfico -->
   <script src="js/detallesChart.js"></script>
-  
+
   <?php require 'includes/vistas/comun/footer.php'; ?>
 </body>
 </html>
