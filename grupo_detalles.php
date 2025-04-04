@@ -46,15 +46,11 @@ $chartData   = json_encode(array_column($participants, 'total'));
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Detalles del Grupo: <?php echo htmlspecialchars($group['nombre']); ?></title>
   <link rel="stylesheet" href="css/style.css">
   <!-- Conectamos Chart.js desde CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <?php require 'includes/vistas/comun/header.php'; ?>
-  <?php require 'includes/vistas/comun/nav.php'; ?>
-
   <!-- Contenedor principal de detalles del grupo -->
   <div class="details-container">
     <!-- Barra lateral izquierda: nombre del grupo y lista de participantes -->
@@ -93,6 +89,11 @@ $chartData   = json_encode(array_column($participants, 'total'));
   <!-- Conectamos el script externo para dibujar el gráfico -->
   <script src="js/detallesChart.js"></script>
 
-  <?php require 'includes/vistas/comun/footer.php'; ?>
 </body>
 </html>
+
+<?php
+// Funcion proporcioanada por chatGPT: explicada en gastos.php
+$contenidoPrincipal = ob_get_clean();
+$tituloPagina = "Grupo Detalles: " . htmlspecialchars($group['nombre']);
+require __DIR__ . '/includes/vistas/plantilla/plantilla.php';

@@ -1,10 +1,6 @@
 <?php
 session_start();
 
-// Conectamos los componentes comunes (cabecera y navegación)
-require 'includes/vistas/comun/header.php';
-require 'includes/vistas/comun/nav.php';
-
 // Conectamos la configuración y obtenemos el objeto de la aplicación y la conexión a la BD
 require_once 'includes/config.php';
 $app = \es\ucm\fdi\aw\Aplicacion::getInstance();
@@ -47,7 +43,6 @@ $balanceResults = $resultBalance->fetch_all(MYSQLI_ASSOC);
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Detalles del Grupo - Gastos</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -107,10 +102,11 @@ $balanceResults = $resultBalance->fetch_all(MYSQLI_ASSOC);
     </div>
 
   </div>
-
-  <?php
-  // Incluimos el pie de página
-  require 'includes/vistas/comun/footer.php'; 
-  ?>
 </body>
 </html>
+
+<?php
+// Funcion proporcioanada por chatGPT: explicada en gastos.php
+$contenidoPrincipal = ob_get_clean();
+$tituloPagina = "Grupo Detalles Gastos: " . htmlspecialchars($group['nombre']);
+require __DIR__ . '/includes/vistas/plantilla/plantilla.php';
