@@ -1,116 +1,21 @@
 <?php
 session_start();
 
-// Conectamos los componentes comunes (cabecera y navegación)
-require 'includes/vistas/comun/header.php';
-require 'includes/vistas/comun/nav.php';
-
-// Conectamos la configuración y obtenemos el objeto de la aplicación y la conexión a la BD
 require_once 'includes/config.php';
+require_once 'includes/clases/FormularioGrupoDetallesGastos.php';
+
 $app = \es\ucm\fdi\aw\Aplicacion::getInstance();
 $conn = $app->getConexionBd();
-
-// Obtenemos el ID del grupo desde la URL
 $group_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
 if (!$group_id) {
-    die("El grupo no está especificado.");
+  die("El grupo no está especificado.");
 }
 
-// Procesamos los datos para la sección "Uso" – gastos por categoría
-$stmtUso = $conn->prepare("
-    SELECT c.nombre AS categoria, SUM(gm.monto) AS total
-    FROM gastos_grupales gm 
-    INNER JOIN categorias c ON gm.categoria_id = c.id 
-    WHERE gm.grupo_id = ? 
-    GROUP BY gm.categoria_id
-");
-$stmtUso->bind_param("i", $group_id);
-$stmtUso->execute();
-$resultUso = $stmtUso->get_result();
-$usoResults = $resultUso->fetch_all(MYSQLI_ASSOC);
+$formularioGastos = new \es\ucm\fdi\aw\FormularioGrupoDetallesGastos($conn);
 
-// Procesamos los datos para la sección "Balance" – gastos por participantes
-$stmtBalance = $conn->prepare("
-    SELECT u.nombre, COALESCE(SUM(gm.monto), 0) AS total 
-    FROM grupo_usuarios gu 
-    INNER JOIN usuarios u ON gu.usuario_id = u.id 
-    LEFT JOIN gastos_grupales gm ON gu.grupo_id = gm.grupo_id AND gu.usuario_id = gm.usuario_id 
-    WHERE gu.grupo_id = ? 
-    GROUP BY gu.usuario_id, u.nombre
-");
-$stmtBalance->bind_param("i", $group_id);
-$stmtBalance->execute();
-$resultBalance = $stmtBalance->get_result();
-$balanceResults = $resultBalance->fetch_all(MYSQLI_ASSOC);
-?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Detalles del Grupo - Gastos</title>
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-  <?php
-  // Contenedor principal para los detalles de la página "Gastos"
-  ?>
-  <div class="details-container-gastos">
-
-    <?php
-    // Sección "Uso": gastos por categoría
-    ?>
-    <div class="seccion-container">
-      <h3 class="highlight">Uso</h3>
-      <ul>
-        <?php if (count($usoResults) > 0): ?>
-          <?php foreach ($usoResults as $uso): ?>
-            <li>
-              <?php echo htmlspecialchars($uso['categoria']); ?>: 
-              <?php echo htmlspecialchars($uso['total']); ?> €
-            </li>
-          <?php endforeach; ?>
-        <?php else: ?>
-          <li>No hay datos</li>
-        <?php endif; ?>
-      </ul>
-    </div>
-
-    <?php
-    // Sección "Balance": gastos por participantes
-    ?>
-    <div class="seccion-container">
-      <h3 class="highlight">Balance</h3>
-      <ul>
-        <?php if (count($balanceResults) > 0): ?>
-          <?php foreach ($balanceResults as $balance): ?>
-            <li>
-              <?php echo htmlspecialchars($balance['nombre']); ?>: 
-              <?php echo htmlspecialchars($balance['total']); ?> €
-            </li>
-          <?php endforeach; ?>
-        <?php else: ?>
-          <li>No hay datos</li>
-        <?php endif; ?>
-      </ul>
-    </div>
-
-    <?php
-    // Barra lateral con botones para cambiar entre "Objetivo" y "Gastos"
-    ?>
-    <div class="buttons-sidebar-gastos">
-      <a href="grupo_detalles.php?id=<?php echo $group_id; ?>">
-        <button>Objetivo</button>
-      </a>
-      <a href="grupo_detalles_gastos.php?id=<?php echo $group_id; ?>">
-        <button class="selected">Gastos</button>
-      </a>
-    </div>
-
-  </div>
-
-  <?php
-  // Incluimos el pie de página
-  require 'includes/vistas/comun/footer.php'; 
-  ?>
-</body>
-</html>
+ob_start();
+echo $formularioGastos->generarContenidoGastos($group_id);
+$contenidoPrincipal = ob_get_clean();
+$tituloPagina = "Grupo Detalles Gastos: " . htmlspecialchars($formularioGastos->obtenerNombreGrupo($group_id));
+require __DIR__ . '/includes/vistas/plantilla/plantilla.php';
