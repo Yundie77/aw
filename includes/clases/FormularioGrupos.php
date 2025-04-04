@@ -5,10 +5,12 @@ class FormularioGrupos {
     private $conn;
 
     // Constructor para inicializar la conexión a la base de datos
+    // Constructor para inicializar la conexión a la base de datos
     public function __construct($conn) {
         $this->conn = $conn;
     }
 
+    // Método para obtener los datos de los grupos desde la base de datos
     // Método para obtener los datos de los grupos desde la base de datos
     public function obtenerGrupos() {
         $query = "SELECT g.*, (SELECT COUNT(*) FROM grupo_usuarios WHERE grupo_id = g.id) AS participantes FROM grupos g";
