@@ -1,99 +1,28 @@
 <?php
 session_start();
 
-// Conectamos la configuración
+// Include configuration and the FormularioGrupoDetalles class
 require_once 'includes/config.php';
+require_once 'includes/clases/FormularioGrupoDetalles.php';
 
-// Obtenemos el ID del grupo desde la URL
+// Get the database connection and group ID
+$app = \es\ucm\fdi\aw\Aplicacion::getInstance();
+$conn = $app->getConexionBd();
 $group_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
 if (!$group_id) {
     die("El grupo no está especificado.");
 }
 
-// Obtenemos la conexión a la base de datos
-$app = \es\ucm\fdi\aw\Aplicacion::getInstance();
-$conn = $app->getConexionBd();
+// Create an instance of FormularioGrupoDetalles
+$formularioDetalles = new \es\ucm\fdi\aw\FormularioGrupoDetalles($conn);
 
-// Obtenemos los datos del grupo
-$stmtGroup = $conn->prepare("SELECT * FROM grupos WHERE id = ?");
-$stmtGroup->bind_param("i", $group_id);
-$stmtGroup->execute();
-$resultGroup = $stmtGroup->get_result();
-$group = $resultGroup->fetch_assoc();
-if (!$group) {
-    die("Grupo no encontrado.");
-}
+// Generate the content
+$contenidoPrincipal = $formularioDetalles->generarContenidoDetalles($group_id);
 
-// Obtenemos los participantes y sus totales de la tabla gastos_grupales
-$stmtParticipants = $conn->prepare("
-  SELECT u.nombre, COALESCE(SUM(gm.monto), 0) AS total 
-  FROM grupo_usuarios gu 
-  INNER JOIN usuarios u ON gu.usuario_id = u.id 
-  LEFT JOIN gastos_grupales gm ON gu.grupo_id = gm.grupo_id AND gu.usuario_id = gm.usuario_id 
-  WHERE gu.grupo_id = ? 
-  GROUP BY gu.usuario_id, u.nombre
-");
-$stmtParticipants->bind_param("i", $group_id);
-$stmtParticipants->execute();
-$resultParticipants = $stmtParticipants->get_result();
-$participants = $resultParticipants->fetch_all(MYSQLI_ASSOC);
+// Set the page title using the group name
+$grupo = $formularioDetalles->obtenerGrupo($group_id);
+$tituloPagina = "Grupo Detalles: " . ($grupo ? htmlspecialchars($grupo['nombre']) : 'Desconocido');
 
-// Preparamos los datos para el gráfico: arrays de etiquetas y valores
-$chartLabels = json_encode(array_column($participants, 'nombre'));
-$chartData   = json_encode(array_column($participants, 'total'));
-?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="css/style.css">
-  <!-- Conectamos Chart.js desde CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-  <!-- Contenedor principal de detalles del grupo -->
-  <div class="details-container">
-    <!-- Barra lateral izquierda: nombre del grupo y lista de participantes -->
-    <div class="sidebar-container">
-      <div class="details-header">
-        <h2><?php echo htmlspecialchars($group['nombre']); ?></h2>
-      </div>
-      <div class="details-sidebar">
-        <ul>
-          <?php foreach ($participants as $p): ?>
-            <li><?php echo htmlspecialchars($p['nombre']); ?>: <?php echo htmlspecialchars($p['total']); ?> €</li>
-          <?php endforeach; ?>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Bloque central: gráfico -->
-    <div class="chart-container">
-      <canvas id="detallesChart"></canvas>
-    </div>
-
-    <!-- Barra lateral derecha: botones para cambiar entre "Objetivo" y "Gastos" -->
-    <div class="buttons-sidebar">
-      <a href="grupo_detalles.php?id=<?php echo $group_id; ?>"><button class="selected">Objetivo</button></a>
-      <a href="grupo_detalles_gastos.php?id=<?php echo $group_id; ?>"><button>Gastos</button></a>
-    </div>
-  </div>
-
-  <!-- Enviamos los datos para construir el gráfico a JavaScript -->
-  <script>
-    const chartLabels = <?php echo $chartLabels; ?>;
-    const chartData = <?php echo $chartData; ?>;
-    console.log("chartLabels:", chartLabels, "chartData:", chartData);
-  </script>
-
-  <!-- Conectamos el script externo para dibujar el gráfico -->
-  <script src="js/detallesChart.js"></script>
-
-</body>
-</html>
-
-<?php
-// Funcion proporcioanada por chatGPT: explicada en gastos.php
-$contenidoPrincipal = ob_get_clean();
-$tituloPagina = "Grupo Detalles: " . htmlspecialchars($group['nombre']);
+// Include the template
 require __DIR__ . '/includes/vistas/plantilla/plantilla.php';

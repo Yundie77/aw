@@ -1,25 +1,34 @@
 <?php
 session_start();
-require_once 'config.php';
-header('Content-Type: application/json');
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-    $nombre = trim($_POST['nombre']);
-    $objetivo = trim($_POST['objetivo']);
-    $descripcion = trim($_POST['descripcion']);
-    
-    if (empty($nombre) || !is_numeric($objetivo) || empty($descripcion)) {
-         echo json_encode(['success' => false, 'error' => 'Datos inválidos.']);
-         exit;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require_once __DIR__ . '/includes/config.php';
+
+    $nombre = trim($_POST['nombre'] ?? '');
+    $objetivo = trim($_POST['objetivo'] ?? '');
+    $descripcion = trim($_POST['descripcion'] ?? '');
+
+    if (empty($nombre) || empty($objetivo) || empty($descripcion)) {
+        die("Error: Todos los campos son obligatorios.");
     }
-    // Preparar la inserción con el nuevo campo "descripcion"
+
+    $app = \es\ucm\fdi\aw\Aplicacion::getInstance();
+    $conn = $app->getConexionBd();
+
     $stmt = $conn->prepare("INSERT INTO grupos (nombre, objetivo, descripcion) VALUES (?, ?, ?)");
-    // Suponiendo que "objetivo" es numérico (double) y "nombre" y "descripcion" son cadenas
-    $stmt->bind_param("sds", $nombre, $objetivo, $descripcion);
-    if ($stmt->execute()) {
-         echo json_encode(['success' => true]);
-    } else {
-         echo json_encode(['success' => false, 'error' => $conn->error]);
+    if (!$stmt) {
+        die("Error en la preparación de la consulta: " . $conn->error);
     }
-    exit;
+
+    $stmt->bind_param("sss", $nombre, $objetivo, $descripcion);
+
+    if ($stmt->execute()) {
+        header("Location: grupos.php?mensaje=grupo_agregado");
+        exit;
+    } else {
+        die("Error al agregar el grupo: " . $stmt->error);
+    }
+} else {
+    die("Método no permitido.");
 }
+?>
