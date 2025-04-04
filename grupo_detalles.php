@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-// Include configuration and the FormularioGrupoDetalles class
+// Include configuration and the FormularioGrupoDetallesGastos class
 require_once 'includes/config.php';
-require_once 'includes/clases/FormularioGrupoDetalles.php';
+require_once __DIR__ . '/includes/clases/FormularioGrupoDetalles.php';
 
 // Get the database connection and group ID
 $app = \es\ucm\fdi\aw\Aplicacion::getInstance();
@@ -14,8 +14,8 @@ if (!$group_id) {
     die("El grupo no está especificado.");
 }
 
-// Create an instance of FormularioGrupoDetalles
-$formularioDetalles = new \es\ucm\fdi\aw\FormularioGrupoDetalles($conn);
+// Create an instance of FormularioGrupoDetallesGastos
+$formularioDetalles = new \es\ucm\fdi\aw\FormularioGrupoDetallesGastos($conn);
 
 // Generate the content
 $contenidoPrincipal = $formularioDetalles->generarContenidoDetalles($group_id);

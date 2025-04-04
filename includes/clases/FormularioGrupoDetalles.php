@@ -14,7 +14,7 @@ class FormularioGrupoDetallesGastos {
         $stmt->bind_param("i", $group_id);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
+        return $result->fetch_assoc();
     }
 
     // Obtener los participantes y sus gastos
