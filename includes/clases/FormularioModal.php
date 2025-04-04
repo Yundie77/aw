@@ -4,7 +4,7 @@ namespace es\ucm\fdi\aw;
 session_start();
 
 require_once __DIR__ . '/../config.php';
-use es\ucm\fdi\aw\Formulario; 
+require_once __DIR__ . '/../clases/Formulario.php';
 
 header('Content-Type: application/json');
 
