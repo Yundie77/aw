@@ -120,6 +120,7 @@ class Gastos {
         $stmt->execute();
         $result = $stmt->get_result();
         $gasto = $result->fetch_assoc();
+        $result->free(); // Liberar el resultado
         $stmt->close();
         return $gasto;
     }
@@ -174,6 +175,7 @@ class Gastos {
         $stmt->execute();
         $result = $stmt->get_result();
         $movimientos = $result->fetch_all(MYSQLI_ASSOC);
+        $result->free(); // Liberar el resultado
         $stmt->close();
 
         return $movimientos;
@@ -189,6 +191,7 @@ class Gastos {
         while ($row = $result->fetch_assoc()) {
             $tiposArray[] = $row['tipo'];
         }
+        $result->free(); // Liberar el resultado
         $stmt->close();
         return $tiposArray;
     }
