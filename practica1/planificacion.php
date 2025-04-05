@@ -1,5 +1,7 @@
-<?php require_once '../includes/vistas/comun/header.php'; ?>
-<?php require_once '../includes/vistas/comun/nav.php'; ?>
+<?php
+require_once '../includes/config.php';
+ob_start();
+?>
 
 <main>
   <header>
@@ -85,4 +87,8 @@
   </section>
 </main>
 
-<?php require_once '../includes/vistas/comun/footer.php'; ?>
+<?php
+$contenidoPrincipal = ob_get_clean();
+$tituloPagina = "Planificación - CampusCash";
+require_once RAIZ_APP . '/vistas/plantilla/plantilla.php';
+?>
