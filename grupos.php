@@ -21,6 +21,29 @@ echo $formularioGrupos->generarListaGrupos(); // Genera la lista de grupos
 echo $formularioGrupos->generarBotones();    // Genera los botones para las ventanas modales
 echo $formularioGrupos->generarModales();    // Genera las ventanas modales
 
+if (isset($_GET['mensaje'])) {
+    switch ($_GET['mensaje']) {
+        case 'miembro_agregado':
+            echo "<p style='color:green;'>Miembro agregado correctamente al grupo.</p>";
+            break;
+        case 'usuario_ya_miembro':
+            echo "<p style='color:red;'>El usuario ya es miembro del grupo.</p>";
+            break;
+        case 'usuario_no_encontrado':
+            echo "<p style='color:red;'>Usuario no encontrado.</p>";
+            break;
+        case 'grupo_no_encontrado':
+            echo "<p style='color:red;'>Grupo no encontrado.</p>";
+            break;
+        case 'parametros_invalidos':
+            echo "<p style='color:red;'>Parámetros incompletos o inválidos.</p>";
+            break;
+        case 'error_agregar_miembro':
+            echo "<p style='color:red;'>Error al agregar el miembro al grupo.</p>";
+            break;
+    }
+}
+
 
 // Capturamos el contenido generado en el buffer
 $contenidoPrincipal = ob_get_clean();
