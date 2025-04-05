@@ -1,6 +1,8 @@
 <?php
 namespace es\ucm\fdi\aw;
 
+use es\ucm\fdi\aw\Aplicacion;
+
 class Usuario {
     // Propiedades que corresponden a los campos de la tabla 'usuarios'
     public $id;

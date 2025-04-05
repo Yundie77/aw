@@ -21,32 +21,35 @@ class FormularioRegistro extends Formulario {
         // Se muestran errores globales
         echo self::generaListaErroresGlobales($this->errores, 'errores');
         ?>
-        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
-            <div class="form-group">
-                <label for="nombreUsuario">Nombre de usuario</label>
-                <input type="text" id="nombreUsuario" name="nombreUsuario" required placeholder="Introduce tu nombre de usuario" 
-                value="<?php echo htmlspecialchars($nombreUsuario); ?>">
-                <?php echo $this->errores['nombreUsuario'] ?? ''; ?>
-            </div>
-            <div class="form-group">
-                <label for="email">Correo Electrónico</label>
-                <input type="email" id="email" name="email" required placeholder="Introduce tu correo electrónico" 
-                value="<?php echo htmlspecialchars($email); ?>">
-                <?php echo $this->errores['email'] ?? ''; ?>
-            </div>
-            <div class="form-group">
-                <label for="password">Contraseña</label>
-                <input type="password" id="password" name="password" required placeholder="Introduce tu contraseña">
-                <?php echo $this->errores['password'] ?? ''; ?>
-            </div>
-            <div class="form-group">
-                <label for="confirm_password">Confirmar Contraseña</label>
-                <input type="password" id="confirm_password" name="confirm_password" required placeholder="Repite tu contraseña">
-                <?php echo $this->errores['confirm_password'] ?? ''; ?>
-            </div>
-            <button type="submit" class="btn btn-green">Registrar</button>
-        </form>
-        <p>¿Ya tienes cuenta? <a href="login.php">Inicia sesión aquí</a></p>
+        <div class="login-container"> <!-- Cambiado a login-container para que la apariencia sea el mismo -->
+            <h1>Registro</h1>
+            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
+                <div class="form-group">
+                    <label for="nombreUsuario">Nombre de usuario</label>
+                    <input type="text" id="nombreUsuario" name="nombreUsuario" required placeholder="Introduce tu nombre de usuario" 
+                    value="<?php echo htmlspecialchars($nombreUsuario); ?>">
+                    <?php echo $this->errores['nombreUsuario'] ?? ''; ?>
+                </div>
+                <div class="form-group">
+                    <label for="email">Correo Electrónico</label>
+                    <input type="email" id="email" name="email" required placeholder="Introduce tu correo electrónico" 
+                    value="<?php echo htmlspecialchars($email); ?>">
+                    <?php echo $this->errores['email'] ?? ''; ?>
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" name="password" required placeholder="Introduce tu contraseña">
+                    <?php echo $this->errores['password'] ?? ''; ?>
+                </div>
+                <div class="form-group">
+                    <label for="confirm_password">Confirmar Contraseña</label>
+                    <input type="password" id="confirm_password" name="confirm_password" required placeholder="Repite tu contraseña">
+                    <?php echo $this->errores['confirm_password'] ?? ''; ?>
+                </div>
+                <button type="submit" class="btn btn-green">Registrar</button>
+            </form>
+            <p>¿Ya tienes cuenta? <a href="login.php">Inicia sesión aquí</a></p>
+        </div>
         <?php
         return ob_get_clean();
     }
