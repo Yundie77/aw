@@ -25,7 +25,6 @@ class Usuario {
      * Retorna un objeto Usuario si lo encuentra o false en caso contrario.
      */
     public static function buscaUsuario($nombreUsuario) {
-        // Se asume la existencia de una clase Aplicacion que gestiona la conexión a la BD.
         $app = Aplicacion::getInstance();
         $conn = $app->getConexionBd();
 
@@ -38,8 +37,10 @@ class Usuario {
         $result = $stmt->get_result();
 
         if ($row = $result->fetch_assoc()) {
+            $result->free(); // Liberar el resultado
             return new Usuario($row['id'], $row['nombre'], $row['email'], $row['password'], $row['rol']);
         }
+        $result->free(); // Liberar el resultado incluso si no se encuentra nada
         return false;
     }
 
