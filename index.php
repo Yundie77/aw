@@ -32,3 +32,5 @@ $contenidoPrincipal = ob_get_clean();
 $tituloPagina = "Inicio - CampusCash";
 
 require_once RAIZ_APP . '/vistas/plantilla/plantilla.php';
+
+?>

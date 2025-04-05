@@ -77,19 +77,27 @@ class FormularioGrupos {
         ?>
         <!-- Modal: Agregar nuevo grupo -->
         <div id="modal-agregar-grupo" class="modal">
-            <div class="modal-content-grupo">
-                <span class="close" onclick="closeModal('modal-agregar-grupo')">&times;</span>
-                <h2>Agregar Nuevo Grupo</h2>
-                <form action="agregar_grupo.php" method="post">
+        <div class="modal-content-grupo">
+            <span class="close" onclick="closeModal('modal-agregar-grupo')">&times;</span>
+            <h2>Agregar Nuevo Grupo</h2>
+            <form action="agregar_grupo.php" method="post">
+                <div class="form-row">
                     <label for="nombre">Nombre del Grupo:</label>
                     <input type="text" id="nombre" name="nombre" required>
+                </div>
+                <div class="form-row">
                     <label for="objetivo">Objetivo (€):</label>
                     <input type="number" step="1" id="objetivo" name="objetivo" required>
+                </div>
+                <div class="form-row">
                     <label for="descripcion">Descripción:</label>
                     <textarea id="descripcion" name="descripcion" required></textarea>
+                </div>
+                <div class="form-row">
                     <button type="submit">Agregar Grupo</button>
-                </form>
-            </div>
+                </div>
+            </form>
+        </div>
         </div>
 
         <!-- Modal: Agregar nuevo miembro -->
@@ -129,42 +137,61 @@ class FormularioGrupos {
 
         <!-- Modal: Modificar grupo -->
         <div id="modal-modificar-grupo" class="modal">
-            <div class="modal-content-grupo">
-                <span class="close" onclick="closeModal('modal-modificar-grupo')">&times;</span>
-                <h2>Modificar Grupo</h2>
-                <form action="modificar_grupo.php" method="post">
+        <div class="modal-content-grupo">
+            <span class="close" onclick="closeModal('modal-modificar-grupo')">&times;</span>
+            <h2>Modificar Grupo</h2>
+            <form action="modificar_grupo.php" method="post">
+                <div class="form-row">
                     <label for="grupo_id_mod">Seleccione el Grupo:</label>
                     <select name="grupo_id" id="grupo_id_mod" required>
                         <?php foreach ($this->obtenerGrupos() as $grupo): ?>
-                            <option value="<?php echo htmlspecialchars($grupo['id']); ?>"><?php echo htmlspecialchars($grupo['nombre']); ?></option>
+                            <option value="<?php echo htmlspecialchars($grupo['id']); ?>">
+                                <?php echo htmlspecialchars($grupo['nombre']); ?>
+                            </option>
                         <?php endforeach; ?>
                     </select>
+                </div>
+                <div class="form-row">
                     <label for="nombre_mod">Nuevo Nombre:</label>
                     <input type="text" id="nombre_mod" name="nombre" required>
+                </div>
+                <div class="form-row">
                     <label for="objetivo_mod">Nuevo Objetivo (€):</label>
                     <input type="number" step="1" id="objetivo_mod" name="objetivo" required>
+                </div>
+                <div class="form-row">
                     <label for="descripcion_mod">Nueva Descripción:</label>
                     <textarea id="descripcion_mod" name="descripcion" required></textarea>
+                </div>
+                <div class="form-row">
                     <button type="submit">Modificar Grupo</button>
-                </form>
-            </div>
+                </div>
+            </form>
+        </div>
         </div>
 
         <!-- Modal: Eliminar grupo -->
         <div id="modal-eliminar-grupo" class="modal">
-            <div class="modal-content-grupo">
-                <span class="close" onclick="closeModal('modal-eliminar-grupo')">&times;</span>
-                <h2>Eliminar Grupo</h2>
-                <form action="eliminar_grupo.php" method="post">
+        <div class="modal-content-grupo">
+            <span class="close" onclick="closeModal('modal-eliminar-grupo')">&times;</span>
+            <h2>Eliminar Grupo</h2>
+            <form action="eliminar_grupo.php" method="post">
+                <div class="form-row">
                     <label for="grupo_id_del">Seleccione el Grupo:</label>
                     <select name="grupo_id" id="grupo_id_del" required>
                         <?php foreach ($this->obtenerGrupos() as $grupo): ?>
-                            <option value="<?php echo htmlspecialchars($grupo['id']); ?>"><?php echo htmlspecialchars($grupo['nombre']); ?></option>
+                            <option value="<?php echo htmlspecialchars($grupo['id']); ?>">
+                                <?php echo htmlspecialchars($grupo['nombre']); ?>
+                            </option>
                         <?php endforeach; ?>
                     </select>
-                    <button type="submit">Eliminar Grupo</button>
-                </form>
-            </div>
+                </div>
+                <div class="form-row">
+                    <button type="submit" style="background-color: #e74c3c; color: white;">Eliminar Grupo</button>
+                </div>
+            </form>
+        </div>
+        </div>
             <script src="js/modal.js"></script>
         </div>
         <div id="mensaje-resultado"></div>
