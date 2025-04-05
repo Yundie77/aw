@@ -8,8 +8,8 @@
 <body>
 <div id="contenedor">
 <?php
-require(RAIZ_APP.'/includes/vistas/comun/header.php');
-require(RAIZ_APP.'/includes/vistas/comun/nav.php');
+require(RAIZ_APP.'/vistas/comun/header.php');
+require(RAIZ_APP.'/vistas/comun/nav.php');
 ?>
 	<main>
 		<article>
@@ -17,7 +17,7 @@ require(RAIZ_APP.'/includes/vistas/comun/nav.php');
 		</article>
 	</main>
 <?php
-require(RAIZ_APP.'/includes/vistas/comun/footer.php');
+require(RAIZ_APP.'/vistas/comun/footer.php');
 ?>
 </div>
 </body>

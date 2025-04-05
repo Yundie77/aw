@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/config.php';
-require_once __DIR__ . '/includes/FormularioLogin.php';
+require_once __DIR__ . '/includes/config.php';
+use es\ucm\fdi\aw\FormularioLogin;
 
 $form = new FormularioLogin();
 ob_start();
@@ -15,4 +15,4 @@ $htmlFormLogin = ob_get_clean();
 $tituloPagina = 'Login';
 $contenidoPrincipal = $htmlFormLogin;
 
-require __DIR__ . '/includes/vistas/plantilla/plantilla.php';
+require_once RAIZ_APP . '/vistas/plantilla/plantilla.php';

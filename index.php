@@ -1,5 +1,5 @@
 <?php
-require_once 'config.php';
+require_once 'includes/config.php';
 
 // Funcion proporcioanada por chatGPT: explicada en gastos.php
 ob_start();
@@ -31,4 +31,4 @@ ob_start();
 $contenidoPrincipal = ob_get_clean();
 $tituloPagina = "Inicio - CampusCash";
 
-require_once RAIZ_APP . '/includes/vistas/plantilla/plantilla.php';
+require_once RAIZ_APP . '/vistas/plantilla/plantilla.php';

@@ -1,4 +1,6 @@
 <?php
+namespace es\ucm\fdi\aw;
+
 class Usuario {
     // Propiedades que corresponden a los campos de la tabla 'usuarios'
     public $id;

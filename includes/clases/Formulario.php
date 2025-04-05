@@ -1,4 +1,5 @@
 <?php
+namespace es\ucm\fdi\aw;
 
 abstract class Formulario
 {
@@ -262,7 +263,5 @@ abstract class Formulario
         EOS;
         return $htmlForm;
     }
-
-
-
+    
 }

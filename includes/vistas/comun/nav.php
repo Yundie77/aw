@@ -6,20 +6,20 @@ if (session_status() == PHP_SESSION_NONE) {
 ?>
 <nav>
   <div class="navbar-left">
-    <a href="/aw/index.php"><img src="/aw/img/logo.png" alt="Logo" class="logo"></a>
-    <a href="/aw/index.php">Inicio</a>
-    <a href="/aw/gastos.php">Gastos</a>
-    <a href="/aw/grupos.php">Grupos</a>
+    <a href="./index.php"><img src="./img/logo.png" alt="Logo" class="logo"></a>
+    <a href="./index.php">Inicio</a>
+    <a href="./gastos.php">Gastos</a>
+    <a href="./grupos.php">Grupos</a>
     
     <!-- Dropdown para enlaces legacy -->
     <div class="dropdown">
       <button class="dropdown-btn">Más</button>
       <div class="dropdown-content">
-        <a href="/aw/practica1/detalles.php">Detalles</a>
-        <a href="/aw/practica1/bocetos.php">Bocetos</a>
-        <a href="/aw/practica1/miembros.php">Miembros</a>
-        <a href="/aw/practica1/planificacion.php">Planificación</a>
-        <a href="/aw/practica1/contacto.php">Contacto</a>
+        <a href="./practica1/detalles.php">Detalles</a>
+        <a href="./practica1/bocetos.php">Bocetos</a>
+        <a href="./practica1/miembros.php">Miembros</a>
+        <a href="./practica1/planificacion.php">Planificación</a>
+        <a href="./practica1/contacto.php">Contacto</a>
       </div>
     </div>
   </div>
@@ -29,16 +29,16 @@ if (session_status() == PHP_SESSION_NONE) {
     <div class="dropdown">
       <button class="dropdown-btn">Chat</button>
       <div class="dropdown-content">
-        <a href="/aw/chat.php?room=chat1">Chat 1</a>
-        <a href="/aw/chat.php?room=chat2">Chat 2</a>
-        <a href="/aw/chat.php?room=chat3">Chat 3</a>
+        <a href="./chat.php?room=chat1">Chat 1</a>
+        <a href="./chat.php?room=chat2">Chat 2</a>
+        <a href="./chat.php?room=chat3">Chat 3</a>
       </div>
     </div>
     <?php if (isset($_SESSION['user_name'])): ?>
       <span><?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
-      <a href="/aw/logout.php">Salir</a>
+      <a href="./logout.php">Salir</a>
     <?php else: ?>
-      <a href="/aw/login.php">Usuario</a>
+      <a href="./login.php">Usuario</a>
     <?php endif; ?>
   </div>
 </nav>

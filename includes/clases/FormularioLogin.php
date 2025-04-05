@@ -1,7 +1,9 @@
 <?php
+namespace es\ucm\fdi\aw;
 
-require_once __DIR__ . '/Formulario.php';
-require_once __DIR__ . '/clases/Usuario.php';
+use es\ucm\fdi\aw\Aplicacion;
+use es\ucm\fdi\aw\Formulario;
+use es\ucm\fdi\aw\Usuario;
 
 class FormularioLogin extends Formulario {
     public function __construct() {
