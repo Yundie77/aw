@@ -120,9 +120,9 @@ ob_start();
   <a href="historial_gastos.php?orden=fecha_asc">Ordenar por Fecha (ascendente)</a>
 </div>
 
-<script src="js/filtros.js" defer></script>
-<script src="js/debounce.js" defer></script>
-<script src="js/editarGastos.js" defer></script>
+<script src="<?= RUTA_JS ?>filtros.js" defer></script>
+<script src="<?= RUTA_JS ?>debounce.js" defer></script>
+<script src="<?= RUTA_JS ?>editarGastos.js" defer></script>
 
 <?php
 // Funcion proporcioanada por chatGPT: explicada en gastos.php
