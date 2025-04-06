@@ -105,35 +105,37 @@ class FormularioGrupos {
             <div class="modal-content-grupo">
                 <span class="close" onclick="closeModal('modal-agregar-miembro')">&times;</span>
                 <h2>Agregar Nuevo Miembro</h2>
-                <form id="form-agregar-miembro" method="POST">
-                    <label for="grupo_id">Seleccione el Grupo:</label>
-                    <select name="grupo_id" id="grupo_id" required>
-                        <?php foreach ($this->obtenerGrupos() as $grupo): ?>
-                            <option value="<?php echo htmlspecialchars($grupo['id']); ?>">
-                                <?php echo htmlspecialchars($grupo['nombre']); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-
-                    <label for="usuario_id">Seleccione el Miembro:</label>
-                    <select name="usuario_id" id="usuario_id" required>
-                        <?php foreach ($usuarios as $usuario): ?>
-                            <option value="<?php echo htmlspecialchars($usuario['id']); ?>">
-                                <?php echo htmlspecialchars($usuario['nombre']); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-
-                    <label for="rol_grupo">Rol del miembro:</label>
-                    <input type="text" name="rol_grupo" id="rol_grupo" placeholder="Ej. miembro" required>
-
-                    <button type="submit">Agregar Miembro</button>
+                <form action="agregar_miembro.php" method="post">
+                    <div class="form-row">
+                        <label for="grupo_id">Seleccione el Grupo:</label>
+                        <select name="grupo_id" id="grupo_id" required>
+                            <?php foreach ($this->obtenerGrupos() as $grupo): ?>
+                                <option value="<?php echo htmlspecialchars($grupo['id']); ?>">
+                                    <?php echo htmlspecialchars($grupo['nombre']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label for="usuario_id">Seleccione el Miembro:</label>
+                        <select name="usuario_id" id="usuario_id" required>
+                            <?php foreach ($usuarios as $usuario): ?>
+                                <option value="<?php echo htmlspecialchars($usuario['id']); ?>">
+                                    <?php echo htmlspecialchars($usuario['nombre']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label for="rol_grupo">Rol del miembro:</label>
+                        <input type="text" name="rol_grupo" id="rol_grupo" placeholder="Ej. miembro" required>
+                    </div>
+                    <div class="form-row">
+                        <button type="submit">Agregar Miembro</button>
+                    </div>
                 </form>
-
-                
             </div>
         </div>
-
 
         <!-- Modal: Modificar grupo -->
         <div id="modal-modificar-grupo" class="modal">

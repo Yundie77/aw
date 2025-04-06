@@ -44,7 +44,6 @@ if (isset($_GET['mensaje'])) {
     }
 }
 
-
 // Capturamos el contenido generado en el buffer
 $contenidoPrincipal = ob_get_clean();
 
