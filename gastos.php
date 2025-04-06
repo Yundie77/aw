@@ -1,10 +1,12 @@
 <?php
+use es\ucm\fdi\aw\Gastos;
+use es\ucm\fdi\aw\FormularioGasto;
+
 session_start();
 require_once 'includes/config.php';
 $app = \es\ucm\fdi\aw\Aplicacion::getInstance();
 $conn = $app->getConexionBd();
-use es\ucm\fdi\aw\Gastos;
-use es\ucm\fdi\aw\FormularioGasto;
+
 if (!isset($_SESSION['user_id'])) {
     $_SESSION['error'] = "Debes iniciar sesión para acceder a esta funcionalidad.";
     header("Location: login.php");
@@ -63,7 +65,7 @@ ob_start();
       <span id="totalExpenses" style="display:none;">
         <?php echo $gastosTotales; ?>
       </span>
-      <script src="js/donutChart.js"></script>
+      <script src="<?= RUTA_JS ?>donutChart.js"></script>
       <!-- Lista dinámica de categorías con sus totales y porcentaje -->
       <ul class="lista-categorias">
         <?php foreach ($donutData as $item):
@@ -97,7 +99,7 @@ ob_start();
         <?php endforeach; ?>
       </ul>
       <!-- Botón para ver todo el historial -->
-      <button onclick="location.href='historial_gastos.php'">
+      <button onclick="location.href='<?= RUTA_APP ?>historial_gastos.php'">
         Ver historial completo
       </button>
       <!-- Agregamos el canvas para el gráfico de barras DEBAJO del botón -->
@@ -121,7 +123,7 @@ ob_start();
   <script>
     var barData = <?php echo json_encode($barData); ?>;
   </script>
-  <script src="js/barChart.js"></script>
+  <script src="<?= RUTA_JS ?>barChart.js"></script>
 
 </div><!-- Fin container-f1 -->
 

@@ -83,7 +83,7 @@ ob_start();
   <section>
     <h2>Diagrama de Gantt</h2>
     <p>A continuación se muestra el diagrama de Gantt que ilustra la planificación del proyecto:</p>
-    <img src="img/gantt.png" alt="Diagrama de Gantt del proyecto CampusCash" width="800">
+    <img src="<?= RUTA_IMGS ?>gantt.png" alt="Diagrama de Gantt del proyecto CampusCash" width="800">
   </section>
 </main>
 

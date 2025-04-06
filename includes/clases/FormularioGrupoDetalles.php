@@ -88,7 +88,7 @@ class FormularioGrupoDetallesGastos {
         </script>
 
         <!-- Conectamos el script externo para dibujar el gráfico -->
-        <script src="js/detallesChart.js"></script>
+        <script src="<?= RUTA_JS ?>detallesChart.js"></script>
         <?php
         return ob_get_clean();
     }
