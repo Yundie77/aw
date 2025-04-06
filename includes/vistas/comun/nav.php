@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../../includes/config.php'; // Asegúrate que el path sea correcto
+require_once __DIR__ . '/../../../includes/config.php';
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -11,7 +11,6 @@ if (session_status() == PHP_SESSION_NONE) {
     <a href="<?= RUTA_APP ?>gastos.php">Gastos</a>
     <a href="<?= RUTA_APP ?>grupos.php">Grupos</a>
     
-    <!-- Dropdown para enlaces legacy -->
     <div class="dropdown">
       <button class="dropdown-btn">Más</button>
       <div class="dropdown-content">
@@ -25,7 +24,6 @@ if (session_status() == PHP_SESSION_NONE) {
   </div>
   
   <div class="navbar-right">
-    <!-- Chat dropdown para seleccionar sala de chat -->
     <div class="dropdown">
       <button class="dropdown-btn">Chat</button>
       <div class="dropdown-content">
