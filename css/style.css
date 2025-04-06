@@ -2,6 +2,7 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  /* Estilo base para el cuerpo del documento */
 }
 
 .main-nav ul {
@@ -9,17 +10,20 @@ body {
   display: flex;
   gap: 1rem;
   justify-content: center;
+  /* Diseño de la lista de navegación principal */
 }
 
 .main-nav a {
   text-decoration: none;
   color: #333;
+  /* Estilo de los enlaces en la barra de navegación */
 }
 
 .no-grupos {
   grid-column: 1 / -1;
   text-align: center; 
   width: 100%;
+  /* Mensaje para mostrar cuando no hay grupos disponibles */
 }
 
 .grupo-list {
@@ -31,6 +35,7 @@ body {
   justify-content: center;
   margin-top: 35px;
   margin-bottom: 35px;
+  /* Diseño de la lista de grupos en formato de cuadrícula */
 }
 
 .grupo-item {
@@ -39,6 +44,7 @@ body {
   width: 350px;
   text-align: center;
   border-radius: 8px;
+  /* Estilo de cada elemento individual de grupo */
 }
 
 /* Barra de navegación */
@@ -49,12 +55,14 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  /* Barra de navegación superior */
 }
 
 nav a {
   margin: 0 10px;
   text-decoration: none;
   color: #333;
+  /* Estilo de los enlaces dentro de la barra de navegación */
 }
 
 .navbar-left .logo {
@@ -63,11 +71,13 @@ nav a {
   margin-right: 15px;
   border-radius: 50%;
   object-fit: cover;
+  /* Estilo del logo en la barra de navegación */
 }
 
 .navbar-left {
   display: flex;
   align-items: center;
+  /* Contenedor para los elementos alineados a la izquierda en la barra de navegación */
 }
 
 .navbar-left a {
@@ -75,12 +85,14 @@ nav a {
   text-decoration: none;
   color: #333;
   font-weight: 600;
+  /* Estilo de los enlaces alineados a la izquierda */
 }
 
 .navbar-right {
   display: flex;
   align-items: center;
   margin-right: 20px;
+  /* Contenedor para los elementos alineados a la derecha en la barra de navegación */
 }
 
 .navbar-right a {
@@ -88,6 +100,7 @@ nav a {
   text-decoration: none;
   color: #333;
   font-weight: 600;
+  /* Estilo de los enlaces alineados a la derecha */
 }
 
 /* Contenedor principal */
@@ -103,6 +116,7 @@ nav a {
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 8px;
+  /* Contenedor principal de la funcionalidad F1 */
 }
 
 /* === summary (fila 1) - recuadros de totales === */
@@ -110,6 +124,7 @@ nav a {
   display: flex;
   justify-content: space-around;
   margin-bottom: 10px;
+  /* Contenedor de los recuadros de totales */
 }
 
 .summary .box {
@@ -119,12 +134,14 @@ nav a {
   text-align: center;
   border: 1px solid #ccc;
   border-radius: 8px;
+  /* Estilo de cada recuadro de total */
 }
 
 .summary .cantidad {
   font-size: 1.2em;
   font-weight: bold;
   margin-bottom: 5px;
+  /* Estilo de la cantidad en los recuadros de totales */
 }
 
 /* === Zona principal (fila 2) - gráfico + últimos movimientos === */
@@ -132,6 +149,7 @@ nav a {
   display: flex;
   justify-content: space-between;
   gap: 20px;
+  /* Contenedor de la zona principal */
 }
 
 .chart-section {
@@ -140,6 +158,7 @@ nav a {
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 10px;
+  /* Sección del gráfico */
 }
 
 .last-movements {
@@ -148,20 +167,24 @@ nav a {
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 10px;
+  /* Sección de los últimos movimientos */
 }
 
 .last-movements ul {
   list-style: none;
   margin-top: 10px;
+  /* Lista de los últimos movimientos */
 }
 
 .last-movements li {
   margin-bottom: 8px;
+  /* Elemento de la lista de los últimos movimientos */
 }
 
 .last-movements button{
   display: block;       
   margin: 10px auto; 
+  /* Botón en la sección de los últimos movimientos */
 }
 
 /* Formulario y categorías en la parte de abajo */
@@ -172,16 +195,19 @@ nav a {
   padding: 20px;
   width: 600px;
   margin: 0 auto;
+  /* Sección del formulario */
 }
 
 .form-section form>div {
   margin-bottom: 10px;
+  /* Contenedor de cada fila del formulario */
 }
 
 .form-section label {
   display: inline-block;
   width: 80px;
   font-weight: bold;
+  /* Estilo de las etiquetas del formulario */
 }
 
 .categories {
@@ -190,6 +216,7 @@ nav a {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 8px;
+  /* Sección de categorías */
 }
 
 /* Botones */
@@ -201,10 +228,12 @@ button {
   margin: 5px 0;
   cursor: pointer;
   border-radius: 4px;
+  /* Estilo de los botones */
 }
 
 button:hover {
   background-color: #45a049;
+  /* Estilo de los botones al pasar el cursor */
 }
 
 /* Tabla historial */
@@ -212,6 +241,7 @@ button:hover {
   width: 80%;
   margin: 20px auto;
   border-collapse: collapse;
+  /* Tabla de historial de gastos */
 }
 
 .tabla-gastos th,
@@ -219,10 +249,12 @@ button:hover {
   border: 1px solid #ccc;
   padding: 8px;
   text-align: left;
+  /* Estilo de las celdas de la tabla */
 }
 
 .tabla-gastos th {
   background-color: #eee;
+  /* Estilo de los encabezados de la tabla */
 }
 
 /* Contenedor de cada fila del formulario */
@@ -230,12 +262,14 @@ button:hover {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  /* Contenedor de cada fila del formulario */
 }
 
 .form-row label {
   width: 100px;
   margin-right: 10px;
   font-weight: bold;
+  /* Estilo de las etiquetas del formulario */
 }
 
 .form-row input[type="text"],
@@ -247,10 +281,12 @@ button:hover {
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  /* Estilo de los campos del formulario */
 }
 
 .chart-section {
   width: 50%;
+  /* Ancho de la sección del gráfico */
 }
 
 /* Estilos básicos para el formulario de filtros y la tabla */
@@ -261,22 +297,26 @@ button:hover {
   flex-wrap: wrap;
   gap: 10px;
   align-items: flex-end;
+  /* Contenedor del formulario de filtros */
 }
 
 .filtros label {
   font-weight: bold;
+  /* Estilo de las etiquetas del formulario de filtros */
 }
 
 .filtros input,
 .filtros select {
   padding: 5px;
   font-size: 14px;
+  /* Estilo de los campos del formulario de filtros */
 }
 
 .tabla-gastos {
   width: 90%;
   margin: 20px auto;
   border-collapse: collapse;
+  /* Tabla de historial de gastos */
 }
 
 .tabla-gastos th,
@@ -284,10 +324,12 @@ button:hover {
   border: 1px solid #ccc;
   padding: 8px;
   text-align: left;
+  /* Estilo de las celdas de la tabla */
 }
 
 .tabla-gastos th {
   background-color: #eee;
+  /* Estilo de los encabezados de la tabla */
 }
 
 /* Contenedor principal con 3 columnas (flex) */
@@ -296,6 +338,7 @@ button:hover {
   gap: 2rem;
   margin: 2rem;
   margin-bottom: 60px;
+  /* Contenedor principal de los detalles */
 }
 
 .details-header {
@@ -308,17 +351,20 @@ button:hover {
   justify-content: center;
   align-items: center;
   margin-bottom: 1rem;  
+  /* Encabezado de los detalles */
 }
 
 .details-header h2 {
   margin: 0;  
   font-size: 18px;           
   text-align: center;
+  /* Título del encabezado de los detalles */
 }
 
 .sidebar-container {
   display: flex;
   flex-direction: column; 
+  /* Contenedor de la barra lateral */
 }
 
 /* Columna izquierda: Detalles del grupo */
@@ -329,23 +375,27 @@ button:hover {
   border-radius: 8px;
   background-color: #fafafa;
   padding: 0.8rem 1rem 1rem;
+  /* Barra lateral de los detalles del grupo */
 }
 
 .details-sidebar h2 {
   margin-bottom: 1rem;
   text-align: center;
+  /* Título de la barra lateral de los detalles del grupo */
 }
 
 .details-sidebar ul {
   list-style-type: unset;
   padding-left: 20px;
   text-align: left;
+  /* Lista de detalles del grupo */
 }
 
 .details-sidebar li {
   margin: 10px 0; 
   color: #333;
   padding-left: 10px;
+  /* Elemento de la lista de detalles del grupo */
 }
 
 .details-container-gastos {
@@ -354,6 +404,7 @@ button:hover {
   margin-left: 17rem;
   margin-top: 3rem;
   margin-bottom: 50px; 
+  /* Contenedor de los detalles de gastos */
 }
 
 /* Columna izquierda: Detalles del grupo */
@@ -363,20 +414,24 @@ button:hover {
   border-radius: 8px;
   background-color: #fafafa;
   padding: 1rem;
+  /* Barra lateral de los detalles de gastos */
 }
 
 .details-sidebar-gastos h2 {
   margin-bottom: 1rem;
   text-align: center;
+  /* Título de la barra lateral de los detalles de gastos */
 }
 
 .details-sidebar-gastos ul {
   list-style: square;
   text-align: left;
+  /* Lista de detalles de gastos */
 }
 
 .details-sidebar-gastos li {
   margin-bottom: 0.5rem;
+  /* Elemento de la lista de detalles de gastos */
 }
 
 /* Columna central: Gráfico */
@@ -390,6 +445,7 @@ button:hover {
   border-radius: 8px;
   background-color: #fafafa;
   padding: 1rem;
+  /* Contenedor del gráfico */
 }
 
 .chart-container canvas {
@@ -397,6 +453,7 @@ button:hover {
   width: 58% !important;
   height: 90% !important;
   margin-top: 15px;
+  /* Estilo del canvas del gráfico */
 }
 
 .grupo-actions {
@@ -406,6 +463,7 @@ button:hover {
   margin-right: 25px;
   margin-bottom: 10px;
   height: 43px;
+  /* Contenedor de las acciones del grupo */
 }
 
 /* Columna derecha: Botones */
@@ -421,6 +479,7 @@ button:hover {
   border-radius: 18px;
   background-color: #fafafa;
   margin-top: 15%;
+  /* Barra lateral de botones */
 }
 
 .buttons-sidebar button {
@@ -432,23 +491,26 @@ button:hover {
   color: white;
   cursor: pointer;
   font-weight: bold;
+  /* Estilo de los botones en la barra lateral */
 }
 
 .buttons-sidebar button:hover {
   background-color: #45a049; 
+  /* Estilo de los botones al pasar el cursor */
 }
 
-/* Style for the selected button */
+/* Estilo para el botón seleccionado */
 .buttons-sidebar button.selected {
   background-color: #a2a2a2;
   color: white;
+  /* Estilo del botón seleccionado */
 }
 
 .buttons-sidebar button.selected:hover {
   background-color: #989898;
   color: white;
+  /* Estilo del botón seleccionado al pasar el cursor */
 }
-
 
 .buttons-sidebar-gastos {
   width: 160px;
@@ -463,6 +525,7 @@ button:hover {
   background-color: #fafafa;
   margin-top: 180px;
   margin-left: 20px;
+  /* Barra lateral de botones de gastos */
 }
 
 .buttons-sidebar-gastos button {
@@ -474,21 +537,25 @@ button:hover {
   color: white;
   cursor: pointer;
   font-weight: bold;
+  /* Estilo de los botones en la barra lateral de gastos */
 }
 
 .buttons-sidebar-gastos button:hover {
   background-color: #45a049; 
+  /* Estilo de los botones al pasar el cursor */
 }
 
-/* Style for the selected button */
+/* Estilo para el botón seleccionado */
 .buttons-sidebar-gastos button.selected {
   background-color: #a2a2a2;
   color: white;
+  /* Estilo del botón seleccionado */
 }
 
 .buttons-sidebar-gastos button.selected:hover {
   background-color: #989898;
   color: white;
+  /* Estilo del botón seleccionado al pasar el cursor */
 }
 
 .seccion-container {
@@ -503,12 +570,14 @@ button:hover {
   background-color: #fafafa;
   padding: 1rem;
   margin-left: 0px;
+  /* Contenedor de la sección */
 }
 
 .seccion-container h3 {
   margin-top: 5px;
   margin-bottom: 0;
   text-align: center;  
+  /* Título de la sección */
 }
 
 .seccion-container h3.highlight {
@@ -521,12 +590,14 @@ button:hover {
   display: inline-block; 
   font-size: 18px;  
   line-height: 25px;
+  /* Título destacado de la sección */
 }
 
 .seccion-container li {
   font-size: 16px;
   color: #333;
   margin: 10px 0;
+  /* Elemento de la lista de la sección */
 }
 
 .seccion-container ul {
@@ -534,6 +605,7 @@ button:hover {
   text-align: left;     
   width: 100%;           
   padding-left: 20px;
+  /* Lista de la sección */
 }
 
 /* ==============================
@@ -542,6 +614,7 @@ button:hover {
 .dropdown {
   position: relative;
   display: inline-block;
+  /* Contenedor del dropdown */
 }
 
 .dropdown-btn {
@@ -552,6 +625,7 @@ button:hover {
   cursor: pointer;
   font-weight: 600;
   color: #333;
+  /* Botón del dropdown */
 }
 
 .dropdown-content {
@@ -563,6 +637,7 @@ button:hover {
   border: 1px solid #ccc;
   border-radius: 4px;
   z-index: 1;
+  /* Contenido del dropdown */
 }
 
 .dropdown-content a {
@@ -571,18 +646,22 @@ button:hover {
   text-decoration: none;
   color: #333;
   font-weight: normal;
+  /* Enlaces dentro del dropdown */
 }
 
 .dropdown-content a:hover {
   background-color: #f1f1f1;
+  /* Estilo de los enlaces al pasar el cursor */
 }
 
 .dropdown:hover .dropdown-content {
   display: block;
+  /* Mostrar el contenido del dropdown al pasar el cursor */
 }
 
 .dropdown:hover .dropdown-btn {
   background-color: #eaeaea;
+  /* Estilo del botón del dropdown al pasar el cursor */
 }
 
 /* Contenedor principal del panel de administración */
@@ -593,20 +672,24 @@ button:hover {
   border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #fafafa;
+  /* Contenedor principal del panel de administración */
 }
 
 .admin-container h2 {
   text-align: center;
   margin-bottom: 1rem;
+  /* Título del panel de administración */
 }
 
 .search-box {
   text-align: center;
   margin-bottom: 1rem;
+  /* Contenedor de la caja de búsqueda */
 }
 
 .search-box h3 {
   margin-bottom: 0.5rem;
+  /* Título de la caja de búsqueda */
 }
 
 .search-box input {
@@ -614,26 +697,29 @@ button:hover {
   width: 50%;
   border: 1px solid #ccc;
   border-radius: 4px;
+  /* Campo de entrada de la caja de búsqueda */
 }
 
 .user-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
+  /* Tabla de usuarios */
 }
 
 .user-table th, .user-table td {
   border: 1px solid #ccc;
   padding: 0.75rem;
   text-align: left;
+  /* Estilo de las celdas de la tabla de usuarios */
 }
 
 .user-table th {
   background-color: #eee;
+  /* Estilo de los encabezados de la tabla de usuarios */
 }
 
-
-/* Style for the login container */
+/* Estilo para el contenedor de inicio de sesión */
 .login-container {
   background-color: #fff;
   padding: 30px;
@@ -648,44 +734,50 @@ button:hover {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  /* Contenedor del formulario de inicio de sesión */
 }
 
-/* Title styling */
+/* Estilo del título */
 .login-container h2 {
   margin-bottom: 30px;
   font-size: 24px;
   color: #333;
+  /* Título del formulario de inicio de sesión */
 }
 
-/* Form group container */
+/* Contenedor del grupo de formulario */
 .form-group {
   margin-bottom: 20px;
   width: 100%;
+  /* Contenedor de cada grupo de formulario */
 }
 
-/* Label for inputs */
+/* Etiqueta para los campos de entrada */
 .form-group label {
   display: block;
   font-size: 15px;
   color: #333;
   margin-bottom: 10px;
+  /* Estilo de las etiquetas del formulario */
 }
 
-/* Input field styling */
+/* Estilo de los campos de entrada */
 .form-group input {
   width: 90%;
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
   font-size: 16px;
+  /* Estilo de los campos de entrada */
 }
 
 .form-group input:focus {
   border-color: #007bff;
   outline: none;
+  /* Estilo de los campos de entrada al enfocarse */
 }
 
-/* Button styling */
+/* Estilo de los botones */
 .btn {
   width: 70%;
   padding: 12px;
@@ -696,20 +788,24 @@ button:hover {
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
+  /* Estilo de los botones */
 }
 
 .btn:hover {
   background-color: #0056b3;
+  /* Estilo de los botones al pasar el cursor */
 }
 
-/* Error message */
+/* Mensaje de error */
 .error-message {
   color: red;
   margin-bottom: 15px;
+  /* Estilo del mensaje de error */
 }
 
 form {
   width: 100%;
+  /* Estilo del formulario */
 }
 
 /* Estilo para la página de inicio */
@@ -717,24 +813,29 @@ main h1 {
   font-family: 'Arial', sans-serif;
   font-weight: bold;
   margin-bottom: 20px;
+  /* Estilo del título principal */
 }
 
 main section h2 {
   font-size: 1.8em;
   margin-bottom: 10px;
+  /* Estilo de los títulos de las secciones */
 }
 
 main section p {
   color: #555;
+  /* Estilo de los párrafos de las secciones */
 }
 
 main a {
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  /* Estilo de los enlaces */
 }
 
 main a:hover {
   background-color: #979797;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  /* Estilo de los enlaces al pasar el cursor */
 }
 
 .welcome-title {
@@ -744,17 +845,20 @@ main a:hover {
   font-family: 'Arial', sans-serif;
   font-weight: bold;
   margin-bottom: 20px;
+  /* Estilo del título de bienvenida */
 }
 
 .logo-container {
   text-align: center;
   margin: 20px 0;
+  /* Contenedor del logo */
 }
 
 .logo-image {
   width: 150px;
   border-radius: 50%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /* Estilo de la imagen del logo */
 }
 
 .project-description {
@@ -763,21 +867,25 @@ main a:hover {
   margin: 0 auto;
   font-size: 1.2em;
   line-height: 1.6;
+  /* Descripción del proyecto */
 }
 
 .project-description h2 {
   color: #333;
   font-size: 1.8em;
   margin-bottom: 10px;
+  /* Título de la descripción del proyecto */
 }
 
 .project-description p {
   color: #555;
+  /* Párrafo de la descripción del proyecto */
 }
 
 .explore-button-container {
   text-align: center;
   margin-top: 30px;
+  /* Contenedor del botón de explorar */
 }
 
 .explore-button {
@@ -789,17 +897,20 @@ main a:hover {
   font-size: 1.2em;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  /* Estilo del botón de explorar */
 }
 
 .explore-button:hover {
   background-color: #45a049;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  /* Estilo del botón de explorar al pasar el cursor */
 }
 
 /* Estilo para la página de inicio */
 .index-main {
   text-align: center;
   padding: 20px;
+  /* Contenedor principal de la página de inicio */
 }
 
 .welcome-title {
@@ -808,16 +919,19 @@ main a:hover {
   font-family: 'Arial', sans-serif;
   font-weight: bold;
   margin-bottom: 20px;
+  /* Estilo del título de bienvenida */
 }
 
 .logo-container {
   margin: 20px 0;
+  /* Contenedor del logo */
 }
 
 .logo-image {
   width: 150px;
   border-radius: 50%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /* Estilo de la imagen del logo */
 }
 
 .project-description {
@@ -825,20 +939,24 @@ main a:hover {
   margin: 0 auto;
   font-size: 1.2em;
   line-height: 1.6;
+  /* Descripción del proyecto */
 }
 
 .project-description h2 {
   color: #333;
   font-size: 1.8em;
   margin-bottom: 10px;
+  /* Título de la descripción del proyecto */
 }
 
 .project-description p {
   color: #555;
+  /* Párrafo de la descripción del proyecto */
 }
 
 .explore-button-container {
   margin-top: 30px;
+  /* Contenedor del botón de explorar */
 }
 
 .explore-button {
@@ -850,11 +968,13 @@ main a:hover {
   font-size: 1.2em;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  /* Estilo del botón de explorar */
 }
 
 .explore-button:hover {
   background-color: #45a049;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  /* Estilo del botón de explorar al pasar el cursor */
 }
 
 /* Estilo para el botón verde */
@@ -866,10 +986,12 @@ main a:hover {
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
+    /* Estilo del botón verde */
 }
 
 .btn-green:hover {
     background-color: #45a049;
+    /* Estilo del botón verde al pasar el cursor */
 }
 
 /* Estilos para los modales */
@@ -883,6 +1005,7 @@ main a:hover {
   height: 100%;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.5);
+  /* Estilo del modal */
 }
 
 .modal-content {
@@ -894,6 +1017,7 @@ main a:hover {
   height: 500px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /* Contenido del modal */
 }
 
 .modal .close {
@@ -902,29 +1026,35 @@ main a:hover {
   font-size: 28px;
   font-weight: bold;
   cursor: pointer;
+  /* Botón de cerrar el modal */
 }
 
 .modal .close:hover {
   color: #000;
+  /* Estilo del botón de cerrar al pasar el cursor */
 }
 
 .modal-content form input,
 .modal-content form select {
   margin-bottom: 10px;
+  /* Estilo de los campos del formulario dentro del modal */
 }
 
 .modal-content form textarea {
   margin-top: 5px;
+  /* Estilo del textarea dentro del modal */
 }
 
 .modal-content form button {
   margin-top: 10px;
+  /* Estilo del botón dentro del modal */
 }
 
 .formulario-gasto .submit-group {
   width: 100%;
   display: flex;
   justify-content: center;
+  /* Grupo de envío del formulario de gasto */
 }
 
 .modal-content-grupo {
@@ -936,30 +1066,36 @@ main a:hover {
   height: auto;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /* Contenido del modal de grupo */
 }
 
 .modal-content-grupo form input,
 .modal-content-grupo form select {
   margin-bottom: 5px;
+  /* Estilo de los campos del formulario dentro del modal de grupo */
 }
 
 .modal-content-grupo form textarea {
   margin-top: 5px;
+  /* Estilo del textarea dentro del modal de grupo */
 }
 
 .modal-content-grupo form button {
   margin-top: 15px;
+  /* Estilo del botón dentro del modal de grupo */
 }
 
 .form-row {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  /* Contenedor de cada fila del formulario */
 }
 
 .form-row label {
   box-sizing: border-box;
   font-weight: bold;
+  /* Estilo de las etiquetas del formulario */
 }
 
 .form-row input,
@@ -968,22 +1104,26 @@ main a:hover {
   flex: 1;
   box-sizing: border-box;
   margin-left: 20px;
+  /* Estilo de los campos del formulario */
 }
 
 .modal-content-grupo h2 {
   margin-bottom: 25px;
+  /* Título del modal de grupo */
 }
 
 .modal-content-grupo .form-row {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  /* Contenedor de cada fila del formulario dentro del modal de grupo */
 }
 
 .modal-content-grupo .form-row label {
   flex: 0 0 38%;
   box-sizing: border-box;
   font-weight: bold;
+  /* Estilo de las etiquetas del formulario dentro del modal de grupo */
 }
 
 .modal-content-grupo .form-row input,
@@ -992,4 +1132,5 @@ main a:hover {
   flex: 0 0 60%;
   box-sizing: border-box;
   margin-left: 5px;
+  /* Estilo de los campos del formulario dentro del modal de grupo */
 }

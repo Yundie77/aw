@@ -196,5 +196,14 @@ class Gastos {
         return $tiposArray;
     }
 
+    public function eliminarGasto($id, $user_id) {
+        $sql = "DELETE FROM gastos WHERE id = ? AND usuario_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ii", $id, $user_id);
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
+    }
+
 }
 ?>

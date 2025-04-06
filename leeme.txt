@@ -2,24 +2,39 @@ Funcionalidades implementadas en esta entrega:
 
 Gestión de Gastos (F1)
 
--Registro de ingresos y gastos individuales.
--Cálculo y visualización de totales (ingresos y gastos generales y mensuales).
--Historial de gastos con filtros (por tipo, categoría y búsqueda) y ordenamiento por fecha.
--Funcionalidades de edición y eliminación de registros.
--Grado de completitud: 100% funcional.
--Filtros dinámicos para facilitar la búsqueda en el historial de gastos.
--Permite agregar nuevas categorías dinámicamente mediante una opción “Otro/Otra categoría”.
+- Registro de ingresos y gastos individuales.
+- Cálculo y visualización de totales (ingresos y gastos generales y mensuales).
+- Historial de gastos con filtros (por tipo, categoría y búsqueda) y ordenamiento por fecha.
+- Funcionalidades de edición y eliminación de registros.
+- Filtros dinámicos para facilitar la búsqueda en el historial de gastos.
+- Permite agregar nuevas categorías dinámicamente mediante una opción “Otro/Otra categoría”.
+- **Grado de completitud:** 100% funcional.
 
 Generación de Gráficos e Informes (F2)
 
--Visualización de un gráfico tipo donut que agrupa los gastos por categoría y muestra porcentajes.
--Grado de completitud: Parcial (gráfico básico implementado).
+- Visualización de un gráfico tipo donut que agrupa los gastos por categoría y muestra porcentajes.
+- **Grado de completitud:** 100% funcional. (Aunque para la entrega final podemos añadir más personalización y más tipos de gráficos).
+
+Gastos Grupales (F3)
+
+- Gestión de gastos compartidos entre usuarios.
+- Creación de grupos con nombre, objetivo y descripción.
+- Visualización de detalles del grupo, incluyendo participantes y sus aportaciones.
+- Visualización de gráficos que muestran el balance de los participantes y los gastos por categoría.
+- **Grado de completitud:** Parcial.
+
 
 Funcionalidades pendientes:
 
-Gastos grupales (F3)
 Chat/Foro (F4)
+
+- Espacio de interacción para compartir consejos financieros, dudas o experiencias.
+- **Grado de completitud:** No implementado.
+
 Panel de Administración (F5)
+
+- Herramientas para supervisar usuarios, moderar el foro y generar estadísticas.
+- **Grado de completitud:** No implementado.
 
 
 
