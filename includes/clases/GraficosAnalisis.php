@@ -8,10 +8,18 @@ class GraficosAnalisis {
         $app = Aplicacion::getInstance();
         $this->conn = $app->getConexionBd();
     }
-    
+
     public function getGastosMensuales($user_id) {
         $gastos = new Gastos();
         $gastosPorMes = $gastos->getGastosMensualesPorMes($user_id);
+        
+        // si no hay datos, devolver estructura vacia
+        if (empty($gastosPorMes)) {
+            return [
+                'labels' => [],
+                'datos' => []
+            ];
+        }
         
         $meses = [];
         $datosGastos = [];
@@ -19,6 +27,7 @@ class GraficosAnalisis {
         foreach ($gastosPorMes as $dato) {
             $timestamp = mktime(0, 0, 0, $dato['mes'], 1);
             $nombreMes = strftime('%B', $timestamp); 
+            $meses[] = $nombreMes;
             $datosGastos[] = $dato['total'];
         }
         
@@ -31,6 +40,15 @@ class GraficosAnalisis {
     public function getComparacionGastos($user_id) {
         $gastos = new Gastos();
         $gastosPorCategoria = $gastos->getGastosPorCategoria($user_id);
+        
+        // si no hay datos, devolver estructura vacia
+        if (empty($gastosPorCategoria)) {
+            return [
+                'categorias' => [],
+                'datosUsuario' => [],
+                'datosPromedio' => []
+            ];
+        }
         
         $categorias = [];
         $valoresUsuario = [];
@@ -52,6 +70,10 @@ class GraficosAnalisis {
     public function getIngresosVsGastos($user_id) {
         $gastos = new Gastos();
         $ingresosGastos = $gastos->getIngresosVsGastos($user_id);
+
+        if (empty($ingresosGastos)) {
+            return [];
+        }
         
         $datosFormateados = [];
         
@@ -60,8 +82,8 @@ class GraficosAnalisis {
             $nombreMes = strftime('%B', $timestamp);
             
             $datosFormateados[] = [
-                'x' => floatval($dato['ingresos']),
-                'y' => floatval($dato['gastos']),
+                'x' => floatval($dato['ingresos']) > 0 ? floatval($dato['ingresos']) : 0,
+                'y' => floatval($dato['gastos']) > 0 ? floatval($dato['gastos']) : 0,
                 'label' => $nombreMes
             ];
         }
@@ -72,9 +94,18 @@ class GraficosAnalisis {
     public function getGastosPorCategoriaPorMes($user_id, $numMeses = 6) {
         $gastos = new Gastos();
         $gastosPorCategoriaMes = $gastos->getGastosPorCategoriaMes($user_id, $numMeses);
+        
+        if (empty($gastosPorCategoriaMes)) {
+            return [
+                'meses' => [],
+                'categorias' => [],
+                'datos' => []
+            ];
+        }
 
         $mesesBarras = [];
         $categorias = [];
+
         foreach ($gastosPorCategoriaMes as $dato) {
             if (!in_array($dato['categoria'], $categorias)) {
                 $categorias[] = $dato['categoria'];
@@ -86,7 +117,7 @@ class GraficosAnalisis {
                 $mesesBarras[] = $nombreMes;
             }
         }
-        
+
         $datosPorCategoria = [];
         foreach ($categorias as $categoria) {
             $datosPorCategoria[$categoria] = [];
@@ -95,7 +126,7 @@ class GraficosAnalisis {
                 $datosPorCategoria[$categoria][$mes] = 0;
             }
         }
-
+        
         foreach ($gastosPorCategoriaMes as $dato) {
             $timestamp = mktime(0, 0, 0, $dato['mes'], 1);
             $nombreMes = strftime('%B', $timestamp);
