@@ -13,7 +13,11 @@ Gestión de Gastos (F1)
 Generación de Gráficos e Informes (F2)
 
 - Visualización de un gráfico tipo donut que agrupa los gastos por categoría y muestra porcentajes.
-- **Grado de completitud:** 100% funcional. (Aunque para la entrega final podemos añadir más personalización y más tipos de gráficos).
+- Gráfico de línea para analizar los gastos a lo largo del tiempo.
+- Gráfico comparativo que muestra los gastos del usuario frente al promedio de otros estudiantes.
+- Gráfico de dispersión para analizar la relación entre ingresos y gastos mensuales.
+- Gráfico de barras apiladas para visualizar el desglose de gastos por categoría a lo largo del tiempo.
+- **Grado de completitud:** 100% funcional.
 
 Gastos Grupales (F3)
 
