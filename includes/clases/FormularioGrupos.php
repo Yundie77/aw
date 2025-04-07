@@ -202,6 +202,8 @@ class FormularioGrupos {
             </form>
         </div>
         </div>
+
+        <?php endif; ?> <!-- ← Esto faltaba -->
             <script src="<?= RUTA_JS ?>modal.js"></script>
         </div>
         <div id="mensaje-resultado"></div>
