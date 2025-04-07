@@ -1199,3 +1199,25 @@ main a:hover {
     min-width: 100%;
   }
 }
+
+.mensaje-error {
+  background-color: #f8d7da;  /* Color de fondo rojo suave */
+  color: #721c24;  /* Texto color rojo oscuro */
+  border: 1px solid #f5c6cb;  /* Borde suave con tono similar */
+  padding: 10px 20px;  /* Espaciado */
+  margin: 10px 0;  /* Margen superior e inferior */
+  border-radius: 5px;  /* Bordes redondeados */
+  font-size: 16px;  /* Tamaño de fuente */
+  text-align: center;  /* Centrar el texto */
+  width: 100%;  /* Asegurarse de que ocupe todo el ancho */
+  box-sizing: border-box;  /* Incluir el padding en el cálculo del ancho */
+}
+
+.mensaje-error a {
+  color: #721c24;  /* Color para el enlace, que debe ser el mismo tono */
+  font-weight: bold;  /* Hacer el enlace un poco más destacable */
+}
+
+.mensaje-error a:hover {
+  text-decoration: underline;  /* Subrayado en el hover */
+}
