@@ -1,6 +1,8 @@
 <?php
 namespace es\ucm\fdi\aw;
 
+require_once __DIR__ . '/Grupos.php'; // Incluye la clase Grupos
+
 class FormularioGrupoDetallesGastos {
     private $conn;
     private $grupos;

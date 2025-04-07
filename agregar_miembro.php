@@ -70,5 +70,5 @@ if ($stmt->execute()) {
     exit;
 }
 
-$stmt->close();
+
 ?>
