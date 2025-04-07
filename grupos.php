@@ -10,6 +10,12 @@ require_once 'includes/clases/FormularioGrupos.php';
 $app = \es\ucm\fdi\aw\Aplicacion::getInstance();
 $conn = $app->getConexionBd();
 
+if (!isset($_SESSION['user_id'])) {
+    $_SESSION['error'] = "Debes iniciar sesión para acceder a esta funcionalidad.";
+    header("Location: login.php");
+    exit();
+}
+
 // Creamos una instancia del formulario de grupos
 $formularioGrupos = new \es\ucm\fdi\aw\FormularioGrupos($conn);
 
@@ -43,7 +49,6 @@ if (isset($_GET['mensaje'])) {
             break;
     }
 }
-
 
 // Capturamos el contenido generado en el buffer
 $contenidoPrincipal = ob_get_clean();

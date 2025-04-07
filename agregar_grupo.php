@@ -1,5 +1,10 @@
 <?php
 session_start();
+require_once 'includes/config.php';
+
+if (!isset($_SESSION['user_id'])) {
+    die("Debes iniciar sesión para agregar un grupo.");
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once __DIR__ . '/includes/config.php';

@@ -3,34 +3,21 @@ namespace es\ucm\fdi\aw;
 
 class FormularioGrupoDetallesGastos {
     private $conn;
+    private $grupos;
 
     public function __construct($conn) {
         $this->conn = $conn;
+        $this->grupos = new \Grupos($conn); // Instancia de la clase Grupos
     }
 
     // Obtener los detalles de un grupo por ID
     public function obtenerGrupo($group_id) {
-        $stmt = $this->conn->prepare("SELECT * FROM grupos WHERE id = ?");
-        $stmt->bind_param("i", $group_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_assoc();
+        return $this->grupos->obtenerGrupo($group_id); // Llama al método de Grupos
     }
 
     // Obtener los participantes y sus gastos
     public function obtenerParticipantes($group_id) {
-        $stmt = $this->conn->prepare("
-            SELECT u.nombre, COALESCE(SUM(gm.monto), 0) AS total 
-            FROM grupo_usuarios gu 
-            INNER JOIN usuarios u ON gu.usuario_id = u.id 
-            LEFT JOIN gastos_grupales gm ON gu.grupo_id = gm.grupo_id AND gu.usuario_id = gm.usuario_id 
-            WHERE gu.grupo_id = ? 
-            GROUP BY gu.usuario_id, u.nombre
-        ");
-        $stmt->bind_param("i", $group_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
+        return $this->grupos->obtenerParticipantes($group_id); // Llama al método de Grupos
     }
 
     // Generar el gráfico de participantes
@@ -88,7 +75,7 @@ class FormularioGrupoDetallesGastos {
         </script>
 
         <!-- Conectamos el script externo para dibujar el gráfico -->
-        <script src="js/detallesChart.js"></script>
+        <script src="<?= RUTA_JS ?>detallesChart.js"></script>
         <?php
         return ob_get_clean();
     }

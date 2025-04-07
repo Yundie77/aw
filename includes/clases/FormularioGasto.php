@@ -9,8 +9,8 @@ use es\ucm\fdi\aw\Gastos;
 class FormularioGasto extends Formulario {
     public function __construct() {
         parent::__construct('formGasto', [
-            'action' => Aplicacion::getInstance()->resuelve('/aw/gastos.php'),
-            'urlRedireccion' => Aplicacion::getInstance()->resuelve('/aw/gastos.php'),
+            'action' => Aplicacion::getInstance()->resuelve(RUTA_APP . 'gastos.php'),
+            'urlRedireccion' => Aplicacion::getInstance()->resuelve(RUTA_APP . 'gastos.php'),
             'class' => 'formulario-gasto'
         ]);
     }
@@ -47,7 +47,8 @@ class FormularioGasto extends Formulario {
                 <option value="otra">Crear nueva categoría</option>
             </select>
             <input type="text" name="categoria_nueva" id="categoriaNueva" placeholder="Escribe nueva categoría" style="display:none;">
-            <script src="js/categorias.js"></script>
+            <script src="<?= RUTA_JS ?>categorias.js"></script>
+            
         </div>
         <div class="form-group form-row">
             <label for="monto">Monto (€):</label>

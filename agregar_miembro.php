@@ -7,6 +7,10 @@ require_once __DIR__ . '/includes/config.php';
 
 use es\ucm\fdi\aw\Aplicacion;
 
+if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
+    die("Solo los administradores pueden agregar miembros.");
+}
+
 $app = Aplicacion::getInstance();
 $conn = $app->getConexionBd();
 
@@ -59,3 +63,4 @@ if ($stmt->execute()) {
     echo json_encode(['error' => 'Error al agregar el miembro.']);
 }
 $stmt->close();
+?>

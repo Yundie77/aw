@@ -6,7 +6,7 @@ use es\ucm\fdi\aw\Formulario;
 class FormularioEditarGasto extends Formulario {
     public function __construct() {
         parent::__construct('formEditarGasto', [
-            'action' => Aplicacion::getInstance()->resuelve('/aw/actualizar_gasto.php'),
+            'action' => Aplicacion::getInstance()->resuelve(RUTA_APP . 'actualizar_gasto.php'),
             'class' => 'formulario-editar-gasto'
         ]);
     }

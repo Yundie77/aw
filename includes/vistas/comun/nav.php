@@ -1,31 +1,19 @@
 <?php
-require_once __DIR__ . '/../../../includes/config.php'; // Asegúrate que el path sea correcto
+require_once __DIR__ . '/../../../includes/config.php';
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 ?>
 <nav>
   <div class="navbar-left">
-    <a href="<?= RUTA_APP ?>index.php"><img src="<?= RUTA_APP ?>img/logo.png" alt="Logo" class="logo"></a>
-    <a href="<?= RUTA_APP ?>index.php">Inicio</a>
-    <a href="<?= RUTA_APP ?>gastos.php">Gastos</a>
-    <a href="<?= RUTA_APP ?>grupos.php">Grupos</a>
-    
-    <!-- Dropdown para enlaces legacy -->
-    <div class="dropdown">
-      <button class="dropdown-btn">Más</button>
-      <div class="dropdown-content">
-        <a href="<?= RUTA_APP ?>practica1/detalles.php">Detalles</a>
-        <a href="<?= RUTA_APP ?>practica1/bocetos.php">Bocetos</a>
-        <a href="<?= RUTA_APP ?>practica1/miembros.php">Miembros</a>
-        <a href="<?= RUTA_APP ?>practica1/planificacion.php">Planificación</a>
-        <a href="<?= RUTA_APP ?>practica1/contacto.php">Contacto</a>
-      </div>
-    </div>
+<a href="<?= RUTA_APP ?>index.php"><img src="<?= RUTA_APP ?>img/logo.png" alt="Logo" class="logo"></a>
+<a href="<?= RUTA_APP ?>index.php">Inicio</a>
+<a href="<?= RUTA_APP ?>gastos.php">Gastos</a>
+<a href="<?= RUTA_APP ?>grupos.php">Grupos</a>
+<a href="<?= RUTA_APP ?>graficos.php">Gráficos</a>
   </div>
   
   <div class="navbar-right">
-    <!-- Chat dropdown para seleccionar sala de chat -->
     <div class="dropdown">
       <button class="dropdown-btn">Chat</button>
       <div class="dropdown-content">

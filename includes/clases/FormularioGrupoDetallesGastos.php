@@ -3,47 +3,27 @@ namespace es\ucm\fdi\aw;
 
 class FormularioGrupoDetallesGastos {
     private $conn;
+    private $grupos;
 
     public function __construct($conn) {
         $this->conn = $conn;
+        $this->grupos = new \Grupos($conn);
     }
 
+    // Llama al método de Grupos
     public function obtenerNombreGrupo($group_id) {
-        $stmt = $this->conn->prepare("SELECT nombre FROM grupos WHERE id = ?");
-        $stmt->bind_param("i", $group_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        return $row ? $row['nombre'] : 'Desconocido';
+        $grupo = $this->grupos->obtenerGrupo($group_id); 
+        return $grupo ? $grupo['nombre'] : 'Desconocido';
     }
 
+    // Llama al método de Grupos
     public function obtenerGastosPorCategoria($group_id) {
-        $stmt = $this->conn->prepare("
-            SELECT c.nombre AS categoria, SUM(gm.monto) AS total
-            FROM gastos_grupales gm 
-            INNER JOIN categorias c ON gm.categoria_id = c.id 
-            WHERE gm.grupo_id = ? 
-            GROUP BY gm.categoria_id
-        ");
-        $stmt->bind_param("i", $group_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
+        return $this->grupos->obtenerGastosPorCategoria($group_id); 
     }
 
+    // Llama al método de Grupos
     public function obtenerGastosPorParticipante($group_id) {
-        $stmt = $this->conn->prepare("
-            SELECT u.nombre, COALESCE(SUM(gm.monto), 0) AS total 
-            FROM grupo_usuarios gu 
-            INNER JOIN usuarios u ON gu.usuario_id = u.id 
-            LEFT JOIN gastos_grupales gm ON gu.grupo_id = gm.grupo_id AND gu.usuario_id = gm.usuario_id 
-            WHERE gu.grupo_id = ? 
-            GROUP BY gu.usuario_id, u.nombre
-        ");
-        $stmt->bind_param("i", $group_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
+        return $this->grupos->obtenerGastosPorParticipante($group_id); 
     }
 
     // Generate the HTML content for the page
