@@ -5,12 +5,10 @@ class FormularioGrupos {
     private $conn;
 
     // Constructor para inicializar la conexión a la base de datos
-    // Constructor para inicializar la conexión a la base de datos
     public function __construct($conn) {
         $this->conn = $conn;
     }
 
-    // Método para obtener los datos de los grupos desde la base de datos
     // Método para obtener los datos de los grupos desde la base de datos
     public function obtenerGrupos() {
         $usuario_id = $_SESSION['user_id'];
