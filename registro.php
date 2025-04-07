@@ -9,10 +9,9 @@ $htmlFormulario = $formulario->gestiona();
 
 // Contenido principal que se pasará a la plantilla
 $contenidoPrincipal = <<<EOS
-<div class="container">
-    <h1>Registro</h1>
-    $htmlFormulario
-</div>
+
+$htmlFormulario
+
 EOS;
 
 // Incluye la plantilla

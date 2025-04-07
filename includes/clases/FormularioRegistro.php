@@ -1,8 +1,7 @@
 <?php
-
 namespace es\ucm\fdi\aw;
 
-use es\ucm\fdi\aw\Formulario; 
+use es\ucm\fdi\aw\Formulario;
 use es\ucm\fdi\aw\Usuario;
 
 class FormularioRegistro extends Formulario {
@@ -10,44 +9,54 @@ class FormularioRegistro extends Formulario {
         parent::__construct('formRegistro', ['urlRedireccion' => 'index.php']);
     }
 
-    protected function generaCamposFormulario(&$datos)
-    {
+    protected function generaCamposFormulario(&$datos) {
         $nombreUsuario = $datos['nombreUsuario'] ?? '';
         $email = $datos['email'] ?? '';
         $password = $datos['password'] ?? '';
         $confirmPassword = $datos['confirm_password'] ?? '';
 
+        $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores, 'error-message');
+        $erroresCampos = self::generaErroresCampos(['nombreUsuario', 'email', 'password', 'confirm_password'], $this->errores, 'span', ['class' => 'error-message']);
+
         ob_start();
-        // Se muestran errores globales
-        echo self::generaListaErroresGlobales($this->errores, 'errores');
         ?>
-        <div class="login-container"> <!-- Cambiado a login-container para que la apariencia sea el mismo -->
+        <div class="login-container">
             <h1>Registro</h1>
-            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
+
+            <?= $htmlErroresGlobales ?>
+
+            <form action="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST">
                 <div class="form-group">
                     <label for="nombreUsuario">Nombre de usuario</label>
-                    <input type="text" id="nombreUsuario" name="nombreUsuario" required placeholder="Introduce tu nombre de usuario" 
-                    value="<?php echo htmlspecialchars($nombreUsuario); ?>">
-                    <?php echo $this->errores['nombreUsuario'] ?? ''; ?>
+                    <input type="text" id="nombreUsuario" name="nombreUsuario"
+                           placeholder="Introduce tu nombre de usuario"
+                           value="<?= htmlspecialchars($nombreUsuario) ?>">
+                    <?= $erroresCampos['nombreUsuario'] ?? '' ?>
                 </div>
+
                 <div class="form-group">
                     <label for="email">Correo Electrónico</label>
-                    <input type="email" id="email" name="email" required placeholder="Introduce tu correo electrónico" 
-                    value="<?php echo htmlspecialchars($email); ?>">
-                    <?php echo $this->errores['email'] ?? ''; ?>
+                    <input type="email" id="email" name="email"
+                           placeholder="Introduce tu correo electrónico"
+                           value="<?= htmlspecialchars($email) ?>">
+                    <?= $erroresCampos['email'] ?? '' ?>
                 </div>
+
                 <div class="form-group">
                     <label for="password">Contraseña</label>
-                    <input type="password" id="password" name="password" required placeholder="Introduce tu contraseña">
-                    <?php echo $this->errores['password'] ?? ''; ?>
+                    <input type="password" id="password" name="password" placeholder="Introduce tu contraseña">
+                    <?= $erroresCampos['password'] ?? '' ?>
                 </div>
+
                 <div class="form-group">
                     <label for="confirm_password">Confirmar Contraseña</label>
-                    <input type="password" id="confirm_password" name="confirm_password" required placeholder="Repite tu contraseña">
-                    <?php echo $this->errores['confirm_password'] ?? ''; ?>
+                    <input type="password" id="confirm_password" name="confirm_password" placeholder="Repite tu contraseña">
+                    <?= $erroresCampos['confirm_password'] ?? '' ?>
                 </div>
+
                 <button type="submit" class="btn btn-green">Registrar</button>
             </form>
+
             <p>¿Ya tienes cuenta? <a href="login.php">Inicia sesión aquí</a></p>
         </div>
         <?php
@@ -58,11 +67,12 @@ class FormularioRegistro extends Formulario {
         $this->errores = [];
 
         $nombreUsuario = trim($datos['nombreUsuario'] ?? '');
+        $nombreUsuario = filter_var($nombreUsuario, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $email = trim($datos['email'] ?? '');
+        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
         $password = $datos['password'] ?? '';
         $confirmPassword = $datos['confirm_password'] ?? '';
 
-        // Validaciones
         if (empty($nombreUsuario)) {
             $this->errores['nombreUsuario'] = "El nombre de usuario no puede estar vacío.";
         }
@@ -79,17 +89,14 @@ class FormularioRegistro extends Formulario {
             $this->errores['confirm_password'] = "Las contraseñas no coinciden.";
         }
 
-        if (count($this->errores) === 0) {
-            // Verifica si el usuario ya existe
+        if (empty($this->errores)) {
             if (Usuario::buscaUsuario($nombreUsuario)) {
                 $this->errores['nombreUsuario'] = "El nombre de usuario ya está registrado.";
             } else {
-                // Crea el usuario
                 $usuario = Usuario::crea($nombreUsuario, $email, $password, 'usuario');
                 if (!$usuario) {
-                    $this->errores['global'] = "Error al registrar el usuario.";
+                    $this->errores[] = "Error al registrar el usuario.";
                 } else {
-                    // Inicia sesión automáticamente utilizando Usuario::login
                     $usuarioLogueado = Usuario::login($nombreUsuario, $password);
                     if ($usuarioLogueado) {
                         if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -99,11 +106,10 @@ class FormularioRegistro extends Formulario {
                         $_SESSION['user_name'] = $usuarioLogueado->nombre;
                         $_SESSION['user_role'] = $usuarioLogueado->rol;
 
-                        // Redirige al usuario a la página principal
                         header("Location: index.php");
                         exit();
                     } else {
-                        $this->errores['global'] = "Error al iniciar sesión automáticamente.";
+                        $this->errores[] = "Error al iniciar sesión automáticamente.";
                     }
                 }
             }

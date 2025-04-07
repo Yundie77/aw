@@ -8,50 +8,64 @@ class FormularioLogin extends Formulario {
     public function __construct() {
         parent::__construct('formLogin', ['urlRedireccion' => 'index.php']);
     }
-    
-    protected $errores = []; 
+
     protected function generaCamposFormulario(&$datos) {
+        $nombreUsuario = $datos['nombreUsuario'] ?? '';
+
+        $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores, 'error-message');
+        $erroresCampos = self::generaErroresCampos(['nombreUsuario', 'password'], $this->errores, 'span', ['class' => 'error-message']);
+
         ob_start();
-        // Se muestran errores globales
-        echo self::generaListaErroresGlobales($this->errores, 'errores');
         ?>
-        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
+        <form action="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST" class="login-container">
+            <h2>Iniciar Sesión</h2>
+            <?= $htmlErroresGlobales ?>
+
             <div class="form-group">
-                <label for="username">Usuario o correo electrónico</label>
-                <input type="text" id="username" name="username" required placeholder="Ingrese su usuario o correo electrónico" 
-                value="<?php echo htmlspecialchars($datos['username'] ?? ''); ?>">
+                <label for="nombreUsuario">Nombre de usuario</label>
+                <input type="text" id="nombreUsuario" name="nombreUsuario"
+                       placeholder="Introduce tu nombre de usuario"
+                       value="<?= htmlspecialchars($nombreUsuario) ?>">
+                <?= $erroresCampos['nombreUsuario'] ?? '' ?>
             </div>
+
             <div class="form-group">
                 <label for="password">Contraseña</label>
-                <input type="password" id="password" name="password" required placeholder="Ingrese su contraseña">
+                <input type="password" id="password" name="password" placeholder="Introduce tu contraseña">
+                <?= $erroresCampos['password'] ?? '' ?>
             </div>
+
             <button type="submit" class="btn btn-green">Iniciar Sesión</button>
+            <p>¿No tienes cuenta? <a href="registro.php">Regístrate aquí</a></p>
         </form>
-        <p>¿No tienes cuenta? <a href="registro.php">Regístrate aquí</a></p>
         <?php
         return ob_get_clean();
     }
 
     protected function procesaFormulario(&$datos) {
-        $username = trim($datos['username'] ?? '');
-        $password = $datos['password'] ?? '';
+        $this->errores = [];
 
-        if ($username === '' || $password === '') {
-            $this->errores['global'] = "Debe completar todos los campos.";
-            return;
+        $nombreUsuario = trim($datos['nombreUsuario'] ?? '');
+        $nombreUsuario = filter_var($nombreUsuario, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        if (!$nombreUsuario || $nombreUsuario === '') {
+            $this->errores['nombreUsuario'] = 'El nombre de usuario no puede estar vacío.';
         }
 
-        // Utiliza el método login de la clase Usuario
-        $usuario = Usuario::login($username, $password);
-        if ($usuario) {
-            // Inicia sesión y redirige según el rol del usuario
-            $_SESSION['user_id'] = $usuario->id;
-            $_SESSION['user_name'] = $usuario->nombre;
-            $_SESSION['user_role'] = $usuario->rol;
-            header("Location: " . ($usuario->rol === 'admin' ? 'admin.php' : 'index.php'));
-            exit();
-        } else {
-            $this->errores['global'] = "Usuario o contraseña incorrectos.";
+        $password = trim($datos['password'] ?? '');
+        $password = filter_var($password, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        if (!$password || $password === '') {
+            $this->errores['password'] = 'La contraseña no puede estar vacía.';
+        }
+
+        if (empty($this->errores)) {
+            $usuario = Usuario::login($nombreUsuario, $password);
+            if (!$usuario) {
+                $this->errores[] = 'Usuario o contraseña incorrectos.';
+            } else {
+                $_SESSION['login'] = true;
+                $_SESSION['nombre'] = $usuario->getNombre();
+                $_SESSION['esAdmin'] = $usuario->tieneRol(Usuario::ADMIN_ROLE);
+            }
         }
     }
 }
