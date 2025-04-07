@@ -62,9 +62,15 @@ class FormularioGrupos {
         ?>
         <div class="grupo-actions">
             <button onclick="openModal('modal-agregar-grupo')">Agregar nuevo grupo</button>
-            <button onclick="openModal('modal-agregar-miembro')">Agregar nuevo miembro al grupo</button>
-            <button onclick="openModal('modal-modificar-grupo')">Modificar grupo</button>
-            <button onclick="openModal('modal-eliminar-grupo')">Eliminar grupo</button>
+            <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+                <button onclick="openModal('modal-agregar-miembro')">Agregar nuevo miembro al grupo</button>
+                <button onclick="openModal('modal-modificar-grupo')">Modificar grupo</button>
+                <button onclick="openModal('modal-eliminar-grupo')">Eliminar grupo</button>
+            <?php else: ?>
+                <button onclick="showAdminAlert()">Agregar nuevo miembro al grupo</button>
+                <button onclick="showAdminAlert()">Modificar grupo</button>
+                <button onclick="showAdminAlert()">Eliminar grupo</button>
+            <?php endif; ?>
         </div>
         <?php
         return ob_get_clean();
@@ -73,104 +79,106 @@ class FormularioGrupos {
     // Método para generar el HTML de las ventanas modales
     public function generarModales() {
         $usuarios = $this->obtenerUsuarios(); // Obtener la lista de usuarios
+        $isAdmin = isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'; // Verificar si el usuario es admin
         ob_start();
         ?>
-        <!-- Modal: Agregar nuevo grupo -->
+        <!-- Modal: Agregar nuevo grupo (permitido para cualquier usuario) -->
         <div id="modal-agregar-grupo" class="modal">
-        <div class="modal-content-grupo">
-            <span class="close" onclick="closeModal('modal-agregar-grupo')">&times;</span>
-            <h2>Agregar Nuevo Grupo</h2>
-            <form action="agregar_grupo.php" method="post">
-                <div class="form-row">
-                    <label for="nombre">Nombre del Grupo:</label>
-                    <input type="text" id="nombre" name="nombre" required>
-                </div>
-                <div class="form-row">
-                    <label for="objetivo">Objetivo (€):</label>
-                    <input type="number" step="1" id="objetivo" name="objetivo" required>
-                </div>
-                <div class="form-row">
-                    <label for="descripcion">Descripción:</label>
-                    <textarea id="descripcion" name="descripcion" required></textarea>
-                </div>
-                <div class="form-row">
-                    <button type="submit">Agregar Grupo</button>
-                </div>
-            </form>
-        </div>
-        </div>
-
-        <!-- Modal: Agregar nuevo miembro -->
-        <div id="modal-agregar-miembro" class="modal">
             <div class="modal-content-grupo">
-                <span class="close" onclick="closeModal('modal-agregar-miembro')">&times;</span>
-                <h2>Agregar Nuevo Miembro</h2>
-                <form action="agregar_miembro.php" method="post">
+                <span class="close" onclick="closeModal('modal-agregar-grupo')">&times;</span>
+                <h2>Agregar Nuevo Grupo</h2>
+                <form action="agregar_grupo.php" method="post">
                     <div class="form-row">
-                        <label for="grupo_id">Seleccione el Grupo:</label>
-                        <select name="grupo_id" id="grupo_id" required>
-                            <?php foreach ($this->obtenerGrupos() as $grupo): ?>
-                                <option value="<?php echo htmlspecialchars($grupo['id']); ?>">
-                                    <?php echo htmlspecialchars($grupo['nombre']); ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
+                        <label for="nombre">Nombre del Grupo:</label>
+                        <input type="text" id="nombre" name="nombre" required>
                     </div>
                     <div class="form-row">
-                        <label for="usuario_id">Seleccione el Miembro:</label>
-                        <select name="usuario_id" id="usuario_id" required>
-                            <?php foreach ($usuarios as $usuario): ?>
-                                <option value="<?php echo htmlspecialchars($usuario['id']); ?>">
-                                    <?php echo htmlspecialchars($usuario['nombre']); ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
+                        <label for="objetivo">Objetivo (€):</label>
+                        <input type="number" step="1" id="objetivo" name="objetivo" required>
                     </div>
                     <div class="form-row">
-                        <label for="rol_grupo">Rol del miembro:</label>
-                        <input type="text" name="rol_grupo" id="rol_grupo" placeholder="Ej. miembro" required>
+                        <label for="descripcion">Descripción:</label>
+                        <textarea id="descripcion" name="descripcion" required></textarea>
                     </div>
                     <div class="form-row">
-                        <button type="submit">Agregar Miembro</button>
+                        <button type="submit">Agregar Grupo</button>
                     </div>
                 </form>
             </div>
         </div>
 
-        <!-- Modal: Modificar grupo -->
-        <div id="modal-modificar-grupo" class="modal">
-        <div class="modal-content-grupo">
-            <span class="close" onclick="closeModal('modal-modificar-grupo')">&times;</span>
-            <h2>Modificar Grupo</h2>
-            <form action="modificar_grupo.php" method="post">
-                <div class="form-row">
-                    <label for="grupo_id_mod">Seleccione el Grupo:</label>
-                    <select name="grupo_id" id="grupo_id_mod" required>
-                        <?php foreach ($this->obtenerGrupos() as $grupo): ?>
-                            <option value="<?php echo htmlspecialchars($grupo['id']); ?>">
-                                <?php echo htmlspecialchars($grupo['nombre']); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
+        <?php if ($isAdmin): ?>
+            <!-- Modal: Agregar nuevo miembro (solo admin) -->
+            <div id="modal-agregar-miembro" class="modal">
+                <div class="modal-content-grupo">
+                    <span class="close" onclick="closeModal('modal-agregar-miembro')">&times;</span>
+                    <h2>Agregar Nuevo Miembro</h2>
+                    <form action="agregar_miembro.php" method="post">
+                        <div class="form-row">
+                            <label for="grupo_id">Seleccione el Grupo:</label>
+                            <select name="grupo_id" id="grupo_id" required>
+                                <?php foreach ($this->obtenerGrupos() as $grupo): ?>
+                                    <option value="<?php echo htmlspecialchars($grupo['id']); ?>">
+                                        <?php echo htmlspecialchars($grupo['nombre']); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <label for="usuario_id">Seleccione el Miembro:</label>
+                            <select name="usuario_id" id="usuario_id" required>
+                                <?php foreach ($usuarios as $usuario): ?>
+                                    <option value="<?php echo htmlspecialchars($usuario['id']); ?>">
+                                        <?php echo htmlspecialchars($usuario['nombre']); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <label for="rol_grupo">Rol del miembro:</label>
+                            <input type="text" name="rol_grupo" id="rol_grupo" placeholder="Ej. miembro" required>
+                        </div>
+                        <div class="form-row">
+                            <button type="submit">Agregar Miembro</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-row">
-                    <label for="nombre_mod">Nuevo Nombre:</label>
-                    <input type="text" id="nombre_mod" name="nombre" required>
+            </div>
+
+            <!-- Modal: Modificar grupo (solo admin) -->
+            <div id="modal-modificar-grupo" class="modal">
+                <div class="modal-content-grupo">
+                    <span class="close" onclick="closeModal('modal-modificar-grupo')">&times;</span>
+                    <h2>Modificar Grupo</h2>
+                    <form action="modificar_grupo.php" method="post">
+                        <div class="form-row">
+                            <label for="grupo_id_mod">Seleccione el Grupo:</label>
+                            <select name="grupo_id" id="grupo_id_mod" required>
+                                <?php foreach ($this->obtenerGrupos() as $grupo): ?>
+                                    <option value="<?php echo htmlspecialchars($grupo['id']); ?>">
+                                        <?php echo htmlspecialchars($grupo['nombre']); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <label for="nombre_mod">Nuevo Nombre:</label>
+                            <input type="text" id="nombre_mod" name="nombre" required>
+                        </div>
+                        <div class="form-row">
+                            <label for="objetivo_mod">Nuevo Objetivo (€):</label>
+                            <input type="number" step="1" id="objetivo_mod" name="objetivo" required>
+                        </div>
+                        <div class="form-row">
+                            <label for="descripcion_mod">Nueva Descripción:</label>
+                            <textarea id="descripcion_mod" name="descripcion" required></textarea>
+                        </div>
+                        <div class="form-row">
+                            <button type="submit">Modificar Grupo</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-row">
-                    <label for="objetivo_mod">Nuevo Objetivo (€):</label>
-                    <input type="number" step="1" id="objetivo_mod" name="objetivo" required>
-                </div>
-                <div class="form-row">
-                    <label for="descripcion_mod">Nueva Descripción:</label>
-                    <textarea id="descripcion_mod" name="descripcion" required></textarea>
-                </div>
-                <div class="form-row">
-                    <button type="submit">Modificar Grupo</button>
-                </div>
-            </form>
-        </div>
-        </div>
+            </div>
 
         <!-- Modal: Eliminar grupo -->
         <div id="modal-eliminar-grupo" class="modal">
@@ -201,7 +209,5 @@ class FormularioGrupos {
         <script src="<?= RUTA_JS ?>srciptMensaje.js"></script>
         <?php
         return ob_get_clean();
-
-        
     }
 }
