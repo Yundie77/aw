@@ -194,11 +194,11 @@ class FormularioGrupos {
             </form>
         </div>
         </div>
-            <script src="js/modal.js"></script>
+            <script src="<?= RUTA_JS ?>modal.js"></script>
         </div>
         <div id="mensaje-resultado"></div>
         <!-- Script para manejar el envío AJAX -->
-        <script src="js/srciptMensaje.js"></script>
+        <script src="<?= RUTA_JS ?>srciptMensaje.js"></script>
         <?php
         return ob_get_clean();
 
