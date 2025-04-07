@@ -1,4 +1,64 @@
 document.addEventListener("DOMContentLoaded", function() {
+    // datos para grafico de linea 
+    const lineChartData = {
+        labels: datosLinea.labels,
+        datasets: [{
+            label: 'Gastos mensuales',
+            data: datosLinea.datos,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1,
+            fill: false
+        }]
+    };
+    
+    // datos para grafico comparativo
+    const comparisonChartData = {
+        labels: datosComparacion.categorias,
+        datasets: [
+            {
+                label: 'Tus gastos',
+                data: datosComparacion.datosUsuario,
+                backgroundColor: 'rgba(54, 162, 235, 0.7)'
+            },
+            {
+                label: 'Promedio estudiantes',
+                data: datosComparacion.datosPromedio,
+                backgroundColor: 'rgba(255, 99, 132, 0.7)'
+            }
+        ]
+    };
+    
+    // datos para grafico de dispersion
+    const scatterChartData = {
+        datasets: [{
+            label: 'Relación Ingresos-Gastos por mes',
+            data: datosDispersion,
+            backgroundColor: 'rgba(255, 99, 132, 0.7)',
+            pointRadius: 8,
+            pointHoverRadius: 10
+        }]
+    };
+    
+    // datos para grafico de barras apiladas
+    const stackedChartData = {
+        labels: datosBarrasApiladas.meses,
+        datasets: datosBarrasApiladas.categorias.map((categoria, index) => {
+            const colorIndex = index % 5;
+            const colores = [
+                'rgba(255, 99, 132, 0.7)',
+                'rgba(54, 162, 235, 0.7)',
+                'rgba(255, 206, 86, 0.7)',
+                'rgba(75, 192, 192, 0.7)',
+                'rgba(153, 102, 255, 0.7)'
+            ];
+            return {
+                label: categoria,
+                data: datosBarrasApiladas.datos[categoria],
+                backgroundColor: colores[colorIndex]
+            };
+        })
+    };
+    
     // grafico 1: grafico de linea
     const lineCtx = document.getElementById('lineChart').getContext('2d');
     new Chart(lineCtx, {
@@ -34,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
     
-    // grafico 2: grafico comparativo (barras horizontales)
+    // grafico 2: grafico comparativo 
     const comparisonCtx = document.getElementById('comparisonChart').getContext('2d');
     new Chart(comparisonCtx, {
         type: 'bar',
