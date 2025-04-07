@@ -116,6 +116,8 @@ nav a {
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 8px;
+  margin-bottom: 30px;
+  margin-top: 20px;
   /* Contenedor principal de la funcionalidad F1 */
 }
 
@@ -734,6 +736,7 @@ button:hover {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 50px;
   /* Contenedor del formulario de inicio de sesión */
 }
 
@@ -909,7 +912,7 @@ main a:hover {
 /* Estilo para la página de inicio */
 .index-main {
   text-align: center;
-  padding: 20px;
+  padding: 20px 20px 50px 20px;
   /* Contenedor principal de la página de inicio */
 }
 
