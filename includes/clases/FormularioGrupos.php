@@ -13,11 +13,29 @@ class FormularioGrupos {
     // Método para obtener los datos de los grupos desde la base de datos
     // Método para obtener los datos de los grupos desde la base de datos
     public function obtenerGrupos() {
-        $query = "SELECT g.*, (SELECT COUNT(*) FROM grupo_usuarios WHERE grupo_id = g.id) AS participantes FROM grupos g";
-        $result = $this->conn->query($query);
+        $usuario_id = $_SESSION['user_id'];
+
+        $query = "SELECT g.*, (SELECT COUNT(*) FROM grupo_usuarios WHERE grupo_id = g.id) AS participantes 
+        FROM grupos g
+        INNER JOIN grupo_usuarios gu ON g.id = gu.grupo_id
+        WHERE gu.usuario_id = ? ";
+
+       $stmt = $this->conn->prepare($query);
+    if (!$stmt) {
+        die("Error en la preparación de la consulta: " . $this->conn->error);
+    }
+
+    // Vincula el ID del usuario a la consulta
+    $stmt->bind_param("i", $usuario_id);
+
+    // Ejecuta la consulta
+    $stmt->execute();
+    $result = $stmt->get_result();
+
         if (!$result) {
             die("Error en la consulta: " . $this->conn->error);
         }
+        
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 

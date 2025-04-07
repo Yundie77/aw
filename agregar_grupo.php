@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = trim($_POST['nombre'] ?? '');
     $objetivo = trim($_POST['objetivo'] ?? '');
     $descripcion = trim($_POST['descripcion'] ?? '');
+    $usuario_id = $_SESSION['user_id'];
 
     if (empty($nombre) || empty($objetivo) || empty($descripcion)) {
         die("Error: Todos los campos son obligatorios.");
@@ -28,6 +29,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("sss", $nombre, $objetivo, $descripcion);
 
     if ($stmt->execute()) {
+        $grupo_id = $stmt->insert_id; // ID del grupo creado
+        $rol = 'admin_grupo'; 
+
+        // Añadir al creador como miembro del grupo
+        $stmt2 = $conn->prepare("INSERT INTO grupo_usuarios (grupo_id, usuario_id, rol_grupo) VALUES (?, ?, ?)");
+        if (!$stmt2) {
+            die("Error al preparar inserción de miembro: " . $conn->error);
+        }
+
+        $stmt2->bind_param("iis", $grupo_id, $usuario_id, $rol);
+
+        if (!$stmt2->execute()) {
+            die("Error al insertar al creador como miembro: " . $stmt2->error);
+        }
+
+        $stmt2->close();
+        $stmt->close();
+
         header("Location: grupos.php?mensaje=grupo_agregado");
         exit;
     } else {
