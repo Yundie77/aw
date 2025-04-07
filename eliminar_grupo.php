@@ -1,6 +1,12 @@
 <?php
 session_start();
 
+require_once 'includes/config.php';
+
+if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
+    die("Solo los administradores pueden eliminar grupos.");
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once __DIR__ . '/includes/config.php';
 
@@ -26,3 +32,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
     die("Método no permitido.");
 }
+?>

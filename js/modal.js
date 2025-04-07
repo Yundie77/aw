@@ -22,28 +22,29 @@ document.addEventListener('DOMContentLoaded', function () {
     const modalsForms = document.querySelectorAll('.modal-content form');
     modalsForms.forEach(form => {
         form.addEventListener('submit', function (e) {
-            e.preventDefault();
-            const formData = new FormData(form);
-            fetch(form.action, {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Operación exitosa.');
-                    // Cerrar el modal y recargar la página para ver cambios
-                    const modal = form.closest('.modal');
-                    modal.style.display = 'none';
-                    location.reload();
-                } else {
-                    alert('Error: ' + data.error);
-                }
-            })
-            .catch(err => {
-                alert('Error de red');
-                console.error(err);
-            });
+            if (form.dataset.ajax === "true") { // Only handle forms marked for AJAX
+                e.preventDefault();
+                const formData = new FormData(form);
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showSuccessAlert(); // Use the alert from alerts.js
+                        const modal = form.closest('.modal');
+                        modal.style.display = 'none';
+                        location.reload();
+                    } else {
+                        alert('Error: ' + data.error);
+                    }
+                })
+                .catch(err => {
+                    alert('Error de red');
+                    console.error(err);
+                });
+            }
         });
     });
 });
