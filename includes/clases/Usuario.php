@@ -109,6 +109,20 @@ class Usuario {
             throw $e;
         }
         $id = $stmt->insert_id;
+        $stmt->close();
+
+        // Asignar categorías por defecto al nuevo usuario
+        $categoriasPorDefecto = [
+            'Compra', 'Comida', 'Ocio', 'Ropa', 'Salud', 
+            'Transporte', 'Otros', 'Salario', 'Deporte'
+        ];
+        $stmt = $conn->prepare("INSERT INTO categorias (nombre, usuario_id) VALUES (?, ?)");
+        foreach ($categoriasPorDefecto as $categoria) {
+            $stmt->bind_param("si", $categoria, $id);
+            $stmt->execute();
+        }
+        $stmt->close();
+
         return new Usuario($id, $nombreUsuario, $nombre, $hash, $rol);
     }
 }

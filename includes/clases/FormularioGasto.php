@@ -21,8 +21,9 @@ class FormularioGasto extends Formulario {
         // Funcion proporcioanada por chatGPT: explicada en gastos.php
         ob_start();
         $conn = Aplicacion::getInstance()->getConexionBd();
+        $user_id = $_SESSION['user_id'];
         $categoriasObj = new Categorias($conn);
-        $categorias = $categoriasObj->getAll();
+        $categorias = $categoriasObj->getAll($user_id);
         ?>
         <div class="form-group form-row">
             <label for="fecha">Fecha:</label>
@@ -82,7 +83,7 @@ class FormularioGasto extends Formulario {
         if ($categoria_id === 'otra') {
             $categoriaNueva = trim($datos['categoria_nueva'] ?? '');
             if ($categoriaNueva !== '') {
-                $categoria_id = Categorias::create($categoriaNueva);
+                $categoria_id = Categorias::create($categoriaNueva, $user_id);
                 if (!$categoria_id) {
                     $this->errores['general'] = "Error al crear la nueva categoría.";
                     return;
