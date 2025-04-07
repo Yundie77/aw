@@ -8,9 +8,9 @@ class GraficosAnalisis {
         $app = Aplicacion::getInstance();
         $this->conn = $app->getConexionBd();
     }
-
+    
     public function getGastosMensuales($user_id) {
-        $gastos = new Gastos();
+        $gastos = new Gastos($this->conn);
         $gastosPorMes = $gastos->getGastosMensualesPorMes($user_id);
         
         // si no hay datos, devolver estructura vacia
@@ -26,7 +26,7 @@ class GraficosAnalisis {
         
         foreach ($gastosPorMes as $dato) {
             $timestamp = mktime(0, 0, 0, $dato['mes'], 1);
-            $nombreMes = strftime('%B', $timestamp); 
+            $nombreMes = strftime('%B', $timestamp);
             $meses[] = $nombreMes;
             $datosGastos[] = $dato['total'];
         }
@@ -38,10 +38,9 @@ class GraficosAnalisis {
     }
 
     public function getComparacionGastos($user_id) {
-        $gastos = new Gastos();
+        $gastos = new Gastos($this->conn);
         $gastosPorCategoria = $gastos->getGastosPorCategoria($user_id);
         
-        // si no hay datos, devolver estructura vacia
         if (empty($gastosPorCategoria)) {
             return [
                 'categorias' => [],
@@ -68,7 +67,7 @@ class GraficosAnalisis {
     }
     
     public function getIngresosVsGastos($user_id) {
-        $gastos = new Gastos();
+        $gastos = new Gastos($this->conn);
         $ingresosGastos = $gastos->getIngresosVsGastos($user_id);
 
         if (empty($ingresosGastos)) {
@@ -92,9 +91,9 @@ class GraficosAnalisis {
     }
     
     public function getGastosPorCategoriaPorMes($user_id, $numMeses = 6) {
-        $gastos = new Gastos();
+        $gastos = new Gastos($this->conn);
         $gastosPorCategoriaMes = $gastos->getGastosPorCategoriaMes($user_id, $numMeses);
-        
+
         if (empty($gastosPorCategoriaMes)) {
             return [
                 'meses' => [],
@@ -117,16 +116,16 @@ class GraficosAnalisis {
                 $mesesBarras[] = $nombreMes;
             }
         }
-
+ 
         $datosPorCategoria = [];
         foreach ($categorias as $categoria) {
             $datosPorCategoria[$categoria] = [];
-            
+
             foreach ($mesesBarras as $mes) {
                 $datosPorCategoria[$categoria][$mes] = 0;
             }
         }
-        
+
         foreach ($gastosPorCategoriaMes as $dato) {
             $timestamp = mktime(0, 0, 0, $dato['mes'], 1);
             $nombreMes = strftime('%B', $timestamp);

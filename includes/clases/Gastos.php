@@ -205,5 +205,146 @@ class Gastos {
         return $result;
     }
 
+    //con ayuda de chatGPT
+    public function getGastosMensualesPorMes($user_id) {
+        $sql = "SELECT 
+                    MONTH(fecha) AS mes, 
+                    SUM(monto) AS total
+                FROM gastos 
+                WHERE usuario_id = ? AND tipo = 'Gasto'
+                AND YEAR(fecha) = YEAR(CURDATE())
+                GROUP BY MONTH(fecha)
+                ORDER BY MONTH(fecha)";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows > 0) {
+            $gastosMensuales = $result->fetch_all(MYSQLI_ASSOC);
+        } else {
+            $gastosMensuales = []; 
+        }
+        
+        $result->free();
+        $stmt->close();
+        
+        return $gastosMensuales;
+    }
+    
+    public function getGastosPorCategoria($user_id) {
+        $sql = "SELECT 
+                    c.nombre AS categoria,
+                    SUM(g.monto) AS total
+                FROM gastos g
+                JOIN categorias c ON g.categoria_id = c.id
+                WHERE g.usuario_id = ? AND g.tipo = 'Gasto'
+                GROUP BY g.categoria_id
+                ORDER BY total DESC";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows > 0) {
+            $gastosPorCategoria = $result->fetch_all(MYSQLI_ASSOC);
+        } else {
+            $gastosPorCategoria = []; 
+            $result->free();
+            $stmt->close();
+            return $gastosPorCategoria;
+        }
+        
+        $result->free();
+        $stmt->close();
+        $sql = "SELECT 
+                    c.nombre AS categoria,
+                    AVG(g.monto) AS promedio
+                FROM gastos g
+                JOIN categorias c ON g.categoria_id = c.id
+                WHERE g.tipo = 'Gasto'
+                GROUP BY g.categoria_id";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $promedios = [];
+        
+        while ($row = $result->fetch_assoc()) {
+            $promedios[$row['categoria']] = $row['promedio'];
+        }
+        
+        $result->free();
+        $stmt->close();
+        
+        // Combinamos los resultados
+        foreach ($gastosPorCategoria as &$categoria) {
+            $categoria['promedio'] = isset($promedios[$categoria['categoria']]) ? 
+                                    $promedios[$categoria['categoria']] : 0;
+        }
+        
+        return $gastosPorCategoria;
+    }
+    
+    public function getIngresosVsGastos($user_id) {
+        $sql = "SELECT 
+                    MONTH(fecha) AS mes,
+                    YEAR(fecha) AS anio,
+                    SUM(CASE WHEN tipo = 'Ingreso' THEN monto ELSE 0 END) AS ingresos,
+                    SUM(CASE WHEN tipo = 'Gasto' THEN monto ELSE 0 END) AS gastos
+                FROM gastos
+                WHERE usuario_id = ?
+                GROUP BY YEAR(fecha), MONTH(fecha)
+                ORDER BY YEAR(fecha), MONTH(fecha)";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows > 0) {
+            $ingresosVsGastos = $result->fetch_all(MYSQLI_ASSOC);
+        } else {
+            $ingresosVsGastos = []; 
+        }
+        
+        $result->free();
+        $stmt->close();
+        
+        return $ingresosVsGastos;
+    }
+    
+    public function getGastosPorCategoriaMes($user_id, $numMeses = 6) {
+        $sql = "SELECT 
+                    MONTH(g.fecha) AS mes,
+                    YEAR(g.fecha) AS anio,
+                    c.nombre AS categoria,
+                    SUM(g.monto) AS total
+                FROM gastos g
+                JOIN categorias c ON g.categoria_id = c.id
+                WHERE g.usuario_id = ? 
+                    AND g.tipo = 'Gasto'
+                    AND g.fecha >= DATE_SUB(CURRENT_DATE(), INTERVAL ? MONTH)
+                GROUP BY YEAR(g.fecha), MONTH(g.fecha), g.categoria_id
+                ORDER BY YEAR(g.fecha), MONTH(g.fecha), total DESC";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ii", $user_id, $numMeses);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows > 0) {
+            $datosPorCategoriaMes = $result->fetch_all(MYSQLI_ASSOC);
+        } else {
+            $datosPorCategoriaMes = []; 
+        }
+        
+        $result->free();
+        $stmt->close();
+        
+        return $datosPorCategoriaMes;
+    }
 }
 ?>
