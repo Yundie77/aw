@@ -6,10 +6,11 @@ if (session_status() == PHP_SESSION_NONE) {
 ?>
 <nav>
   <div class="navbar-left">
-    <a href="<?= RUTA_APP ?>index.php"><img src="<?= RUTA_APP ?>img/logo.png" alt="Logo" class="logo"></a>
-    <a href="<?= RUTA_APP ?>index.php">Inicio</a>
-    <a href="<?= RUTA_APP ?>gastos.php">Gastos</a>
-    <a href="<?= RUTA_APP ?>grupos.php">Grupos</a>
+<a href="<?= RUTA_APP ?>index.php"><img src="<?= RUTA_APP ?>img/logo.png" alt="Logo" class="logo"></a>
+<a href="<?= RUTA_APP ?>index.php">Inicio</a>
+<a href="<?= RUTA_APP ?>gastos.php">Gastos</a>
+<a href="<?= RUTA_APP ?>grupos.php">Grupos</a>
+<a href="<?= RUTA_APP ?>graficos.php">Gráficos</a>
   </div>
   
   <div class="navbar-right">

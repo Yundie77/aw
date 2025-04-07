@@ -1134,3 +1134,65 @@ main a:hover {
   margin-left: 5px;
   /* Estilo de los campos del formulario dentro del modal de grupo */
 }
+
+/* Estilos para la página de gráficos */
+.graficos-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.titulo-graficos {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.graficos-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-bottom: 40px;
+  justify-content: space-around;
+}
+
+.grafico-card {
+  flex: 1;
+  min-width: 45%;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 20px;
+}
+
+.grafico-card h3 {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #444;
+}
+
+.grafico-container {
+  height: 350px;
+  position: relative;
+}
+
+.grafico-descripcion {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  font-size: 0.9em;
+  color: #666;
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+  .graficos-row {
+    flex-direction: column;
+  }
+  
+  .grafico-card {
+    min-width: 100%;
+  }
+}
