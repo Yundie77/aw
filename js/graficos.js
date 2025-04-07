@@ -101,40 +101,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
     
-    // añadir linea diagonal para equilibrio ingresos/gastos
-    const scatterBackgroundPlugin = {
-        id: 'scatterBackgroundPlugin',
-        beforeDraw: (chart) => {
-            const ctx = chart.ctx;
-            const xAxis = chart.scales.x;
-            const yAxis = chart.scales.y;
-            
-            // region de riesgo (gastos > ingresos)
-            ctx.save();
-            ctx.fillStyle = 'rgba(255, 0, 0, 0.1)';
-            ctx.beginPath();
-            ctx.moveTo(xAxis.left, yAxis.bottom);
-            ctx.lineTo(xAxis.right, yAxis.bottom);
-            ctx.lineTo(xAxis.right, yAxis.top);
-            ctx.lineTo(xAxis.left, yAxis.bottom);
-            ctx.fill();
-            ctx.restore();
-            
-            // linea de equilibrio
-            ctx.save();
-            ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
-            ctx.setLineDash([5, 5]);
-            ctx.beginPath();
-            ctx.moveTo(xAxis.left, yAxis.bottom);
-            ctx.lineTo(xAxis.right, yAxis.top);
-            ctx.stroke();
-            ctx.restore();
-        }
-    };
-    
-    // registrar plugin para grafico de dispersion
-    scatterChart.options.plugins.background = {};
-    Chart.register(scatterBackgroundPlugin);
     
     // grafico 4: grafico de barras apiladas
     const stackedCtx = document.getElementById('stackedChart').getContext('2d');
