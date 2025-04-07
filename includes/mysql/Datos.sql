@@ -22,21 +22,6 @@ SET time_zone = "+00:00";
 --
 
 --
--- Volcado de datos para la tabla `categorias`
---
-
-INSERT INTO `categorias` (`id`, `nombre`) VALUES
-(1, 'Compra'),
-(2, 'Comida'),
-(3, 'Ocio'),
-(4, 'Ropa'),
-(5, 'Salud'),
-(6, 'Transporte'),
-(7, 'Otros'),
-(8, 'Salario'),
-(9, 'Deporte');
-
---
 -- Volcado de datos para la tabla `gastos`
 --
 

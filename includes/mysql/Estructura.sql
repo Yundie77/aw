@@ -29,7 +29,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `categorias` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(50) NOT NULL
+  `nombre` varchar(50) NOT NULL,
+  `usuario_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -246,6 +247,13 @@ ALTER TABLE `grupo_usuarios`
 ALTER TABLE `mensajes`
   ADD CONSTRAINT `mensajes_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `mensajes_ibfk_2` FOREIGN KEY (`grupo_id`) REFERENCES `grupos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `categorias`
+--
+ALTER TABLE `categorias`
+  ADD CONSTRAINT `categorias_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
