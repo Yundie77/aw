@@ -20,6 +20,19 @@ class Usuario {
         $this->rol = $rol;
     }
 
+    public function getId() {
+        return $this->id;
+    }
+    
+    public function getNombre() {
+        return $this->nombre;
+    }
+    
+    public function getRol() {
+        return $this->rol;
+    }
+    
+
     /**
      * Busca en la base de datos un usuario cuyo nombre (login) coincida con $nombreUsuario.
      * Retorna un objeto Usuario si lo encuentra o false en caso contrario.
