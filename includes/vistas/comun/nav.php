@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../../includes/config.php'; // Asegúrate que el path sea correcto
+require_once __DIR__ . '/../../../includes/config.php';
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -13,7 +13,6 @@ if (session_status() == PHP_SESSION_NONE) {
   </div>
   
   <div class="navbar-right">
-    <!-- Chat dropdown para seleccionar sala de chat -->
     <div class="dropdown">
       <button class="dropdown-btn">Chat</button>
       <div class="dropdown-content">
