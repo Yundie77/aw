@@ -73,11 +73,12 @@ class Gastos {
     
     public function getDonutData($user_id) {
         $sql = "SELECT c.nombre AS categoria, SUM(g.monto) AS total_categoria
-                FROM gastos g JOIN categorias c ON g.categoria_id = c.id
-                WHERE g.usuario_id = ? AND g.tipo = 'Gasto'
+                FROM gastos g 
+                JOIN categorias c ON g.categoria_id = c.id
+                WHERE g.usuario_id = ? AND c.usuario_id = ? AND g.tipo = 'Gasto'
                 GROUP BY g.categoria_id";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("i", $user_id);
+        $stmt->bind_param("ii", $user_id, $user_id);
         $stmt->execute();
         $result = $stmt->get_result();
         $donutData = $result->fetch_all(MYSQLI_ASSOC);
@@ -239,12 +240,12 @@ class Gastos {
                     SUM(g.monto) AS total
                 FROM gastos g
                 JOIN categorias c ON g.categoria_id = c.id
-                WHERE g.usuario_id = ? AND g.tipo = 'Gasto'
+                WHERE g.usuario_id = ? AND c.usuario_id = ? AND g.tipo = 'Gasto'
                 GROUP BY g.categoria_id
                 ORDER BY total DESC";
         
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("i", $user_id);
+        $stmt->bind_param("ii", $user_id, $user_id);
         $stmt->execute();
         $result = $stmt->get_result();
         

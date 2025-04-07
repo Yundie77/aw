@@ -1,6 +1,7 @@
 <?php
 namespace es\ucm\fdi\aw;
 
+
 use es\ucm\fdi\aw\Formulario;
 use es\ucm\fdi\aw\Usuario;
 
@@ -62,9 +63,12 @@ class FormularioLogin extends Formulario {
             if (!$usuario) {
                 $this->errores[] = 'Usuario o contraseña incorrectos.';
             } else {
-                $_SESSION['login'] = true;
-                $_SESSION['nombre'] = $usuario->nombre;
-                $_SESSION['esAdmin'] = $usuario->rol;
+                $_SESSION['user_id'] = $usuario->getId();
+                $_SESSION['user_name'] = $usuario->getNombre();
+                $_SESSION['user_role'] = $usuario->getRol();
+
+                header("Location: " . ($usuario->getRol() === 'admin' ? 'admin.php' : 'index.php'));
+                exit();
             }
         }
     }

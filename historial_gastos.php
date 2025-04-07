@@ -26,7 +26,7 @@ $result = $gastos->getFilteredMovimientos($user_id, $tipoFilter, $categoriaFilte
 
 $tiposArray = $gastos->getTipos($user_id);
 
-$resCategorias = $categorias->getAll();
+$resCategorias = $categorias->getAll($user_id);
 
 // Funcion proporcioanada por chatGPT: explicada en gastos.php
 ob_start();
