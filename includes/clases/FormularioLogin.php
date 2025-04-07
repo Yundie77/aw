@@ -63,8 +63,8 @@ class FormularioLogin extends Formulario {
                 $this->errores[] = 'Usuario o contraseña incorrectos.';
             } else {
                 $_SESSION['login'] = true;
-                $_SESSION['nombre'] = $usuario->getNombre();
-                $_SESSION['esAdmin'] = $usuario->tieneRol(Usuario::ADMIN_ROLE);
+                $_SESSION['nombre'] = $usuario->nombre;
+                $_SESSION['esAdmin'] = $usuario->rol;
             }
         }
     }
