@@ -175,6 +175,10 @@ INSERT INTO `grupo_usuarios` (`grupo_id`, `usuario_id`, `rol_grupo`) VALUES
 -- 转存表中的数据 `usuarios`
 --
 
+ --
+ -- Volcado de datos para la tabla `usuarios`
+ --
+ 
 INSERT INTO `usuarios` (`id`, `nombre`, `email`, `password`, `rol`) VALUES
 (1, 'Ejemplo', 'ejemplo@correo.com', 'claveEncriptada', 'usuario'),
 (2, '1', '1@gmail.com', '$2y$10$8075aKGizIX/pNRBeaPBleF8Ely1aO/lhb6WwVFfPNXmDxfIvWivK', 'usuario'),
