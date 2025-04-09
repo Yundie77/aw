@@ -23,7 +23,7 @@ if (session_status() == PHP_SESSION_NONE) {
       </div>
     </div>
     <?php if (isset($_SESSION['user_name'])): ?>
-      <span><?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
+      <span class="username-display"><?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
       <a href="<?= RUTA_APP ?>logout.php">Salir</a>
     <?php else: ?>
       <a href="<?= RUTA_APP ?>login.php">Usuario</a>
