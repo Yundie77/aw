@@ -23,7 +23,11 @@ if (session_status() == PHP_SESSION_NONE) {
       </div>
     </div>
     <?php if (isset($_SESSION['user_name'])): ?>
-      <span class="username-display"><?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
+      <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+        <a href="<?= RUTA_APP ?>admin.php" class="username-display"><?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
+      <?php else: ?>
+        <span class="username-display"><?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
+      <?php endif; ?>
       <a href="<?= RUTA_APP ?>logout.php">Salir</a>
     <?php else: ?>
       <a href="<?= RUTA_APP ?>login.php">Usuario</a>

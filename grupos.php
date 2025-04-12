@@ -1,9 +1,6 @@
-<link rel="stylesheet" type="text/css" href="styles.css" />
-
 <?php
 // Iniciamos la sesión
 session_start();
-
 
 // Mostrar mensaje de error si está en la sesión
 if (isset($_SESSION['mensaje_error'])) {
