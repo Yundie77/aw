@@ -16,12 +16,13 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 $gastosObj = new Gastos($conn);
 
+
 $ingresosTotales = $gastosObj->getTotalIngresos($user_id);
 $gastosTotales   = $gastosObj->getTotalGastos($user_id);
 $ingresosMes     = $gastosObj->getIngresosMes($user_id);
 $gastosMes       = $gastosObj->getGastosMes($user_id);
 $ultimosMovimientos = $gastosObj->getUltimosMovimientos($user_id, 5);
-$donutData       = $gastosObj->getDonutData($user_id);
+$donutData = $gastosObj->getDonutData($user_id);
 $barData         = $gastosObj->getBarData($user_id);
 
 // Funcion proporcioanada por chatGPT: 

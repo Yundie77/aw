@@ -17,6 +17,19 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
+
+-- Primero se insertan los usuarios para evitar problemas de claves foráneas con categorias
+
+INSERT INTO `usuarios` (`id`, `nombre`, `email`, `password`, `rol`) VALUES
+(1, 'Ejemplo', 'ejemplo@correo.com', 'claveEncriptada', 'usuario'),
+(2, '1', '1@gmail.com', '$2y$10$8075aKGizIX/pNRBeaPBleF8Ely1aO/lhb6WwVFfPNXmDxfIvWivK', 'usuario'),
+(3, 'Pepe', 'yundie@gmail.com', '$2y$10$Sm17eZX8jgrzmJKdVj3QhOMlsQALu6/eYvFsO0RlgwkZUt3l5T0.q', 'usuario'),
+(4, '2', '2@gmail.com', '$2y$10$PQjt/gQp7ce0guX3jp8vhepN0ZF.jSpQTL63oyoZGpt9ILaFALjsy', 'usuario'),
+(5, '3', '3@gmail.com', '$2y$10$9uxLwQjwPIMePMN5Fgrmlelv00zU3KQ9SuWOe/hoPTwTtMvXZN/Uu', 'usuario'),
+(6, '11', '11@gmail.com', '$2y$10$9.qhGJlVxrWRNfiiJYuNkeWGh7WRgfdL875lEwknqhR6cU0xllsdi', 'usuario'),
+(7, '22', '22@gmail.com', '$2y$10$M8pCMq6e1u9sVZGyjfcnzeuy2qV8yxUYycKCoUpae.jqZh3HNnbv2', 'usuario'),
+(8, '33', '33@gmail.com', '$2y$10$qnO6ov4mprV0S.Om/1HbaeMQazGuIyrcrWoGPzZD1GMyITTsDgrT6', 'usuario');
+
 --
 -- 数据库： `awp2`
 --
@@ -171,23 +184,6 @@ INSERT INTO `grupos` (`id`, `nombre`, `descripcion`, `objetivo`, `fecha_creacion
 INSERT INTO `grupo_usuarios` (`grupo_id`, `usuario_id`, `rol_grupo`) VALUES
 (1, 2, '');
 
---
--- 转存表中的数据 `usuarios`
---
-
- --
- -- Volcado de datos para la tabla `usuarios`
- --
- 
-INSERT INTO `usuarios` (`id`, `nombre`, `email`, `password`, `rol`) VALUES
-(1, 'Ejemplo', 'ejemplo@correo.com', 'claveEncriptada', 'usuario'),
-(2, '1', '1@gmail.com', '$2y$10$8075aKGizIX/pNRBeaPBleF8Ely1aO/lhb6WwVFfPNXmDxfIvWivK', 'usuario'),
-(3, 'Pepe', 'yundie@gmail.com', '$2y$10$Sm17eZX8jgrzmJKdVj3QhOMlsQALu6/eYvFsO0RlgwkZUt3l5T0.q', 'usuario'),
-(4, '2', '2@gmail.com', '$2y$10$PQjt/gQp7ce0guX3jp8vhepN0ZF.jSpQTL63oyoZGpt9ILaFALjsy', 'usuario'),
-(5, '3', '3@gmail.com', '$2y$10$9uxLwQjwPIMePMN5Fgrmlelv00zU3KQ9SuWOe/hoPTwTtMvXZN/Uu', 'usuario'),
-(6, '11', '11@gmail.com', '$2y$10$9.qhGJlVxrWRNfiiJYuNkeWGh7WRgfdL875lEwknqhR6cU0xllsdi', 'usuario'),
-(7, '22', '22@gmail.com', '$2y$10$M8pCMq6e1u9sVZGyjfcnzeuy2qV8yxUYycKCoUpae.jqZh3HNnbv2', 'usuario'),
-(8, '33', '33@gmail.com', '$2y$10$qnO6ov4mprV0S.Om/1HbaeMQazGuIyrcrWoGPzZD1GMyITTsDgrT6', 'usuario');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
