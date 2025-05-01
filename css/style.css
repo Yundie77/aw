@@ -103,6 +103,16 @@ nav a {
   /* Estilo de los enlaces alineados a la derecha */
 }
 
+.username-display {
+  margin-left: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+  display: inline-block;
+  /* Estilo del nombre de usuario en navbar */
+}
+
 /* Contenedor principal */
 /* === Contenedor principal de la funcionalidad F1 === */
 .container-f1 {
@@ -668,7 +678,7 @@ button:hover {
 
 /* Contenedor principal del panel de administración */
 .admin-container {
-  max-width: 1000px;
+  max-width: 1500px;
   margin: 2rem auto;
   padding: 1rem;
   border: 1px solid #ccc;
