@@ -117,8 +117,12 @@ CREATE TABLE `usuarios` (
   `nombre` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `rol` enum('usuario','admin') NOT NULL DEFAULT 'usuario'
+  `rol` enum('usuario','admin') NOT NULL DEFAULT 'usuario',
+  `estado` enum('activo','inactivo','bloqueado') NOT NULL DEFAULT 'activo',
+  `bloqueado_hasta` datetime DEFAULT NULL,
+  `fecha_creacion` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 --
 -- Índices para tablas volcadas

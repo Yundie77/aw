@@ -63,13 +63,35 @@ class FormularioLogin extends Formulario {
             if (!$usuario) {
                 $this->errores[] = 'Usuario o contraseña incorrectos.';
             } else {
+                // 1. Verificar si está desactivado
+                if ($usuario->estado === 'inactivo') {
+                    $this->errores[] = 'Tu cuenta está desactivada. Contacta con el administrador.';
+                    return;
+                }
+            
+                // 2. Verificar si está bloqueado y aún no ha expirado
+                if ($usuario->estado === 'bloqueado') {
+                    $ahora = new \DateTime();
+                    $bloqueadoHasta = $usuario->bloqueado_hasta ? new \DateTime($usuario->bloqueado_hasta) : null;
+            
+                    if ($bloqueadoHasta && $bloqueadoHasta > $ahora) {
+                        $this->errores[] = 'Tu cuenta está bloqueada hasta ' . $bloqueadoHasta->format('d/m/Y H:i') . '.';
+                        return;
+                    } else {
+                        // Si la fecha ya pasó, desbloqueamos automáticamente
+                        Usuario::actualizaEstado(\es\ucm\fdi\aw\Aplicacion::getInstance()->getConexionBd(), $usuario->getId(), 'activo');
+                    }
+                }
+            
+                // 3. Login exitoso
                 $_SESSION['user_id'] = $usuario->getId();
                 $_SESSION['user_name'] = $usuario->getNombre();
                 $_SESSION['user_role'] = $usuario->getRol();
-
+            
                 header("Location: " . ($usuario->getRol() === 'admin' ? 'admin.php' : 'index.php'));
                 exit();
             }
+            
         }
     }
 }

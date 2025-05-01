@@ -10,15 +10,23 @@ class Usuario {
     public $email;
     public $password;  // Almacenará el hash de la contraseña
     public $rol;
+    public $estado; //activo, inactivo, bloqueado
+    public $bloqueado_hasta;
+    public $fecha_creacion;
+
 
     // Constructor: crea un objeto Usuario a partir de los datos de la BD
-    public function __construct($id, $nombre, $email, $password, $rol) {
+    public function __construct($id, $nombre, $email, $password, $rol, $estado, $bloqueadoHasta, $fechaCreacion) {
         $this->id = $id;
         $this->nombre = $nombre;
         $this->email = $email;
         $this->password = $password;
         $this->rol = $rol;
+        $this->estado = $estado;
+        $this->bloqueado_hasta = $bloqueadoHasta;
+        $this->fecha_creacion = $fechaCreacion;
     }
+    
 
     public function getId() {
         return $this->id;
@@ -39,19 +47,29 @@ class Usuario {
      */
     public static function buscaUsuario($nombreUsuario) {
         $app = Aplicacion::getInstance();
-        $conn = $app->getConexionBd();
+    $conn = $app->getConexionBd();
 
-        $stmt = $conn->prepare("SELECT * FROM usuarios WHERE nombre = ?");
-        if (!$stmt) {
-            throw new Exception("Error en prepare: " . $conn->error);
-        }
-        $stmt->bind_param("s", $nombreUsuario);
-        $stmt->execute();
+    $stmt = $conn->prepare("SELECT * FROM usuarios WHERE nombre = ?");
+    if (!$stmt) {
+        throw new \Exception("Error en prepare: " . $conn->error);
+    }
+    $stmt->bind_param("s", $nombreUsuario);
+    $stmt->execute();
+    $result = $stmt->get_result();
         $result = $stmt->get_result();
 
         if ($row = $result->fetch_assoc()) {
-            $result->free(); // Liberar el resultado
-            return new Usuario($row['id'], $row['nombre'], $row['email'], $row['password'], $row['rol']);
+            $result->free();
+            return new Usuario(
+                $row['id'],
+                $row['nombre'],
+                $row['email'],
+                $row['password'],
+                $row['rol'],
+                $row['estado'],
+                $row['bloqueado_hasta'],
+                $row['fecha_creacion']
+            );
         }
         $result->free(); // Liberar el resultado incluso si no se encuentra nada
         return false;
@@ -123,7 +141,75 @@ class Usuario {
         }
         $stmt->close();
 
-        return new Usuario($id, $nombreUsuario, $nombre, $hash, $rol);
+        return new Usuario(
+            $id,
+            $nombreUsuario,
+            $nombre,
+            $hash,
+            $rol,
+            'activo',           // estado por defecto
+            null,               // bloqueado_hasta
+            date('Y-m-d H:i:s') // fecha_creacion actual (opcional, para mantener consistencia)
+        );
     }
+
+    public static function getAll($conn) {
+        $usuarios = [];
+        $query = "SELECT * FROM usuarios";
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
+        while ($row = $result->fetch_assoc()) {
+            $usuarios[] = new Usuario(
+                $row['id'],
+                $row['nombre'],
+                $row['email'],
+                $row['password'],
+                $row['rol'],
+                $row['estado'],
+                $row['bloqueado_hasta'],
+                $row['fecha_creacion']
+            );
+                    }
+    
+        $stmt->close();
+        return $usuarios;
+    }
+
+    public static function eliminarPorId($conn, $id) {
+        $stmt = $conn->prepare("DELETE FROM usuarios WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        return $stmt->execute();
+    }
+
+    public static function buscaPorId($conn, $id) {
+        $stmt = $conn->prepare("SELECT * FROM usuarios WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        if ($row = $res->fetch_assoc()) {
+            return new Usuario(
+                $row['id'], $row['nombre'], $row['email'], $row['password'], $row['rol'],
+                $row['estado'], $row['bloqueado_hasta'], $row['fecha_creacion']
+            );
+        }
+        return null;
+    }
+    
+    public static function actualizaEstado($conn, $id, $estado) {
+        $stmt = $conn->prepare("UPDATE usuarios SET estado = ? WHERE id = ?");
+        $stmt->bind_param("si", $estado, $id);
+        return $stmt->execute();
+    }
+    
+    public static function bloquearHasta($conn, $id, $fecha) {
+        $stmt = $conn->prepare("UPDATE usuarios SET estado = 'bloqueado', bloqueado_hasta = ? WHERE id = ?");
+        $stmt->bind_param("si", $fecha, $id);
+        return $stmt->execute();
+    }
+    
+    
+    
 }
 ?>
