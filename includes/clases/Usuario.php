@@ -47,20 +47,21 @@ class Usuario {
      */
     public static function buscaUsuario($nombreUsuario) {
         $app = Aplicacion::getInstance();
-    $conn = $app->getConexionBd();
-
-    $stmt = $conn->prepare("SELECT * FROM usuarios WHERE nombre = ?");
-    if (!$stmt) {
-        throw new \Exception("Error en prepare: " . $conn->error);
-    }
-    $stmt->bind_param("s", $nombreUsuario);
-    $stmt->execute();
-    $result = $stmt->get_result();
+        $conn = $app->getConexionBd();
+    
+        $stmt = $conn->prepare("SELECT * FROM usuarios WHERE nombre = ?");
+        if (!$stmt) {
+            throw new \Exception("Error en prepare: " . $conn->error);
+        }
+    
+        $stmt->bind_param("s", $nombreUsuario);
+        $stmt->execute();
+    
         $result = $stmt->get_result();
-
+        $usuario = false;
+    
         if ($row = $result->fetch_assoc()) {
-            $result->free();
-            return new Usuario(
+            $usuario = new Usuario(
                 $row['id'],
                 $row['nombre'],
                 $row['email'],
@@ -71,9 +72,13 @@ class Usuario {
                 $row['fecha_creacion']
             );
         }
-        $result->free(); // Liberar el resultado incluso si no se encuentra nada
-        return false;
+    
+        $result->free();   // Libera el resultado
+        $stmt->close();    //  Cierra el statement 
+    
+        return $usuario;
     }
+    
 
     /**
      * Comprueba si la contraseña introducida ($password) coincide con el hash almacenado.
