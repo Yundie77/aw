@@ -59,16 +59,11 @@ $stmt = $conn->prepare("INSERT INTO grupo_usuarios (grupo_id, usuario_id, rol_gr
 $stmt->bind_param("iis", $grupoId, $usuarioId, $rol);
 
 if ($stmt->execute()) {
-    // Si todo es exitoso, redirigir con mensaje de éxito
-    $_SESSION['mensaje_exito'] = "Miembro agregado correctamente al grupo.";
-    header("Location: grupos.php");
+    echo json_encode(['success' => 'Miembro agregado correctamente al grupo.']);
     exit;
 } else {
-    // Si ocurre un error, redirigir con mensaje de error
-    $_SESSION['mensaje_error'] = "Error al agregar el miembro.";
-    header("Location: grupos.php");
+    echo json_encode(['error' => 'Error al agregar el miembro.']);
     exit;
 }
-
 
 ?>

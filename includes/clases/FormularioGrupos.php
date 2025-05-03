@@ -120,8 +120,6 @@ class FormularioGrupos
         return $usuarios;
     }
 
-
-
     // Método para generar el HTML de los botones para las ventanas modales
     public function generarBotones()
     {
@@ -271,10 +269,10 @@ class FormularioGrupos
                 </form>
             </div>
         </div>
-
+        <script src="js/alerts.js"></script>
         <script src="<?= RUTA_JS ?>modal.js"></script>
         <div id="mensaje-resultado"></div>
-        <script src="<?= RUTA_JS ?>srciptMensaje.js"></script>
+        <script src="<?= RUTA_JS ?>srciptMensaje.js?v=<?= time(); ?>"></script>
 <?php
         return ob_get_clean();
     }

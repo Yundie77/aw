@@ -40,9 +40,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         alert('Error: ' + data.error);
                     }
                 })
-                .catch(err => {
-                    alert('Error de red');
-                    console.error(err);
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al procesar la solicitud.');
                 });
             }
         });

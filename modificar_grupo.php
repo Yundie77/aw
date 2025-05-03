@@ -22,11 +22,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("sisi", $nombre, $objetivo, $descripcion, $grupo_id);
 
     if ($stmt->execute()) {
-        $_SESSION['mensaje_exito'] = "Operación exitosa";
-        header("Location: grupos.php?mensaje=grupo_modificado");
+        echo json_encode(['success' => 'Grupo modificado correctamente.']);
         exit;
     } else {
-        die("Error al modificar el grupo: " . $conn->error);
+        echo json_encode(['error' => 'Error al modificar el grupo.']);
+        exit;
     }
 } else {
     die("Método no permitido.");

@@ -40,15 +40,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $stmt2->bind_param("iis", $grupo_id, $usuario_id, $rol);
 
-        if (!$stmt2->execute()) {
-            die("Error al insertar al creador como miembro: " . $stmt2->error);
+        if ($stmt2->execute()) {
+            echo json_encode(['success' => 'Grupo agregado correctamente.']);
+            exit;
+        } else {
+            echo json_encode(['error' => 'Error al agregar el grupo.']);
+            exit;
         }
 
         $stmt2->close();
         $stmt->close();
-
-        header("Location: grupos.php?mensaje=grupo_agregado");
-        exit;
     } else {
         die("Error al agregar el grupo: " . $stmt->error);
     }

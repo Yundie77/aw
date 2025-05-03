@@ -20,11 +20,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("i", $grupo_id);
 
     if ($stmt->execute()) {
-        $_SESSION['mensaje_exito'] = "Operación exitosa";
-        header("Location: grupos.php");
+        echo json_encode(['success' => 'Grupo eliminado correctamente.']);
         exit;
     } else {
-        die("Error al eliminar el grupo: " . $conn->error);
+        echo json_encode(['error' => 'Error al eliminar el grupo.']);
+        exit;
     }
 } else {
     die("Método no permitido.");
