@@ -19,32 +19,31 @@ window.onclick = function(event) {
 
 // Interceptar el envío de las formas en los modales y enviarlas vía AJAX
 document.addEventListener('DOMContentLoaded', function () {
-    const modalsForms = document.querySelectorAll('.modal-content form');
+    const modalsForms = document.querySelectorAll('.modal-content-grupo form');
+
     modalsForms.forEach(form => {
         form.addEventListener('submit', function (e) {
-            if (form.dataset.ajax === "true") { // Only handle forms marked for AJAX
-                e.preventDefault();
-                const formData = new FormData(form);
-                fetch(form.action, {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        showSuccessAlert(); // Use the alert from alerts.js
-                        const modal = form.closest('.modal');
-                        modal.style.display = 'none';
-                        location.reload();
-                    } else {
-                        alert('Error: ' + data.error);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error al procesar la solicitud.');
-                });
-            }
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            fetch(form.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const modal = form.closest('.modal');
+                const resultMessage = document.getElementById('mensaje-resultado');
+
+                if (data.success) {
+                    resultMessage.innerHTML = `<p style="color:green;">${data.success}</p>`;
+                    modal.style.display = 'none'; // Cerrar el modal
+                    window.location.href = `${window.location.pathname}?mensaje=success`; 
+                } else if (data.error) {
+                    resultMessage.innerHTML = `<p style="color:red;">${data.error}</p>`;
+                    window.location.href = `${window.location.pathname}?mensaje=error`;
+                }
+            })
         });
     });
 });

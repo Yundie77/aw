@@ -146,7 +146,7 @@ class FormularioGrupos
             <div class="modal-content-grupo">
                 <span class="close" onclick="closeModal('modal-agregar-grupo')">&times;</span>
                 <h2>Agregar Nuevo Grupo</h2>
-                <form action="agregar_grupo.php" method="post">
+                <form data-ajax="true" action="agregar_grupo.php" method="POST">
                     <div class="form-row">
                         <label for="nombre">Nombre del Grupo:</label>
                         <input type="text" id="nombre" name="nombre" required>
@@ -171,7 +171,7 @@ class FormularioGrupos
             <div class="modal-content-grupo">
                 <span class="close" onclick="closeModal('modal-agregar-miembro')">&times;</span>
                 <h2>Agregar Nuevo Miembro</h2>
-                <form action="agregar_miembro.php" method="post">
+                <form data-ajax="true" action="agregar_miembro.php" method="POST">
                     <div class="form-row">
                         <label for="grupo_id">Seleccione el Grupo:</label>
                         <select name="grupo_id" id="grupo_id" required>
@@ -211,7 +211,7 @@ class FormularioGrupos
             <div class="modal-content-grupo">
                 <span class="close" onclick="closeModal('modal-modificar-grupo')">&times;</span>
                 <h2>Modificar Grupo</h2>
-                <form action="modificar_grupo.php" method="post">
+                <form data-ajax="true" action="modificar_grupo.php" method="POST">
                     <div class="form-row">
                         <label for="grupo_id_mod">Seleccione el Grupo:</label>
                         <select name="grupo_id" id="grupo_id_mod" required>
@@ -249,7 +249,7 @@ class FormularioGrupos
             <div class="modal-content-grupo">
                 <span class="close" onclick="closeModal('modal-eliminar-grupo')">&times;</span>
                 <h2>Eliminar Grupo</h2>
-                <form action="eliminar_grupo.php" method="post">
+                <form data-ajax="true" action="eliminar_grupo.php" method="POST">
                     <div class="form-row">
                         <label for="grupo_id_del">Seleccione el Grupo:</label>
                         <select name="grupo_id" id="grupo_id_del" required>
@@ -269,10 +269,7 @@ class FormularioGrupos
                 </form>
             </div>
         </div>
-        <script src="js/alerts.js"></script>
-        <script src="<?= RUTA_JS ?>modal.js"></script>
         <div id="mensaje-resultado"></div>
-        <script src="<?= RUTA_JS ?>srciptMensaje.js?v=<?= time(); ?>"></script>
 <?php
         return ob_get_clean();
     }

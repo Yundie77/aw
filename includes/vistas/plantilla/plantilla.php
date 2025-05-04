@@ -20,5 +20,7 @@ require(RAIZ_APP.'/vistas/comun/nav.php');
 require(RAIZ_APP.'/vistas/comun/footer.php');
 ?>
 </div>
+<script src="<?= RUTA_JS ?>modal.js"></script>
+<script src="<?= RUTA_JS ?>srciptMensaje.js?v=<?= time(); ?>"></script>
 </body>
 </html>
