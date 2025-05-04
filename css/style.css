@@ -1210,24 +1210,32 @@ main a:hover {
   }
 }
 
+/* Estilo para el mensaje de error */
 .mensaje-error {
-  background-color: #f8d7da;  /* Color de fondo rojo suave */
-  color: #721c24;  /* Texto color rojo oscuro */
-  border: 1px solid #f5c6cb;  /* Borde suave con tono similar */
-  padding: 10px 20px;  /* Espaciado */
-  margin: 10px 0;  /* Margen superior e inferior */
-  border-radius: 5px;  /* Bordes redondeados */
-  font-size: 16px;  /* Tamaño de fuente */
-  text-align: center;  /* Centrar el texto */
-  width: 100%;  /* Asegurarse de que ocupe todo el ancho */
-  box-sizing: border-box;  /* Incluir el padding en el cálculo del ancho */
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  padding: 10px 20px;
+  margin: 20px 0;
+  margin-left: 3%;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: center;
+  width: 90%;
+  box-sizing: border-box;
 }
 
-.mensaje-error a {
-  color: #721c24;  /* Color para el enlace, que debe ser el mismo tono */
-  font-weight: bold;  /* Hacer el enlace un poco más destacable */
-}
-
-.mensaje-error a:hover {
-  text-decoration: underline;  /* Subrayado en el hover */
+/* Estilo para el mensaje de éxito */
+.mensaje-exito {
+  background-color: #d7f8d9; 
+  color: #147224;
+  border: 1px solid #80d786;
+  padding: 10px 20px;
+  margin: 20px 0;
+  margin-left: 3%;
+  border-radius: 5px;
+  font-size: 16px; 
+  text-align: center;
+  width: 94%;
+  box-sizing: border-box;
 }
