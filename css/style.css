@@ -1231,3 +1231,124 @@ main a:hover {
 .mensaje-error a:hover {
   text-decoration: underline;  /* Subrayado en el hover */
 }
+
+.admin-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', sans-serif;
+    text-align: center;
+}
+
+.admin-container h2 {
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 24px;
+}
+
+.card {
+    background: #f8f8f8;
+    padding: 25px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.estado {
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.estado.activo {
+    color: #c0392b;
+    background-color: #fddede;
+}
+
+.estado.inactivo {
+    color: #27ae60;
+    background-color: #ddf5e3;
+}
+
+.boton-toggle {
+    padding: 10px 25px;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.boton-toggle.verde {
+    background-color: #2ecc71;
+}
+
+.boton-toggle.verde:hover {
+    background-color: #27ae60;
+}
+
+.boton-toggle.rojo {
+    background-color: #e74c3c;
+}
+
+.boton-toggle.rojo:hover {
+    background-color: #c0392b;
+}
+
+.notificacion {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #333;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 9999;
+    font-size: 15px;
+}
+
+.notificacion.mostrar {
+    opacity: 1;
+}
+
+.mantenimiento-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  background-color: #fefefe;
+  padding: 40px 20px;
+}
+
+.mantenimiento-container {
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: auto;
+}
+
+.mantenimiento-container h1 {
+  font-size: 2em;
+  color: #c0392b;
+  margin-bottom: 15px;
+}
+
+.mantenimiento-container p {
+  font-size: 1.1em;
+  color: #555;
+}
+
+
+

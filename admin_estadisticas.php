@@ -3,7 +3,10 @@ require_once 'includes/config.php';
 
 use es\ucm\fdi\aw\Aplicacion;
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 
 if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
     Aplicacion::redirige('login.php');
@@ -12,7 +15,7 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
 $app = Aplicacion::getInstance();
 $conn = $app->getConexionBd();
 
-// 📊 1. Nuevos usuarios por mes
+// 1. Nuevos usuarios por mes
 $queryUsuarios = "SELECT DATE_FORMAT(fecha_creacion, '%Y-%m') AS mes, COUNT(*) AS total
                   FROM usuarios GROUP BY mes ORDER BY mes ASC";
 $res1 = $conn->query($queryUsuarios);
@@ -21,7 +24,7 @@ while ($row = $res1->fetch_assoc()) {
     $datosUsuariosMes[] = $row;
 }
 
-// 📊 2. Gasto total por categoría (global)
+//  2. Gasto total por categoría (global)
 $queryCategorias = "SELECT c.nombre AS categoria, SUM(g.monto) AS total_categoria
                     FROM categorias c JOIN gastos g ON c.id = g.categoria_id
                     GROUP BY c.nombre ORDER BY total_categoria DESC";
@@ -42,7 +45,7 @@ ob_start();
     <h1 class="titulo-graficos">Panel de Estadísticas Administrativas</h1>
 
     <div class="graficos-row">
-        <!-- 📈 Gráfico 1: Nuevos usuarios por mes -->
+        <!--  Gráfico 1: Nuevos usuarios por mes -->
         <div class="grafico-card">
             <h3>Nuevos usuarios por mes</h3>
             <div class="grafico-container">
@@ -53,7 +56,7 @@ ob_start();
             </div>
         </div>
 
-        <!-- 🍩 Gráfico 2: Gasto global por categoría -->
+        <!--  Gráfico 2: Gasto global por categoría -->
         <div class="grafico-card">
             <h3>Gasto total por categoría</h3>
             <div class="grafico-container">

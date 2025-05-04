@@ -5,7 +5,7 @@
  */
 define('BD_HOST', 'localhost'); 
 define('BD_USER', 'awp2'); 
-define('BD_NAME', 'aw');
+define('BD_NAME', 'awp2');
 define('BD_PASS', 'awpass');
 
 
