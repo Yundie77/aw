@@ -36,14 +36,33 @@ document.addEventListener('DOMContentLoaded', function () {
                 const resultMessage = document.getElementById('mensaje-resultado');
 
                 if (data.success) {
-                    resultMessage.innerHTML = `<p style="color:green;">${data.success}</p>`;
-                    modal.style.display = 'none'; // Cerrar el modal
-                    window.location.href = `${window.location.pathname}?mensaje=success`; 
+                    // Store message in sessionStorage before reload
+                    sessionStorage.setItem('modalMessage', JSON.stringify({type: 'success', text: data.success}));
+                    modal.style.display = 'none';
+                    location.reload();
                 } else if (data.error) {
-                    resultMessage.innerHTML = `<p style="color:red;">${data.error}</p>`;
-                    window.location.href = `${window.location.pathname}?mensaje=error`;
+                    sessionStorage.setItem('modalMessage', JSON.stringify({type: 'error', text: data.error}));
+                    location.reload();
                 }
             })
         });
     });
+
+    // Show modal message after reload if exists
+    const msg = sessionStorage.getItem('modalMessage');
+    if (msg) {
+        const {type, text} = JSON.parse(msg);
+        let div = document.createElement('div');
+        div.className = type === 'success' ? 'mensaje-exito' : 'mensaje-error';
+        div.textContent = text;
+        // Insert below the group blocks if present, else fallback to top of main
+        const grupoList = document.querySelector('.grupo-list');
+        if (grupoList && grupoList.parentNode) {
+            grupoList.parentNode.insertBefore(div, grupoList.nextSibling);
+        } else {
+            const main = document.querySelector('main');
+            if (main) main.insertBefore(div, main.firstChild);
+        }
+        sessionStorage.removeItem('modalMessage');
+    }
 });

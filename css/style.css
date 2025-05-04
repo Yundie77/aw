@@ -1210,6 +1210,7 @@ main a:hover {
   }
 }
 
+/* Estilo para el mensaje de error */
 .mensaje-error {
   background-color: #f8d7da;  /* Color de fondo rojo suave */
   color: #721c24;  /* Texto color rojo oscuro */
