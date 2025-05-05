@@ -25,33 +25,29 @@ class FormularioRegistro extends Formulario {
 
             <?= $htmlErroresGlobales ?>
 
-            <form action="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST">
+            <form id="formRegistro" action="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST">
                 <div class="form-group">
                     <label for="nombreUsuario">Nombre de usuario</label>
-                    <input type="text" id="nombreUsuario" name="nombreUsuario"
-                           placeholder="Introduce tu nombre de usuario"
-                           value="<?= htmlspecialchars($nombreUsuario) ?>">
-                    <?= $erroresCampos['nombreUsuario'] ?? '' ?>
+                    <input type="text" id="campoUser" name="nombreUsuario" placeholder="Introduce tu nombre de usuario">
+                    <span id="userOK">✔</span>
+                    <span id="userMal">❌</span>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Correo Electrónico</label>
-                    <input type="email" id="email" name="email"
-                           placeholder="Introduce tu correo electrónico"
-                           value="<?= htmlspecialchars($email) ?>">
-                    <?= $erroresCampos['email'] ?? '' ?>
+                    <input type="email" id="campoEmail" name="email" placeholder="Introduce tu correo electrónico">
+                    <span id="correoOK">✔</span>
+                    <span id="correoMal">❌</span>
                 </div>
 
                 <div class="form-group">
                     <label for="password">Contraseña</label>
                     <input type="password" id="password" name="password" placeholder="Introduce tu contraseña">
-                    <?= $erroresCampos['password'] ?? '' ?>
                 </div>
 
                 <div class="form-group">
                     <label for="confirm_password">Confirmar Contraseña</label>
                     <input type="password" id="confirm_password" name="confirm_password" placeholder="Repite tu contraseña">
-                    <?= $erroresCampos['confirm_password'] ?? '' ?>
                 </div>
 
                 <button type="submit" class="btn btn-green">Registrar</button>
@@ -119,3 +115,5 @@ class FormularioRegistro extends Formulario {
     }
 }
 ?>
+
+<script type="text/javascript" src="js/validacionRegistro.js"></script>
