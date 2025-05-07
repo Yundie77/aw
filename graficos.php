@@ -43,6 +43,28 @@ ob_start();
                 <p>Compara tu patrón de gastos con el promedio de otros estudiantes en cada categoría.</p>
             </div>
         </div>
+
+        <!-- grafico 3: placeholder para futuro gráfico -->
+        <div class="grafico-card">
+            <h3>Gráfico futuro 1</h3>
+            <div class="grafico-container">
+                <!-- <canvas id="futureChart1"></canvas> -->
+            </div>
+            <div class="grafico-descripcion">
+                <p>Espacio reservado para un nuevo gráfico.</p>
+            </div>
+        </div>
+
+        <!-- grafico 4: placeholder para futuro gráfico -->
+        <div class="grafico-card">
+            <h3>Gráfico futuro 2</h3>
+            <div class="grafico-container">
+                <!-- <canvas id="futureChart2"></canvas> -->
+            </div>
+            <div class="grafico-descripcion">
+                <p>Espacio reservado para un nuevo gráfico.</p>
+            </div>
+        </div>
     </div>
     
     <div class="graficos-row">
