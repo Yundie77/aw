@@ -42,12 +42,16 @@ class FormularioRegistro extends Formulario {
 
                 <div class="form-group">
                     <label for="password">Contraseña</label>
-                    <input type="password" id="password" name="password" placeholder="Introduce tu contraseña">
+                    <input type="password" id="campoPassword" name="password" placeholder="Introduce tu contraseña">
+                    <span id="passwordOK" style="display: none;">✔</span>
+                    <span id="passwordMal" style="display: none;">❌</span>
                 </div>
 
                 <div class="form-group">
                     <label for="confirm_password">Confirmar Contraseña</label>
                     <input type="password" id="confirm_password" name="confirm_password" placeholder="Repite tu contraseña">
+                    <span id="confirmPasswordOK" style="display: none;">✔</span>
+                    <span id="confirmPasswordMal" style="display: none;">❌</span>
                 </div>
 
                 <button type="submit" class="btn btn-green">Registrar</button>

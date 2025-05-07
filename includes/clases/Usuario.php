@@ -48,6 +48,7 @@ class Usuario {
     public static function buscaUsuario($nombreUsuario) {
         $app = Aplicacion::getInstance();
         $conn = $app->getConexionBd();
+        $nombreUsuario = $conn->real_escape_string($nombreUsuario);  // Escapar parámetro
     
         $stmt = $conn->prepare("SELECT * FROM usuarios WHERE nombre = ?");
         if (!$stmt) {
@@ -79,6 +80,42 @@ class Usuario {
         return $usuario;
     }
     
+    /**
+     * Busca en la base de datos un usuario cuyo correo coincida con $email.
+     * Retorna un objeto Usuario si lo encuentra o false en caso contrario.
+     */
+    public static function buscaCorreo($email) {
+        $app = Aplicacion::getInstance();
+        $conn = $app->getConexionBd();
+        $email = $conn->real_escape_string($email);  // Escapar parámetro
+
+        $stmt = $conn->prepare("SELECT * FROM usuarios WHERE email = ?");
+        if (!$stmt) {
+            throw new \Exception("Error en prepare: " . $conn->error);
+        }
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        
+        $result = $stmt->get_result();
+        $usuario = false;
+        if ($row = $result->fetch_assoc()) {
+            $usuario = new Usuario(
+                $row['id'],
+                $row['nombre'],
+                $row['email'],
+                $row['password'],
+                $row['rol'],
+                $row['estado'],
+                $row['bloqueado_hasta'],
+                $row['fecha_creacion']
+            );
+        }
+        
+        $result->free();
+        $stmt->close();
+        
+        return $usuario;
+    }
 
     /**
      * Comprueba si la contraseña introducida ($password) coincide con el hash almacenado.
@@ -113,6 +150,11 @@ class Usuario {
     public static function crea($nombreUsuario, $nombre, $password, $rol) {
         $app = Aplicacion::getInstance();
         $conn = $app->getConexionBd();
+
+        // Escapar parámetros de entrada
+        $nombreUsuario = $conn->real_escape_string($nombreUsuario);
+        $nombre = $conn->real_escape_string($nombre);
+        $rol = $conn->real_escape_string($rol);
 
         // Crear el hash de la contraseña
         $hash = password_hash($password, PASSWORD_DEFAULT);
