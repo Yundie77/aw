@@ -21,7 +21,7 @@ foreach ($usuarios as $usuario) {
         <td>{$usuario->email}</td>
         <td>{$usuario->getRol()}</td>
         <td>$estado</td>
-        <td>
+        <td class='acciones'>
             <button class='btn-toggle-estado' data-id='{$usuario->getId()}'>
                 " . ($estado === 'activo' ? 'Desactivar' : 'Activar') . "
             </button>

@@ -100,6 +100,10 @@ nav a {
   text-decoration: none;
   color: #333;
   font-weight: 600;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 16px; /* Ensure font-size is set here as well */
   /* Estilo de los enlaces alineados a la derecha */
 }
 
@@ -637,6 +641,7 @@ button:hover {
   cursor: pointer;
   font-weight: 600;
   color: #333;
+  font-size: 15px;
   /* Botón del dropdown */
 }
 
@@ -676,26 +681,10 @@ button:hover {
   /* Estilo del botón del dropdown al pasar el cursor */
 }
 
-/* Contenedor principal del panel de administración */
-.admin-container {
-  max-width: 1500px;
-  margin: 2rem auto;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #fafafa;
-  /* Contenedor principal del panel de administración */
-}
-
-.admin-container h2 {
-  text-align: center;
-  margin-bottom: 1rem;
-  /* Título del panel de administración */
-}
-
 .search-box {
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
+  margin-top: 2rem; 
   /* Contenedor de la caja de búsqueda */
 }
 
@@ -717,18 +706,19 @@ button:hover {
   border-collapse: collapse;
   margin-top: 1rem;
   /* Tabla de usuarios */
+  text-align: center;
 }
 
 .user-table th, .user-table td {
   border: 1px solid #ccc;
   padding: 0.75rem;
-  text-align: left;
+  text-align: center; /* Center align header and cell content */
   /* Estilo de las celdas de la tabla de usuarios */
 }
 
 .user-table th {
   background-color: #eee;
-  /* Estilo de los encabezados de la tabla de usuarios */
+/* Estilo de los encabezados de la tabla de usuarios */
 }
 
 /* Estilo para el contenedor de inicio de sesión */
@@ -1163,20 +1153,21 @@ main a:hover {
 }
 
 .admin-container {
-    max-width: 600px;
-    margin: 40px auto;
-    padding: 30px;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    font-family: 'Segoe UI', sans-serif;
-    text-align: center;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
 }
 
 .admin-container h2 {
-    margin-bottom: 25px;
-    color: #333;
-    font-size: 24px;
+  margin-bottom: 25px;
+  margin: 0px;
+  color: #333;
+  font-size: 24px;
 }
 
 .card {
