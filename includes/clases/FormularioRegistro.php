@@ -29,15 +29,15 @@ class FormularioRegistro extends Formulario {
                 <div class="form-group">
                     <label for="nombreUsuario">Nombre de usuario</label>
                     <input type="text" id="campoUser" name="nombreUsuario" placeholder="Introduce tu nombre de usuario">
-                    <span id="userOK">✔</span>
-                    <span id="userMal">❌</span>
+                    <span id="userOK" style="display: none;">✔</span>
+                    <span id="userMal" style="display: none;">❌</span>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Correo Electrónico</label>
                     <input type="email" id="campoEmail" name="email" placeholder="Introduce tu correo electrónico">
-                    <span id="correoOK">✔</span>
-                    <span id="correoMal">❌</span>
+                    <span id="correoOK" style="display: none;">✔</span>
+                    <span id="correoMal" style="display: none;">❌</span>
                 </div>
 
                 <div class="form-group">
@@ -116,4 +116,5 @@ class FormularioRegistro extends Formulario {
 }
 ?>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="js/validacionRegistro.js"></script>

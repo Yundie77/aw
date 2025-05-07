@@ -14,5 +14,6 @@ $htmlFormulario
 
 EOS;
 
+
 // Incluye la plantilla
 require __DIR__ . '/includes/vistas/plantilla/plantilla.php';

@@ -919,77 +919,6 @@ main a:hover {
   /* Estilo del botón de explorar al pasar el cursor */
 }
 
-/* Estilo para la página de inicio */
-.index-main {
-  text-align: center;
-  padding: 20px 20px 50px 20px;
-  /* Contenedor principal de la página de inicio */
-}
-
-.welcome-title {
-  font-size: 2.5em;
-  color: #4CAF50;
-  font-family: 'Arial', sans-serif;
-  font-weight: bold;
-  margin-bottom: 20px;
-  /* Estilo del título de bienvenida */
-}
-
-.logo-container {
-  margin: 20px 0;
-  /* Contenedor del logo */
-}
-
-.logo-image {
-  width: 150px;
-  border-radius: 50%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  /* Estilo de la imagen del logo */
-}
-
-.project-description {
-  max-width: 800px;
-  margin: 0 auto;
-  font-size: 1.2em;
-  line-height: 1.6;
-  /* Descripción del proyecto */
-}
-
-.project-description h2 {
-  color: #333;
-  font-size: 1.8em;
-  margin-bottom: 10px;
-  /* Título de la descripción del proyecto */
-}
-
-.project-description p {
-  color: #555;
-  /* Párrafo de la descripción del proyecto */
-}
-
-.explore-button-container {
-  margin-top: 30px;
-  /* Contenedor del botón de explorar */
-}
-
-.explore-button {
-  text-decoration: none;
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-size: 1.2em;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  /* Estilo del botón de explorar */
-}
-
-.explore-button:hover {
-  background-color: #45a049;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-  /* Estilo del botón de explorar al pasar el cursor */
-}
-
 /* Estilo para el botón verde */
 .btn-green {
     background-color: #4CAF50;
@@ -1349,6 +1278,29 @@ main a:hover {
 .mantenimiento-container p {
   font-size: 1.1em;
   color: #555;
+}
+
+/* Ocultar iconos por defecto */
+#correoOK, #correoMal, #userOK, #userMal {
+    display: none;
+    font-size: 18px;
+    margin-left: 10px;
+}
+
+#correoOK {
+    color: green;
+}
+
+#correoMal {
+    color: red;
+}
+
+#userOK {
+    color: green;
+}
+
+#userMal {
+    color: red;
 }
 
 
