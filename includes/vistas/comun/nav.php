@@ -72,7 +72,7 @@ if ($estaLogueado && !$esAdmin) {
     <?php endif; ?>
 
     <?php if (isset($_SESSION['user_name'])): ?>
-      <span><?= htmlspecialchars($_SESSION['user_name']); ?></span>
+      <span class="username-display"><?= htmlspecialchars($_SESSION['user_name']); ?></span>
       <a href="<?= RUTA_APP ?>logout.php">Salir</a>
     <?php else: ?>
       <a href="<?= RUTA_APP ?>login.php">Usuario</a>

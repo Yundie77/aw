@@ -138,7 +138,7 @@ $contenidoPrincipal = ob_get_clean();
 
 $tituloPagina = "Gestión de Gastos";
 
-$conn->close();
+
 
 require_once RAIZ_APP . '/vistas/plantilla/plantilla.php';
 ?>

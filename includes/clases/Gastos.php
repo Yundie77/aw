@@ -75,8 +75,9 @@ class Gastos {
         $query = "SELECT c.nombre as categoria, SUM(g.monto) as total_categoria
                   FROM gastos g
                   LEFT JOIN categorias c ON g.categoria_id = c.id
-                  WHERE g.usuario_id = ?
-                  GROUP BY g.categoria_id";
+                  WHERE g.usuario_id = ? AND g.tipo = 'Gasto'  
+                  GROUP BY g.categoria_id, c.nombre 
+                  HAVING SUM(g.monto) > 0"; 
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("i", $user_id);
         $stmt->execute();
