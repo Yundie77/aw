@@ -47,6 +47,7 @@ require(RAIZ_APP . '/vistas/comun/footer.php');
 <script src="<?= RUTA_JS ?>srciptMensaje.js?v=<?= time(); ?>"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="<?= RUTA_JS ?>validacionRegistro.js"></script>
+<script type="text/javascript" src="<?= RUTA_JS ?>chat.js?v=<?= time() ?>"></script>
 
 </body>
 </html>

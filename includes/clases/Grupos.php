@@ -61,5 +61,27 @@ class Grupos {
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+    
+    public function obtenerGruposPorUsuarioId($id_usuario) {
+        $sql = "SELECT g.id, g.nombre 
+                FROM grupos g
+                JOIN grupo_usuarios gu ON g.id = gu.grupo_id
+                WHERE gu.usuario_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        if (!$stmt) {
+            error_log("Error al preparar la consulta para obtener grupos por usuario: " . $this->conn->error);
+            return [];
+        }
+        $stmt->bind_param("i", $id_usuario);
+        if (!$stmt->execute()) {
+            error_log("Error al ejecutar la consulta para obtener grupos por usuario: " . $stmt->error);
+            $stmt->close();
+            return [];
+        }
+        $resultado = $stmt->get_result();
+        $grupos = $resultado->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+        return $grupos;
+    }
 }
 ?>

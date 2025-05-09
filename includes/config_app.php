@@ -1,4 +1,4 @@
 <?php
 return array (
-  'maintenance_mode' => true,
+  'maintenance_mode' => false,
 );
