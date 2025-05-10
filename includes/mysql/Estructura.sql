@@ -92,7 +92,6 @@ CREATE TABLE `gastos_grupales` (
 CREATE TABLE `grupos` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
-  `descripcion` text DEFAULT NULL,
   `objetivo` decimal(10,2) DEFAULT 0.00,
   `fecha_creacion` date NOT NULL DEFAULT curdate()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
