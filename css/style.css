@@ -1611,6 +1611,10 @@ main a:hover {
     color: #2c3e50;
     font-weight: bold;
 }
+.explore-button-container {
+  margin-bottom: 40px;
+}
+
 
 
 

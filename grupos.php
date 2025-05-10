@@ -34,6 +34,11 @@ $formularioGrupos = new \es\ucm\fdi\aw\FormularioGrupos($conn);
 // Iniciamos el buffer de salida
 ob_start();
 
+?>
+
+<h1 class="titulo-graficos">Grupos</h1>
+
+<?php
 // Generamos el contenido principal utilizando los métodos del formulario
 echo $formularioGrupos->generarListaGrupos(); // Genera la lista de grupos
 echo $formularioGrupos->generarBotones();    // Genera los botones para las ventanas modales
