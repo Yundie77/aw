@@ -14,8 +14,6 @@ $datosLinea = $graficosAnalisis->getGastosMensuales($user_id);
 $datosComparacion = $graficosAnalisis->getComparacionGastos($user_id);
 $datosDispersion = $graficosAnalisis->getIngresosVsGastos($user_id);
 $datosBarrasApiladas = $graficosAnalisis->getGastosPorCategoriaPorMes($user_id);
-$datosUsuariosEstado = $graficosAnalisis->getUsuariosPorEstado();
-$datosUsuariosRol = $graficosAnalisis->getUsuariosPorRol();
 
 ob_start();
 ?>
@@ -45,29 +43,6 @@ ob_start();
                 <p>Compara tu patrón de gastos con el promedio de otros estudiantes en cada categoría.</p>
             </div>
         </div>
-
-        <!-- grafico 3: Usuarios activos vs inactivos vs bloqueados -->
-        <div class="grafico-card">
-            <h3>Usuarios por estado</h3>
-            <div class="grafico-container">
-                <canvas id="usuariosEstadoChart"></canvas>
-            </div>
-            <div class="grafico-descripcion">
-                <p>Comparativa de usuarios activos, inactivos y bloqueados en la plataforma.</p>
-            </div>
-        </div>
-
-        <!-- grafico 4: Usuarios por rol (admin vs usuario) -->
-        <div class="grafico-card">
-            <h3>Usuarios por rol</h3>
-            <div class="grafico-container">
-                <canvas id="usuariosRolChart"></canvas>
-            </div>
-            <div class="grafico-descripcion">
-                <p>Distribución de usuarios según su rol: administrador o usuario estándar.</p>
-            </div>
-        </div>
-    </div>
 </div>
 
 <!-- script para pasar datos a Javascript sacados de ChatGPT que usa jsdelivr una herramienta gratis de js que usamos para la creacion de graficas -->
@@ -77,12 +52,8 @@ ob_start();
     var datosComparacion = <?= json_encode($datosComparacion) ?>;
     var datosDispersion = <?= json_encode($datosDispersion) ?>;
     var datosBarrasApiladas = <?= json_encode($datosBarrasApiladas) ?>;
-    // Añadir los datos de usuarios por estado y por rol
-    var datosUsuariosEstado = <?= json_encode($datosUsuariosEstado) ?>;
-    var datosUsuariosRol = <?= json_encode($datosUsuariosRol) ?>;
 </script>
 <script src="<?= RUTA_JS ?>/graficos.js"></script>
-<script src="<?= RUTA_JS ?>/usuariosGraficos.js"></script>
 
 <?php
 $contenidoPrincipal = ob_get_clean();

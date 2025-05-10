@@ -128,8 +128,6 @@ ob_start();
 </script>
 
 <script src="<?= RUTA_JS ?>adminEstadisticas.js"></script>
-<script src="<?= RUTA_JS ?>barChartEstados.js"></script>
-<script src="<?= RUTA_JS ?>pieRolesUsuarios.js"></script>
 
 <?php
 $contenidoPrincipal = ob_get_clean();

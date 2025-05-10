@@ -900,6 +900,7 @@ main a:hover {
 .explore-button-container {
   text-align: center;
   margin-top: 30px;
+  margin-bottom: 40px;
   /* Contenedor del botón de explorar */
 }
 
