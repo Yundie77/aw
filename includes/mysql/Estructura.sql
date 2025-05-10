@@ -74,12 +74,14 @@ CREATE TABLE `gastos` (
 --
 
 CREATE TABLE `gastos_grupales` (
-  `grupo_id` int(11) NOT NULL,
-  `usuario_id` int(11) NOT NULL,
-  `monto` decimal(10,2) NOT NULL,
-  `fecha` date NOT NULL,
-  `comentario` text DEFAULT NULL
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `grupo_id` INT(11) NOT NULL,
+  `usuario_id` INT(11) NOT NULL,
+  `monto` DECIMAL(10,2) NOT NULL,
+  `fecha` DATE NOT NULL,
+  `comentario` TEXT DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 -- --------------------------------------------------------
 
@@ -163,8 +165,8 @@ ALTER TABLE `gastos`
 ALTER TABLE `gastos_grupales`
   ADD PRIMARY KEY (`id`),
   ADD KEY `grupo_id` (`grupo_id`),
-  ADD KEY `usuario_id` (`usuario_id`),
-  ADD KEY `categoria_id` (`categoria_id`);
+  ADD KEY `usuario_id` (`usuario_id`);
+
 
 --
 -- Indices de la tabla `grupos`

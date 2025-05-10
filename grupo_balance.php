@@ -34,8 +34,8 @@ ob_start();
     <h2 class="balance-titulo">Balance del Grupo</h2>
 
     <div class="resumen" style="display: flex; justify-content: space-between; margin-bottom: 1.5em;">
-    <p><strong>Gasto total:</strong> <?= number_format($totalGasto, 2) ?> €</p>
-    <p><strong>Gasto esperado por persona:</strong> <?= number_format($gastoPorPersona, 2) ?> €</p>
+    <h2><strong>Gasto total:</strong> <?= number_format($totalGasto, 2) ?> €</h2>
+    <h2><strong>Gasto esperado por persona:</strong> <?= number_format($gastoPorPersona, 2) ?> €</h2>
 </div>
 
     <div class="lista-balances">

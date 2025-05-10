@@ -81,10 +81,59 @@ public function getParticipantesConGastos($grupo_id) {
     return $participantes;
 }
 
+public function insertarGastoGrupal($grupo_id, $usuario_id, $monto, $fecha, $comentario) {
+    $sql = "INSERT INTO gastos_grupales (grupo_id, usuario_id, monto, fecha, comentario)
+            VALUES (?, ?, ?, ?, ?)";
+    
+    $stmt = $this->conn->prepare($sql);
+    if (!$stmt) return false;
+
+    $stmt->bind_param("iidss", $grupo_id, $usuario_id, $monto, $fecha, $comentario);
+    $resultado = $stmt->execute();
+    $stmt->close();
+
+    return $resultado;
+}
+
+public function getGastosUsuarioGrupo($grupo_id, $usuario_id) {
+    $stmt = $this->conn->prepare("
+        SELECT id, monto, fecha, comentario
+        FROM gastos_grupales
+        WHERE grupo_id = ? AND usuario_id = ?
+        ORDER BY fecha DESC
+    ");
+    $stmt->bind_param("ii", $grupo_id, $usuario_id);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    $datos = $res->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+
+    return $datos;
+}
 
 
+public function actualizarGastoGrupal($id, $usuario_id, $monto, $fecha, $comentario) {
+    $sql = "UPDATE gastos_grupales 
+            SET monto = ?, fecha = ?, comentario = ? 
+            WHERE id = ? AND usuario_id = ?";
+    $stmt = $this->conn->prepare($sql);
+    if (!$stmt) return false;
 
+    $stmt->bind_param("dssii", $monto, $fecha, $comentario, $id, $usuario_id);
+    $resultado = $stmt->execute();
+    $stmt->close();
 
+    return $resultado;
+}
+
+ public function eliminarGasto($id, $user_id) {
+        $sql = "DELETE FROM gastos_grupales WHERE id = ? AND usuario_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ii", $id, $user_id);
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
+    }
 
     
 
