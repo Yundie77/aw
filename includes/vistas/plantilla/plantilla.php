@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title><?= $tituloPagina ?></title>
-    <link rel="stylesheet" type="text/css" href="<?= RUTA_CSS ?>/style.css" />
+    <link rel="stylesheet" type="text/css" href="<?= RUTA_CSS ?>style.css" />
 </head>
 <body>
 <div id="contenedor">
@@ -35,9 +35,7 @@ require(RAIZ_APP . '/vistas/comun/header.php');
 require(RAIZ_APP . '/vistas/comun/nav.php');
 ?>
     <main>
-        <article>
             <?= $contenidoPrincipal ?>
-        </article>
     </main>
 <?php
 require(RAIZ_APP . '/vistas/comun/footer.php');

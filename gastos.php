@@ -30,6 +30,9 @@ $barData         = $gastosObj->getBarData($user_id);
 // cualquier contenido que normalmente se enviaría al navegador
 //  se almacena en un búfer temporal en la memoria.
 ob_start();
+
+// Título
+echo '<h1 class="titulo-graficos">Mis Gastos</h1>';
 ?>
 <div class="container-f1"><!-- Contenedor general -->
   <!-- 1. Resumen de ingresos/gastos en la parte superior -->

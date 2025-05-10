@@ -27,14 +27,17 @@ if ($estaLogueado && !$esAdmin) {
       <a href="<?= RUTA_APP ?>grupos.php">Grupos</a>
       <a href="<?= RUTA_APP ?>graficos.php">Gráficos</a>
     <?php elseif ($estaLogueado && $esAdmin): ?>
-      <div class="dropdown">
-        <button class="dropdown-btn">Admin</button>
-        <div class="dropdown-content">
-          <a href="<?= RUTA_APP ?>admin.php">Usuarios</a>
-          <a href="<?= RUTA_APP ?>admin_estadisticas.php">Estadísticas</a>
-          <a href="<?= RUTA_APP ?>admin_configuracion.php">Configuración</a>
-        </div>
-      </div>
+      <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+  <div class="dropdown">
+    <button class="dropdown-btn">Admin</button>
+    <div class="dropdown-content">
+      <a href="/aw/admin.php">Usuarios</a>
+      <a href="/aw/admin_estadisticas.php">Estadísticas</a>
+      <a href="/aw/admin_configuracion.php">Configuración</a>
+    </div>
+  </div>
+<?php endif; ?>
+
     <?php endif; ?>
   </div>
 

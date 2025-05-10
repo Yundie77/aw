@@ -1,76 +1,64 @@
 <?php
-// Iniciamos la sesión
-session_start();
-
-// Mostrar mensaje de error si está en la sesión
-if (isset($_SESSION['mensaje_error'])) {
-    echo '<div class="mensaje-error">' . $_SESSION['mensaje_error'] . '</div>';
-    unset($_SESSION['mensaje_error']);
-}
-
-if (isset($_SESSION['mensaje_exito'])) {
-    echo '<div class="mensaje-exito">' . $_SESSION['mensaje_exito'] . '</div>';
-    unset($_SESSION['mensaje_exito']);
-}
-
-// Incluimos la configuración y el formulario de grupos
 require_once 'includes/config.php';
 require_once 'includes/clases/FormularioGrupos.php';
 
-// Obtenemos la instancia de la aplicación y la conexión a la base de datos
-$app = \es\ucm\fdi\aw\Aplicacion::getInstance();
-$conn = $app->getConexionBd();
+// Siempre al principio
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
+
+// Redirección si no está autenticado
 if (!isset($_SESSION['user_id'])) {
     $_SESSION['error'] = "Debes iniciar sesión para acceder a esta funcionalidad.";
     header("Location: login.php");
     exit();
 }
 
-// Creamos una instancia del formulario de grupos
-$formularioGrupos = new \es\ucm\fdi\aw\FormularioGrupos($conn);
+// Conexión a la BD
+$app = \es\ucm\fdi\aw\Aplicacion::getInstance();
+$conn = $app->getConexionBd();
 
-// Iniciamos el buffer de salida
+// Mostrar mensajes flash de sesión
+if (isset($_SESSION['mensaje_error'])) {
+    echo '<div class="mensaje-error">' . htmlspecialchars($_SESSION['mensaje_error']) . '</div>';
+    unset($_SESSION['mensaje_error']);
+}
+
+if (isset($_SESSION['mensaje_exito'])) {
+    echo '<div class="mensaje-exito">' . htmlspecialchars($_SESSION['mensaje_exito']) . '</div>';
+    unset($_SESSION['mensaje_exito']);
+}
+
+// Iniciar buffer de salida
 ob_start();
 
-?>
+// Título
+echo '<h1 class="titulo-graficos">Grupos</h1>';
 
-<h1 class="titulo-graficos">Grupos</h1>
+// Generar contenido desde el formulario
+$formularioGrupos = new \es\ucm\fdi\aw\FormularioGrupos($conn);
+echo $formularioGrupos->generarListaGrupos();
+echo $formularioGrupos->generarBotones();
+echo $formularioGrupos->generarModales();
 
-<?php
-// Generamos el contenido principal utilizando los métodos del formulario
-echo $formularioGrupos->generarListaGrupos(); // Genera la lista de grupos
-echo $formularioGrupos->generarBotones();    // Genera los botones para las ventanas modales
-echo $formularioGrupos->generarModales();    // Genera las ventanas modales
-
+// Mensajes GET (mejor si se pasa por sesión, pero aquí se mantiene)
 if (isset($_GET['mensaje'])) {
-    switch ($_GET['mensaje']) {
-        case 'miembro_agregado':
-            echo "<p style='color:green;'>Miembro agregado correctamente al grupo.</p>";
-            break;
-        case 'usuario_ya_miembro':
-            echo "<p style='color:red;'>El usuario ya es miembro del grupo.</p>";
-            break;
-        case 'usuario_no_encontrado':
-            echo "<p style='color:red;'>Usuario no encontrado.</p>";
-            break;
-        case 'grupo_no_encontrado':
-            echo "<p style='color:red;'>Grupo no encontrado.</p>";
-            break;
-        case 'parametros_invalidos':
-            echo "<p style='color:red;'>Parámetros incompletos o inválidos.</p>";
-            break;
-        case 'error_agregar_miembro':
-            echo "<p style='color:red;'>Error al agregar el miembro al grupo.</p>";
-            break;
+    $mensajes = [
+        'miembro_agregado' => "Miembro agregado correctamente al grupo.",
+        'usuario_ya_miembro' => "El usuario ya es miembro del grupo.",
+        'usuario_no_encontrado' => "Usuario no encontrado.",
+        'grupo_no_encontrado' => "Grupo no encontrado.",
+        'parametros_invalidos' => "Parámetros incompletos o inválidos.",
+        'error_agregar_miembro' => "Error al agregar el miembro al grupo."
+    ];
+    if (array_key_exists($_GET['mensaje'], $mensajes)) {
+        $color = ($_GET['mensaje'] === 'miembro_agregado') ? 'green' : 'red';
+        echo "<p style='color:{$color};'>" . htmlspecialchars($mensajes[$_GET['mensaje']]) . "</p>";
     }
 }
 
-// Capturamos el contenido generado en el buffer
+// Captura y plantilla
 $contenidoPrincipal = ob_get_clean();
-
-// Título de la página
 $tituloPagina = "Grupos";
-
-// Incluimos la plantilla principal
 require __DIR__ . '/includes/vistas/plantilla/plantilla.php';

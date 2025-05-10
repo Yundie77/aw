@@ -4,11 +4,11 @@ require_once 'includes/config.php';
 // Funcion proporcioanada por chatGPT: explicada en gastos.php
 ob_start();
 ?>
-<main class="index-main">
+
   <h1 class="welcome-title">Bienvenido a CampusCash</h1>
 
   <div class="logo-container">
-    <img src="img/logo.png" alt="Logotipo de CampusCash" class="logo-image">
+   <img src="<?= RUTA_APP ?>img/logo.png" alt="Logotipo de CampusCash" class="logo-image">
   </div>
 
   <section class="project-description">
@@ -24,7 +24,7 @@ ob_start();
   <div class="explore-button-container">
     <a href="gastos.php" class="explore-button">Explorar CampusCash</a>
   </div>
-</main>
+
 <?php
 
 // Funcion proporcioanada por chatGPT: explicada en gastos.php
