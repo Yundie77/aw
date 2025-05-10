@@ -156,10 +156,6 @@ class FormularioGrupos
                         <input type="number" step="1" id="objetivo" name="objetivo" required>
                     </div>
                     <div class="form-row">
-                        <label for="descripcion">Descripción:</label>
-                        <textarea id="descripcion" name="descripcion" required></textarea>
-                    </div>
-                    <div class="form-row">
                         <button type="submit">Agregar Grupo</button>
                     </div>
                 </form>
@@ -232,10 +228,6 @@ class FormularioGrupos
                     <div class="form-row">
                         <label for="objetivo_mod">Nuevo Objetivo (€):</label>
                         <input type="number" step="1" id="objetivo_mod" name="objetivo" required>
-                    </div>
-                    <div class="form-row">
-                        <label for="descripcion_mod">Nueva Descripción:</label>
-                        <textarea id="descripcion_mod" name="descripcion" required></textarea>
                     </div>
                     <div class="form-row">
                         <button type="submit">Modificar Grupo</button>

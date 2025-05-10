@@ -6,9 +6,8 @@ require_once 'includes/config.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = trim($_POST['nombre'] ?? '');
     $objetivo = trim($_POST['objetivo'] ?? '');
-    $descripcion = trim($_POST['descripcion'] ?? '');
 
-    if (empty($nombre) || empty($objetivo) || empty($descripcion)) {
+    if (empty($nombre) || empty($objetivo) ) {
         echo json_encode(['error' => 'Todos los campos son obligatorios.']);
         exit;
     }
@@ -17,8 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $app = \es\ucm\fdi\aw\Aplicacion::getInstance();
     $conn = $app->getConexionBd();
 
-    $stmt = $conn->prepare("INSERT INTO grupos (nombre, objetivo, descripcion) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $nombre, $objetivo, $descripcion);
+    $stmt = $conn->prepare("INSERT INTO grupos (nombre, objetivo) VALUES (?, ?)");
+    $stmt->bind_param("ss", $nombre, $objetivo);
 
     if ($stmt->execute()) {
         $grupo_id = $stmt->insert_id;
