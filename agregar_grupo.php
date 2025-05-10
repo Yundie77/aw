@@ -3,24 +3,27 @@ session_start();
 
 require_once 'includes/config.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombre = trim($_POST['nombre'] ?? '');
-    $objetivo = trim($_POST['objetivo'] ?? '');
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $nombre = trim($_POST['nombre'] ?? '');
+		$objetivo = trim($_POST['objetivo'] ?? '');
 
-    if (empty($nombre) || empty($objetivo) ) {
-        echo json_encode(['error' => 'Todos los campos son obligatorios.']);
-        exit;
-    }
+        if (empty($nombre) || empty($objetivo)) {
+            echo json_encode(['error' => 'Todos los campos son obligatorios.']);
+            exit;
+        }
 
-    $usuario_id = $_SESSION['user_id'];
-    $app = \es\ucm\fdi\aw\Aplicacion::getInstance();
-    $conn = $app->getConexionBd();
+		$usuario_id = $_SESSION['user_id'];
+        $app = \es\ucm\fdi\aw\Aplicacion::getInstance();
+        $conn = $app->getConexionBd();
 
-    // Check if a group with the same name already exists
-    $stmt_check = $conn->prepare("SELECT id FROM grupos WHERE nombre = ?");
-    $stmt_check->bind_param("s", $nombre);
-    $stmt_check->execute();
-    $stmt_check->store_result();
+		$nombre = $conn->real_escape_string($nombre);
+		$objetivo = $conn->real_escape_string($objetivo);
+
+        // Check if a group with the same name already exists
+        $stmt_check = $conn->prepare("SELECT id FROM grupos WHERE nombre = ?");
+        $stmt_check->bind_param("s", $nombre);
+        $stmt_check->execute();
+        $stmt_check->store_result();
 
     if ($stmt_check->num_rows > 0) {
         echo json_encode(['error' => 'Ya existe un grupo con este nombre.']);

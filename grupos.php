@@ -5,13 +5,12 @@ session_start();
 // Mostrar mensaje de error si está en la sesión
 if (isset($_SESSION['mensaje_error'])) {
     echo '<div class="mensaje-error">' . $_SESSION['mensaje_error'] . '</div>';
-    unset($_SESSION['mensaje_error']); // Limpiar el mensaje después de mostrarlo
+    unset($_SESSION['mensaje_error']);
 }
 
-// Mostrar mensaje de éxito, si existe
 if (isset($_SESSION['mensaje_exito'])) {
     echo '<div class="mensaje-exito">' . $_SESSION['mensaje_exito'] . '</div>';
-    unset($_SESSION['mensaje_exito']); // Limpiar el mensaje después de mostrarlo
+    unset($_SESSION['mensaje_exito']);
 }
 
 // Incluimos la configuración y el formulario de grupos

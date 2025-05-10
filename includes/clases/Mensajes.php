@@ -27,6 +27,10 @@ class Mensajes {
         }
         $resultado = $stmt->get_result();
         $mensajes = $resultado->fetch_all(MYSQLI_ASSOC);
+        foreach ($mensajes as &$mensaje) {
+            $mensaje['contenido'] = htmlspecialchars($mensaje['contenido'], ENT_QUOTES, 'UTF-8');
+            $mensaje['nombre_usuario'] = htmlspecialchars($mensaje['nombre_usuario'], ENT_QUOTES, 'UTF-8');
+        }
         $stmt->close();
         return $mensajes;
     }
