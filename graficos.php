@@ -14,6 +14,8 @@ $datosLinea = $graficosAnalisis->getGastosMensuales($user_id);
 $datosComparacion = $graficosAnalisis->getComparacionGastos($user_id);
 $datosDispersion = $graficosAnalisis->getIngresosVsGastos($user_id);
 $datosBarrasApiladas = $graficosAnalisis->getGastosPorCategoriaPorMes($user_id);
+$datosUsuariosEstado = $graficosAnalisis->getUsuariosPorEstado();
+$datosUsuariosRol = $graficosAnalisis->getUsuariosPorRol();
 
 ob_start();
 ?>
@@ -44,25 +46,25 @@ ob_start();
             </div>
         </div>
 
-        <!-- grafico 3: placeholder para futuro gráfico -->
+        <!-- grafico 3: Usuarios activos vs inactivos vs bloqueados -->
         <div class="grafico-card">
-            <h3>Gráfico futuro 1</h3>
+            <h3>Usuarios por estado</h3>
             <div class="grafico-container">
-                <!-- <canvas id="futureChart1"></canvas> -->
+                <canvas id="usuariosEstadoChart"></canvas>
             </div>
             <div class="grafico-descripcion">
-                <p>Espacio reservado para un nuevo gráfico.</p>
+                <p>Comparativa de usuarios activos, inactivos y bloqueados en la plataforma.</p>
             </div>
         </div>
 
-        <!-- grafico 4: placeholder para futuro gráfico -->
+        <!-- grafico 4: Usuarios por rol (admin vs usuario) -->
         <div class="grafico-card">
-            <h3>Gráfico futuro 2</h3>
+            <h3>Usuarios por rol</h3>
             <div class="grafico-container">
-                <!-- <canvas id="futureChart2"></canvas> -->
+                <canvas id="usuariosRolChart"></canvas>
             </div>
             <div class="grafico-descripcion">
-                <p>Espacio reservado para un nuevo gráfico.</p>
+                <p>Distribución de usuarios según su rol: administrador o usuario estándar.</p>
             </div>
         </div>
     </div>
@@ -99,12 +101,15 @@ ob_start();
     var datosComparacion = <?= json_encode($datosComparacion) ?>;
     var datosDispersion = <?= json_encode($datosDispersion) ?>;
     var datosBarrasApiladas = <?= json_encode($datosBarrasApiladas) ?>;
+    // Añadir los datos de usuarios por estado y por rol
+    var datosUsuariosEstado = <?= json_encode($datosUsuariosEstado) ?>;
+    var datosUsuariosRol = <?= json_encode($datosUsuariosRol) ?>;
 </script>
 <script src="<?= RUTA_JS ?>/graficos.js"></script>
+<script src="<?= RUTA_JS ?>/usuariosGraficos.js"></script>
 
 <?php
 $contenidoPrincipal = ob_get_clean();
-$tituloPagina = "Gráficos de análisis - CampusCash";
 
 require __DIR__ . '/includes/vistas/plantilla/plantilla.php';
 ?>

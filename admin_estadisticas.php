@@ -66,6 +66,28 @@ ob_start();
                 <p>Distribución total de gastos de todos los usuarios según categoría.</p>
             </div>
         </div>
+
+        <!--  Gráfico 3: Usuarios por estado -->
+        <div class="grafico-card">
+            <h3>Usuarios activos vs inactivos vs bloqueados</h3>
+            <div class="grafico-container">
+                <canvas id="donutChart"></canvas>
+            </div>
+            <div class="grafico-descripcion">
+                <p>Comparativa del número de estados de usuarios en la plataforma.</p>
+            </div>
+        </div>
+
+        <!--  Gráfico 4: Usuarios por rol -->
+        <div class="grafico-card">
+            <h3>Usuarios por rol</h3>
+            <div class="grafico-container">
+                <canvas id="donutChart"></canvas>
+            </div>
+            <div class="grafico-descripcion">
+                <p>Distribución de los usuarios según su rol asignado (administrador, usuario, etc.).</p>
+            </div>
+        </div>
     </div>
 </div>
 

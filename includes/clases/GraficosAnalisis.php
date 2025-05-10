@@ -138,5 +138,43 @@ class GraficosAnalisis {
             'datos' => $datosPorCategoria
         ];
     }
+
+    public function getUsuariosPorEstado() {
+        $sql = "SELECT estado, COUNT(*) as total FROM usuarios GROUP BY estado";
+        $result = $this->conn->query($sql);
+
+        $labels = [];
+        $datos = [];
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $labels[] = ucfirst($row['estado']);
+                $datos[] = (int)$row['total'];
+            }
+            $result->free();
+        }
+        return [
+            'labels' => $labels,
+            'datos' => $datos
+        ];
+    }
+
+    public function getUsuariosPorRol() {
+        $sql = "SELECT rol, COUNT(*) as total FROM usuarios GROUP BY rol";
+        $result = $this->conn->query($sql);
+
+        $labels = [];
+        $datos = [];
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $labels[] = ucfirst($row['rol']);
+                $datos[] = (int)$row['total'];
+            }
+            $result->free();
+        }
+        return [
+            'labels' => $labels,
+            'datos' => $datos
+        ];
+    }
 }
 ?>
