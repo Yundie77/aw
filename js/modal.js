@@ -39,10 +39,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     // Store message in sessionStorage before reload
                     sessionStorage.setItem('modalMessage', JSON.stringify({type: 'success', text: data.success}));
                     modal.style.display = 'none';
-                    location.reload();
+                    window.location.href = 'grupos.php';
                 } else if (data.error) {
                     sessionStorage.setItem('modalMessage', JSON.stringify({type: 'error', text: data.error}));
-                    location.reload();
+                    window.location.href = 'grupos.php';
                 }
             })
         });

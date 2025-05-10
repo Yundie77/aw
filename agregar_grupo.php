@@ -16,6 +16,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $app = \es\ucm\fdi\aw\Aplicacion::getInstance();
     $conn = $app->getConexionBd();
 
+    // Check if a group with the same name already exists
+    $stmt_check = $conn->prepare("SELECT id FROM grupos WHERE nombre = ?");
+    $stmt_check->bind_param("s", $nombre);
+    $stmt_check->execute();
+    $stmt_check->store_result();
+
+    if ($stmt_check->num_rows > 0) {
+        echo json_encode(['error' => 'Ya existe un grupo con este nombre.']);
+        exit;
+    }
+
     $stmt = $conn->prepare("INSERT INTO grupos (nombre, objetivo) VALUES (?, ?)");
     $stmt->bind_param("ss", $nombre, $objetivo);
 
