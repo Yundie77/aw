@@ -7,7 +7,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-
 if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
     Aplicacion::redirige('login.php');
 }
@@ -34,6 +33,28 @@ $totalGlobal = 0;
 while ($row = $res2->fetch_assoc()) {
     $totalGlobal += $row['total_categoria'];
     $datosGastoCategorias[] = $row;
+}
+
+// 3. Usuarios por estado (activo, inactivo, bloqueado)
+$queryEstados = "SELECT estado, COUNT(*) AS total FROM usuarios GROUP BY estado";
+$res3 = $conn->query($queryEstados);
+$barDataEstados = [];
+while ($row = $res3->fetch_assoc()) {
+    $barDataEstados[] = [
+        'estado' => ucfirst($row['estado']),
+        'total' => (int)$row['total']
+    ];
+}
+
+// 4. Usuarios por rol
+$queryRoles = "SELECT rol, COUNT(*) AS total FROM usuarios GROUP BY rol";
+$res4 = $conn->query($queryRoles);
+$datosUsuariosRol = [];
+while ($row = $res4->fetch_assoc()) {
+    $datosUsuariosRol[] = [
+        'rol' => ucfirst($row['rol']),
+        'total' => (int)$row['total']
+    ];
 }
 
 $conn->close();
@@ -71,7 +92,7 @@ ob_start();
         <div class="grafico-card">
             <h3>Usuarios activos vs inactivos vs bloqueados</h3>
             <div class="grafico-container">
-                <canvas id="donutChart"></canvas>
+                <canvas id="barChartEstados"></canvas>
             </div>
             <div class="grafico-descripcion">
                 <p>Comparativa del número de estados de usuarios en la plataforma.</p>
@@ -82,7 +103,7 @@ ob_start();
         <div class="grafico-card">
             <h3>Usuarios por rol</h3>
             <div class="grafico-container">
-                <canvas id="donutChart"></canvas>
+                <canvas id="usuariosRolChart"></canvas>
             </div>
             <div class="grafico-descripcion">
                 <p>Distribución de los usuarios según su rol asignado (administrador, usuario, etc.).</p>
@@ -99,9 +120,16 @@ ob_start();
     const datosUsuariosMes = <?= json_encode($datosUsuariosMes) ?>;
     const datosGastoCategorias = <?= json_encode($datosGastoCategorias) ?>;
     const totalGlobal = <?= json_encode($totalGlobal) ?>;
+    const barDataEstados = <?= json_encode($barDataEstados) ?>;
+    const datosUsuariosRol = {
+        labels: <?= json_encode(array_column($datosUsuariosRol, 'rol')) ?>,
+        datos: <?= json_encode(array_column($datosUsuariosRol, 'total')) ?>
+    };
 </script>
 
 <script src="<?= RUTA_JS ?>adminEstadisticas.js"></script>
+<script src="<?= RUTA_JS ?>barChartEstados.js"></script>
+<script src="<?= RUTA_JS ?>pieRolesUsuarios.js"></script>
 
 <?php
 $contenidoPrincipal = ob_get_clean();
