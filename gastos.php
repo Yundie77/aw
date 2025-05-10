@@ -88,13 +88,13 @@ ob_start();
         <?php foreach ($ultimosMovimientos as $mov): ?>
           <li>
             <?php
-            $simbolo = ($mov['tipo'] === 'Gasto') ? '-' : '+';
-            $montoFormateado = number_format($mov['monto'], 2, ',', '.');
-            $comentarioMostrar = !empty(trim($mov['comentario'])) ? $mov['comentario'] : $mov['categoria'];
+            $simbolo = ($mov->getTipo() === 'Gasto') ? '-' : '+';
+            $montoFormateado = number_format($mov->getMonto(), 2, ',', '.');
+            $comentarioMostrar = !empty(trim($mov->getComentario())) ? $mov->getComentario() : $mov->getCategoria();
             ?>
-            <strong><?php echo $mov['categoria']; ?>:</strong>
+            <strong><?php echo $mov->getCategoria(); ?>:</strong>
             <?php echo $simbolo . $montoFormateado; ?>€ 
-            (<?php echo $mov['fecha']; ?>)
+            (<?php echo $mov->getFecha(); ?>)
             - <em><?php echo $comentarioMostrar; ?></em>
           </li>
         <?php endforeach; ?>
