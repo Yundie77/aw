@@ -1508,3 +1508,79 @@ main a:hover {
     background-color: #d9edf7;
     border-color: #bce8f1;
 }
+
+.balance-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.balance-titulo {
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+.resumen {
+    margin-bottom: 1.5em;
+}
+
+.lista-balances h3 {
+    margin-bottom: 10px;
+}
+
+.balance-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.balance-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f7f7f7;
+    padding: 6px 10px;
+    border-radius: 6px;
+}
+
+.balance-valor {
+    padding: 4px 10px;
+    border-radius: 4px;
+    min-width: 80px;
+    text-align: center;
+    font-weight: bold;
+    color: white;
+}
+
+.balance-item.positivo .balance-valor {
+    background-color: #2ecc71;
+}
+
+.balance-item.negativo .balance-valor {
+    background-color: #e74c3c;
+}
+
+.resumen-pagos h3 {
+    margin-top: 2em;
+}
+
+.pagos-sugeridos {
+    list-style: none;
+    padding: 0;
+}
+
+.pagos-sugeridos li {
+    margin: 0.5em 0;
+    background: #eef6f6;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pago-cantidad {
+    color: #2c3e50;
+    font-weight: bold;
+}

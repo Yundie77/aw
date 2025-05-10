@@ -74,11 +74,8 @@ CREATE TABLE `gastos` (
 --
 
 CREATE TABLE `gastos_grupales` (
-  `id` int(11) NOT NULL,
   `grupo_id` int(11) NOT NULL,
   `usuario_id` int(11) NOT NULL,
-  `tipo` enum('Ingreso','Gasto') NOT NULL,
-  `categoria_id` int(11) NOT NULL,
   `monto` decimal(10,2) NOT NULL,
   `fecha` date NOT NULL,
   `comentario` text DEFAULT NULL
@@ -254,7 +251,6 @@ ALTER TABLE `gastos`
 ALTER TABLE `gastos_grupales`
   ADD CONSTRAINT `gastos_grupales_ibfk_1` FOREIGN KEY (`grupo_id`) REFERENCES `grupos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `gastos_grupales_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `gastos_grupales_ibfk_3` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `grupo_usuarios`
