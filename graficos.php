@@ -43,6 +43,30 @@ ob_start();
                 <p>Compara tu patrón de gastos con el promedio de otros estudiantes en cada categoría.</p>
             </div>
         </div>
+
+        <div class="graficos-row">
+        <!-- grafico 3: grafico de dispersion para ingresos vs gastos -->
+        <div class="grafico-card">
+            <h3>Relación Ingresos - Gastos</h3>
+            <div class="grafico-container">
+                <canvas id="scatterChart"></canvas>
+            </div>
+            <div class="grafico-descripcion">
+                <p>Analiza la relación entre tus ingresos y gastos mensuales para identificar meses con riesgo financiero.</p>
+            </div>
+        </div>
+        
+        <!-- grafico 4: grafico de barras apiladas para desglose de gastos -->
+        <div class="grafico-card">
+            <h3>Desglose de gastos por categoría</h3>
+            <div class="grafico-container">
+                <canvas id="stackedChart"></canvas>
+            </div>
+            <div class="grafico-descripcion">
+                <p>Visualiza cómo se distribuyen tus gastos entre diferentes categorías a lo largo del tiempo.</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- script para pasar datos a Javascript sacados de ChatGPT que usa jsdelivr una herramienta gratis de js que usamos para la creacion de graficas -->
