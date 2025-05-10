@@ -1108,6 +1108,10 @@ main a:hover {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .grafico-card h3 {
@@ -1119,6 +1123,10 @@ main a:hover {
 .grafico-container {
   height: 350px;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 95%;
 }
 
 .grafico-descripcion {
@@ -1129,6 +1137,8 @@ main a:hover {
   font-size: 0.9em;
   color: #303030;
   text-align: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Responsive para móviles */
