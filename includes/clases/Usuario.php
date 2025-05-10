@@ -160,19 +160,20 @@ class Usuario {
         $hash = password_hash($password, PASSWORD_DEFAULT);
 
         $stmt = $conn->prepare("INSERT INTO usuarios (nombre, email, password, rol) VALUES (?, ?, ?, ?)");
-        if (!$stmt) {
-            throw new Exception("Error en prepare: " . $conn->error);
+        //dado por chatgpt
+       if (!$stmt) {
+            throw new \Exception("Error en prepare: " . $conn->error);
         }
         $stmt->bind_param("ssss", $nombreUsuario, $nombre, $hash, $rol);
         try {
             $stmt->execute();
-        } catch(mysqli_sql_exception $e) {
-            // Si se viola la restricción UNIQUE (por ejemplo, ya existe el usuario)
-            if ($conn->sqlstate == 23000) {
-                throw new Exception("El usuario '$nombreUsuario' ya existe.");
-            }
-            throw $e;
+        } catch (\mysqli_sql_exception $e) {
+            if ($e->getCode() == 1062) { // 1062 = Duplicate entry (clave única duplicada)
+            throw new \Exception("El usuario '$nombreUsuario' ya existe.");
         }
+    throw $e;
+}
+
         $id = $stmt->insert_id;
         $stmt->close();
 
@@ -257,6 +258,33 @@ class Usuario {
     }
     
     
-    
+    public static function getUsuariosNuevosPorMes($conn) {
+    $query = "
+        SELECT DATE_FORMAT(fecha_creacion, '%Y-%m') AS mes, COUNT(*) AS total
+        FROM usuarios
+        GROUP BY mes
+        ORDER BY mes ASC
+    ";
+
+    $stmt = $conn->prepare($query);
+    if (!$stmt) {
+        throw new \Exception("Error en la consulta: " . $conn->error);
+    }
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $data = [];
+
+    while ($row = $result->fetch_assoc()) {
+        $data[] = [
+            'mes' => $row['mes'],
+            'total' => (int)$row['total']
+        ];
+    }
+
+    $stmt->close();
+    return $data;
+}
+
 }
 ?>

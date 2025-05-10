@@ -2,6 +2,7 @@
 require_once __DIR__ . '/includes/config.php';
 
 use es\ucm\fdi\aw\Aplicacion;
+use es\ucm\fdi\aw\Usuario;
 
 // Solo permitir acceso si es admin
 session_start();
@@ -15,23 +16,11 @@ $app = Aplicacion::getInstance();
 $conn = $app->getConexionBd();
 
 // Consulta para contar usuarios nuevos por mes
-$sql = "
-    SELECT DATE_FORMAT(fecha_creacion, '%Y-%m') AS mes, COUNT(*) AS total
-    FROM usuarios
-    GROUP BY mes
-    ORDER BY mes ASC
-";
+$app = Aplicacion::getInstance();
+$conn = $app->getConexionBd();
 
-$result = $conn->query($sql);
-$data = [];
-
-while ($row = $result->fetch_assoc()) {
-    $data[] = [
-        'mes' => $row['mes'],
-        'total' => (int)$row['total']
-    ];
-}
-
+// Llama al nuevo método estático de Usuario
+$data = Usuario::getUsuariosNuevosPorMes($conn);
 $conn->close();
 
 // Devolver como JSON
