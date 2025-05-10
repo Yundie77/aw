@@ -1308,15 +1308,15 @@ main a:hover {
 
 
 
-/* parte de chat */
+/* parte de chat con ayuda de chatgpt*/
 .chat-dropdown-container .dropdown-content {
   width: 600px;
   min-width: 550px;
   padding: 0; 
   max-height: 80vh;
   min-height: 500px;
-  overflow: hidden; 
-  display: flex; 
+  overflow: visible; 
+  display: none; 
   flex-direction: column; 
   top: 100%; 
   right: 0;   
@@ -1324,22 +1324,33 @@ main a:hover {
   z-index: 1001; 
 }
 
+.chat-dropdown-container.open .dropdown-content {
+  display: flex;
+}
+
 .chat-group-list {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;              
   max-height: calc(80vh - 60px);
   min-height: 450px;
   overflow-y: auto;
   flex-shrink: 0; 
 }
+
 .chat-group-list a {
-    display: block;
-    padding: 10px 15px;
-    text-decoration: none;
-    color: #333;
-    border-bottom: 1px solid #f0f0f0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  display: block;
+  padding: 12px 16px; 
+  background-color: #fff; 
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
 .chat-group-list a:last-child {
     border-bottom: none;
 }
@@ -1363,6 +1374,7 @@ main a:hover {
   flex-grow: 1; 
   min-height: 450px;
   background-color: #fff;
+  height: 500px;
 }
 
 .chat-header {

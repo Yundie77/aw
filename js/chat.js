@@ -1,11 +1,25 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const contenedorPrincipalChatDropdown = document.querySelector('.chat-dropdown-container');
-    if (!contenedorPrincipalChatDropdown) {
-        return;
-    }
+    const dropdownContainer = document.querySelector('.chat-dropdown-container');
+    if (!dropdownContainer) return;
 
-    const contenedorListaGrupos = contenedorPrincipalChatDropdown.querySelector('.chat-group-list');
-    const contenedorInterfazChat = contenedorPrincipalChatDropdown.querySelector('.chat-interface-container');
+    const dropdownBtn = dropdownContainer.querySelector('.dropdown-btn');
+    const dropdownContent = dropdownContainer.querySelector('.dropdown-content');
+
+    dropdownBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        dropdownContainer.classList.toggle('open');
+    });
+
+    dropdownContent.addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+
+    document.addEventListener('click', function() {
+        dropdownContainer.classList.remove('open');
+    });
+
+    const contenedorListaGrupos = dropdownContainer.querySelector('.chat-group-list');
+    const contenedorInterfazChat = dropdownContainer.querySelector('.chat-interface-container');
     const nombreGrupoChatDisplay = contenedorInterfazChat.querySelector('.chat-group-name-display');
     const areaMensajes = contenedorInterfazChat.querySelector('.chat-messages-area');
     const entradaMensaje = contenedorInterfazChat.querySelector('.chat-message-input');
@@ -48,11 +62,16 @@ document.addEventListener('DOMContentLoaded', function () {
                         let fechaMsg = 'Hora desconocida';
                         if (msg.fecha) {
                             try {
-                                fechaMsg = new Date(msg.fecha.replace(' ', 'T')+'Z').toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Madrid' });
-                            } catch (e) { console.warn("Error al parsear fecha: ", msg.fecha)}
+                                fechaMsg = new Date(msg.fecha.replace(' ', 'T') + 'Z')
+                                    .toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Madrid' });
+                            } catch (e) {
+                                console.warn("Error al parsear fecha: ", msg.fecha);
+                            }
                         }
 
-                        divMensaje.innerHTML = `<strong>${nombreRemitente}:</strong> ${contenidoMsg} <span class="chat-message-time">${fechaMsg}</span>`;
+                        divMensaje.innerHTML =
+                            `<strong>${nombreRemitente}:</strong> ${contenidoMsg} ` +
+                            `<span class="chat-message-time">${fechaMsg}</span>`;
                         areaMensajes.appendChild(divMensaje);
                     });
                 } else {
@@ -99,8 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('Error de conexión al enviar mensaje.');
         }
     }
-
-    contenedorPrincipalChatDropdown.querySelectorAll('.chat-group-item').forEach(item => {
+    contenedorListaGrupos.querySelectorAll('.chat-group-item').forEach(item => {
         item.addEventListener('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
@@ -112,7 +130,6 @@ document.addEventListener('DOMContentLoaded', function () {
             contenedorListaGrupos.style.display = 'none';
             contenedorInterfazChat.style.display = 'flex';
             contenedorInterfazChat.setAttribute('data-active-group-id', idGrupo);
-            
             cargarMensajes(idGrupo);
 
             if (idIntervaloRefresco) clearInterval(idIntervaloRefresco);
@@ -144,10 +161,10 @@ document.addEventListener('DOMContentLoaded', function () {
         areaMensajes.innerHTML = '';
         contenedorInterfazChat.removeAttribute('data-active-group-id');
     });
-    
+
     botonCerrarChat.addEventListener('click', function(e) {
         e.stopPropagation();
-        botonVolverAGrupos.click(); 
+        botonVolverAGrupos.click();
     });
 
     contenedorInterfazChat.addEventListener('click', function(e) {
