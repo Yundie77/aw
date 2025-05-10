@@ -39,10 +39,6 @@
             plugins: {
                 legend: {
                     position: 'bottom',
-                },
-                title: {
-                    display: true,
-                    text: 'Distribución de usuarios por rol'
                 }
             }
         }
