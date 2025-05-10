@@ -129,6 +129,7 @@ ob_start();
 $contenidoPrincipal = ob_get_clean();
 $tituloPagina = "Historial de Gastos";
 
-$conn->close();
+// $conn->close();
 
 require_once RAIZ_APP . '/vistas/plantilla/plantilla.php';
+?>
