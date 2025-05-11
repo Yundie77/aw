@@ -42,7 +42,7 @@ if ($estaLogueado && !$esAdmin) {
   </div>
 
   <div class="navbar-right">
-    <?php if ($estaLogueado && !$esAdmin): ?>
+    <?php if ($estaLogueado && !$esAdmin && !$maintenance_mode): ?>
       <div class="dropdown chat-dropdown-container">
         <button class="dropdown-btn">Chat</button>
         <div class="dropdown-content">
@@ -60,7 +60,7 @@ if ($estaLogueado && !$esAdmin) {
           <div class="chat-interface-container" style="display:none;">
             <div class="chat-header">
               <span class="chat-group-name-display"></span>
-              <button class="chat-back-to-groups">&lt; Grupos</button>
+              <button class="chat-back-to-groups">< Grupos</button>
               <button class="chat-close-btn" title="Cerrar chat">&times;</button>
             </div>
             <div class="chat-messages-area">

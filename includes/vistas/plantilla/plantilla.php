@@ -31,6 +31,8 @@ if (file_exists($configPath)) {
     }
 }
 
+$maintenance_mode = isset($config['maintenance_mode']) ? $config['maintenance_mode'] : false;
+
 require(RAIZ_APP . '/vistas/comun/header.php');
 require(RAIZ_APP . '/vistas/comun/nav.php');
 ?>

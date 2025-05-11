@@ -1,6 +1,9 @@
 <?php
 require_once 'includes/config.php';
 
+$config_app = include 'includes/config_app.php';
+$maintenance_mode = $config_app['maintenance_mode'] ?? false;
+
 // Funcion proporcioanada por chatGPT: explicada en gastos.php
 ob_start();
 ?>
