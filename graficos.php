@@ -81,6 +81,7 @@ ob_start();
 
 <?php
 $contenidoPrincipal = ob_get_clean();
+$tituloPagina = "Análisis de Gastos"; 
 
 require __DIR__ . '/includes/vistas/plantilla/plantilla.php';
 ?>
