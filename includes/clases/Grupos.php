@@ -194,6 +194,23 @@ public function crearGrupo($nombre, $objetivo, $usuarioCreadorId) {
     return ['success' => 'Grupo agregado correctamente.'];
 }
 
+public function obtenerTodosGrupos() {
+    $sql = "SELECT id, nombre FROM grupos";
+    $stmt = $this->conn->prepare($sql);
+    if (!$stmt) {
+        error_log("Error al preparar la consulta para obtener todos los grupos: " . $this->conn->error);
+        return [];
+    }
+    if (!$stmt->execute()) {
+        error_log("Error al ejecutar la consulta para obtener todos los grupos: " . $stmt->error);
+        $stmt->close();
+        return [];
+    }
+    $resultado = $stmt->get_result();
+    $grupos = $resultado->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+    return $grupos;
+}
 
 
 }

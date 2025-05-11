@@ -10,11 +10,17 @@ $esAdmin = isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin';
 $estaLogueado = isset($_SESSION['user_id']);
 $gruposUsuario = [];
 
-if ($estaLogueado && !$esAdmin) {
-    $app = \es\ucm\fdi\aw\Aplicacion::getInstance();
-    $conn = $app->getConexionBd();
-    $manejadorGrupos = new Grupos($conn);
-    $gruposUsuario = $manejadorGrupos->obtenerGruposPorUsuarioId($_SESSION['user_id']);
+$app = \es\ucm\fdi\aw\Aplicacion::getInstance();
+$conn = $app->getConexionBd();
+$manejadorGrupos = new Grupos($conn);
+
+if ($estaLogueado) {
+    if($esAdmin){
+        $gruposUsuario = $manejadorGrupos->obtenerTodosGrupos();
+    }
+    else{
+        $gruposUsuario = $manejadorGrupos->obtenerGruposPorUsuarioId($_SESSION['user_id']);
+    }
 }
 ?>
 <nav>
@@ -42,7 +48,7 @@ if ($estaLogueado && !$esAdmin) {
   </div>
 
   <div class="navbar-right">
-    <?php if ($estaLogueado && !$esAdmin && !$maintenance_mode): ?>
+    <?php if ($estaLogueado && !$maintenance_mode): ?>
       <div class="dropdown chat-dropdown-container">
         <button class="dropdown-btn">Chat</button>
         <div class="dropdown-content">
