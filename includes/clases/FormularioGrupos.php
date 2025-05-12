@@ -130,6 +130,7 @@ class FormularioGrupos
             <button onclick="openModal('modal-agregar-miembro')">Agregar nuevo miembro al grupo</button>
             <button onclick="openModal('modal-modificar-grupo')">Modificar grupo</button>
             <button onclick="openModal('modal-eliminar-grupo')">Eliminar grupo</button>
+            <button onclick="openModal('modal-salir-grupo')">Salir grupo</button>
         </div>
     <?php
         return ob_get_clean();
@@ -261,6 +262,34 @@ class FormularioGrupos
                 </form>
             </div>
         </div>
+       
+        <!-- Modal: Salir grupo -->
+    <div id="modal-salir-grupo" class="modal">
+    <div class="modal-content-grupo">
+        <span class="close" onclick="closeModal('modal-salir-grupo')">&times;</span>
+        <h2>Salir Grupo</h2>
+        <form data-ajax="true" action="salir_grupo.php" method="POST">
+        <div class="form-row">
+            <label for="grupo_id_salir">Seleccione el Grupo:</label>
+            <select name="grupo_id" id="grupo_id_salir" required>
+            <?php
+                    $userId = $_SESSION['user_id'];
+                        foreach ($this->obtenerGrupos() as $grupo):
+                        ?>
+                            <option value="<?= htmlspecialchars($grupo['id']) ?>">
+                                        <?= htmlspecialchars($grupo['nombre']) ?>
+                             </option>
+                         <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="form-row">
+            <button type="submit" style="background-color: #e74c3c; color: white;">Salir Grupo</button>
+        </div>
+        </form>
+    </div>
+    </div>
+
+
         <div id="mensaje-resultado"></div>
 <?php
         return ob_get_clean();

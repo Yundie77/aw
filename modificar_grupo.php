@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once 'includes/config.php';
-require_once __DIR__ . '/includes/clases/Grupos.php'; // Asegúrate de que esta ruta sea correcta
+require_once __DIR__ . '/includes/clases/Grupos.php'; 
 
 use es\ucm\fdi\aw\Aplicacion;
 

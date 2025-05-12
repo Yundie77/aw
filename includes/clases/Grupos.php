@@ -6,61 +6,6 @@ class Grupos {
         $this->conn = $conn;
     }
 
-    // Obtener los detalles de un grupo por ID
-    public function obtenerGrupo($group_id) {
-        $stmt = $this->conn->prepare("SELECT * FROM grupos WHERE id = ?");
-        $stmt->bind_param("i", $group_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_assoc();
-    }
-
-    // Obtener los participantes y sus gastos
-    public function obtenerParticipantes($group_id) {
-        $stmt = $this->conn->prepare("
-            SELECT u.nombre, COALESCE(SUM(gm.monto), 0) AS total 
-            FROM grupo_usuarios gu 
-            INNER JOIN usuarios u ON gu.usuario_id = u.id 
-            LEFT JOIN gastos_grupales gm ON gu.grupo_id = gm.grupo_id AND gu.usuario_id = gm.usuario_id 
-            WHERE gu.grupo_id = ? 
-            GROUP BY gu.usuario_id, u.nombre
-        ");
-        $stmt->bind_param("i", $group_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-
-    // Obtener los gastos por categoría
-    public function obtenerGastosPorCategoria($group_id) {
-        $stmt = $this->conn->prepare("
-            SELECT c.nombre AS categoria, SUM(gm.monto) AS total
-            FROM gastos_grupales gm 
-            INNER JOIN categorias c ON gm.categoria_id = c.id 
-            WHERE gm.grupo_id = ? 
-            GROUP BY gm.categoria_id
-        ");
-        $stmt->bind_param("i", $group_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-
-    // Obtener los gastos por participante
-    public function obtenerGastosPorParticipante($group_id) {
-        $stmt = $this->conn->prepare("
-            SELECT u.nombre, COALESCE(SUM(gm.monto), 0) AS total 
-            FROM grupo_usuarios gu 
-            INNER JOIN usuarios u ON gu.usuario_id = u.id 
-            LEFT JOIN gastos_grupales gm ON gu.grupo_id = gm.grupo_id AND gu.usuario_id = gm.usuario_id 
-            WHERE gu.grupo_id = ? 
-            GROUP BY gu.usuario_id, u.nombre
-        ");
-        $stmt->bind_param("i", $group_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
     
     public function obtenerGruposPorUsuarioId($id_usuario) {
         $sql = "SELECT g.id, g.nombre 
@@ -108,6 +53,31 @@ public function eliminarGrupo($grupo_id) {
     $stmt->close();
 
     return $ok;
+}
+
+public function salirGrupo($grupo_id, $id_usuario) {
+    $this->conn->begin_transaction();
+
+    try {
+        $stmt1 = $this->conn->prepare("DELETE FROM grupo_usuarios WHERE grupo_id = ? AND usuario_id = ?");
+        if (!$stmt1) throw new \Exception("Error en grupo_usuarios: " . $this->conn->error);
+        $stmt1->bind_param("ii", $grupo_id, $id_usuario);
+        $stmt1->execute();
+        $stmt1->close();
+
+        $stmt2 = $this->conn->prepare("DELETE FROM gastos_grupales WHERE grupo_id = ? AND usuario_id = ?");
+        if (!$stmt2) throw new \Exception("Error en gastos_grupales: " . $this->conn->error);
+        $stmt2->bind_param("ii", $grupo_id, $id_usuario);
+        $stmt2->execute();
+        $stmt2->close();
+
+        $this->conn->commit();
+
+        return ['success' => 'Has salido del grupo correctamente.'];
+    } catch (\Exception $e) {
+        $this->conn->rollback();
+        return ['error' => 'Error al salir del grupo: ' . $e->getMessage()];
+    }
 }
 
 public function agregarMiembro($grupoId, $usuarioId, $rol = 'miembro', $accionPorUsuarioId = null) {
