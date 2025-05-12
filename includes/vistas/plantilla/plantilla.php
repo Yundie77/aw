@@ -26,7 +26,7 @@ if (file_exists($configPath)) {
         !in_array($rutaActual, $excepciones) &&
         (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin')
     ) {
-        header('Location: /aw/mantenimiento.php');
+        header('Location: ' . RUTA_APP . 'mantenimiento.php');
         exit();
     }
 }

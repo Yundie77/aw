@@ -37,9 +37,9 @@ if ($estaLogueado) {
   <div class="dropdown">
     <button class="dropdown-btn">Admin</button>
     <div class="dropdown-content">
-      <a href="/aw/admin.php">Usuarios</a>
-      <a href="/aw/admin_estadisticas.php">Estadísticas</a>
-      <a href="/aw/admin_configuracion.php">Configuración</a>
+      <a href="<?= RUTA_APP ?>admin.php">Usuarios</a>
+      <a href="<?= RUTA_APP ?>admin_estadisticas.php">Estadísticas</a>
+      <a href="<?= RUTA_APP ?>admin_configuracion.php">Configuración</a>
     </div>
   </div>
 <?php endif; ?>
